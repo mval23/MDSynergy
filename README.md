@@ -23,3 +23,7 @@ Read an intruct ourselves on the following topics:
 - Optimization
 - Memory management
 
+
+### Links
+https://scikit-learn.org/stable/developers/performance.html
+
