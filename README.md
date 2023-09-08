@@ -1,10 +1,10 @@
 # MDSynergy
-Mariana, David, and the Harmonious Triad of Optimization, Documentation, and Testing
+Mariana, David, and the Harmonious Triad of Optimization, and Documentation
 
 ## Project Outline
 * Phase 1: Optimization
 * Phase 2: Documentation
-* Phase 3: Testing
+* Phase 3: Consolidate and Publish
 
 
 ## Phase 1: Optimization
@@ -16,10 +16,7 @@ Mariana, David, and the Harmonious Triad of Optimization, Documentation, and Tes
 
 ### Prepare Dataset
 
-#### Gather Code
-
-
-## Run in bulk chat gpt
+#### Run in bulk chat gpt
 
 Prompt:
 
@@ -30,8 +27,4 @@ Prompt:
 5. Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review.
 
 
-
-
-### Links
-https://scikit-learn.org/stable/developers/performance.html
 
