@@ -21,9 +21,11 @@ Mariana, David, and the Harmonious Triad of Optimization, Documentation, and Tes
 
 ## Run in bulk chat gpt
 
-Prompt:
+Prompt 1:
 
 Optimize the following Python code for both memory usage and performance. Please use specific techniques or code changes to make it more efficient. Provide just the code as an answer, I don't need any explanation. Here's the code snippet:
+
+
 
 ### Links
 https://scikit-learn.org/stable/developers/performance.html
