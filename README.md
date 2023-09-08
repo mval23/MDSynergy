@@ -14,14 +14,21 @@ Mariana, David, and the Harmonious Triad of Optimization, Documentation, and Tes
 * Performance Optimization: Identifying bottlenecks and improving execution speed.
 * Memory Optimization: Reducing memory consumption and improving resource efficiency.
 
-> Asesoria preguntar
+### Prepare Dataset
 
-### Deliverables
+#### Gather Code
 
-Read an intruct ourselves on the following topics:
-- AI development
-- Optimization
-- Memory management
+
+## Relevance AI
+
+
+You will help me create training dataset for generating text to image prompts;
+Prompt: "a beautiful rendition of the god of jelly fishes machines, thousands of acid flowers, high voltage magic, ornate, arcane electricity, complex scene, highly detailed. --w 2160 --h 3840"
+user_input: "midjourney prompt for a god of jelly fishes"
+Prompt: "floating microbacteria, fibers, forming a gigantic human body, standing on a planet, environment, nebula, space tunnel, 4k, octane render, houdini particles, high detailed, hyper- realistic, cinematic, epic, moody, Photography by Sarah Morris, Hellen van Meene, Craig Mullens, artstation, nasa, lens dirt, --ar 16:9"
+user_input: "midjourney prompt for a human floating in the space with red cloud"
+Prompt: "a beautiful adorable fantasy village the ground is lit like warm daylight, but the sky is dark and full of stars. photorealistic --ar 16:9"
+user_input:
 
 
 ### Links
