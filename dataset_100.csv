@@ -1999,7 +1999,7 @@ def recoverTree(root):
 ```
 
 "
-"```python
+"Optimize the following Python code for both memory usage and performance. Please use specific techniques or code changes to make it more efficient. Provide just the code as an answer, I don't need any explanation. Here's the code snippet:```python
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
