@@ -19,17 +19,11 @@ Mariana, David, and the Harmonious Triad of Optimization, Documentation, and Tes
 #### Gather Code
 
 
-## Relevance AI
+## Run in bulk chat gpt
 
+Prompt:
 
-You will help me create training dataset for generating text to image prompts;
-Prompt: "a beautiful rendition of the god of jelly fishes machines, thousands of acid flowers, high voltage magic, ornate, arcane electricity, complex scene, highly detailed. --w 2160 --h 3840"
-user_input: "midjourney prompt for a god of jelly fishes"
-Prompt: "floating microbacteria, fibers, forming a gigantic human body, standing on a planet, environment, nebula, space tunnel, 4k, octane render, houdini particles, high detailed, hyper- realistic, cinematic, epic, moody, Photography by Sarah Morris, Hellen van Meene, Craig Mullens, artstation, nasa, lens dirt, --ar 16:9"
-user_input: "midjourney prompt for a human floating in the space with red cloud"
-Prompt: "a beautiful adorable fantasy village the ground is lit like warm daylight, but the sky is dark and full of stars. photorealistic --ar 16:9"
-user_input:
-
+Optimize the following Python code for both memory usage and performance. Please use specific techniques or code changes to make it more efficient. Provide just the code as an answer, I don't need any explanation. Here's the code snippet:
 
 ### Links
 https://scikit-learn.org/stable/developers/performance.html
