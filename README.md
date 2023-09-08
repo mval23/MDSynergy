@@ -16,6 +16,12 @@ Mariana, David, and the Harmonious Triad of Optimization, and Documentation
 
 ### Prepare Dataset
 
+Use chat gpt to build the dataset for the optimization task. The dataset should be a list of prompts, each prompt is a string. The dataset should be saved as a csv file.
+
+### Dataset Gathering
+
+We are going to divide the dataset in groups of 100. Each one is going to have a different prompt in chat gpt. 
+
 #### Run in bulk chat gpt
 
 Prompt:
