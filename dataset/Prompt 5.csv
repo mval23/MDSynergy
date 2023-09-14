@@ -1,0 +1,2052 @@
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def canPartition(nums):
+    total_sum = sum(nums)
+    if total_sum % 2 != 0:
+        return False
+    
+    target = total_sum // 2
+    dp = [False] * (target + 1)
+    dp[0] = True
+    
+    for num in nums:
+        for i in range(target, num - 1, -1):
+            dp[i] = dp[i] or dp[i - num]
+    
+    return dp[target]
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def pacificAtlantic(heights):
+    def dfs(r, c, prev_height, visited):
+        if not (0 <= r < len(heights)) or not (0 <= c < len(heights[0])):
+            return
+        if heights[r][c] >= prev_height and not visited[r][c]:
+            visited[r][c] = True
+            dfs(r - 1, c, heights[r][c], visited)
+            dfs(r + 1, c, heights[r][c], visited)
+            dfs(r, c - 1, heights[r][c], visited)
+            dfs(r, c + 1, heights[r][c], visited)
+
+    m, n = len(heights), len(heights[0])
+    pacific = [[False] * n for _ in range(m)]
+    atlantic = [[False] * n for _ in range(m)]
+
+    for r in range(m):
+        dfs(r, 0, -1, pacific)
+        dfs(r, n - 1, -1, atlantic)
+    for c in range(n):
+        dfs(0, c, -1, pacific)
+        dfs(m - 1, c, -1, atlantic)
+
+    result = []
+    for r in range(m):
+        for c in range(n):
+            if pacific[r][c] and atlantic[r][c]:
+                result.append([r, c])
+    return result
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def words_typing(sentence, rows, cols):
+    total_chars = sum(len(word) + 1 for word in sentence)
+
+    result = 0
+    index = 0
+    for _ in range(rows):
+        remaining_cols = cols
+        while True:
+            word_len = len(sentence[index])
+            if remaining_cols >= word_len:
+                remaining_cols -= word_len + 1
+                index = (index + 1) % len(sentence)
+                if index == 0:
+                    result += 1
+            else:
+                break
+
+    return result
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def countBattleships(board):
+    count = 0
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            if (board[i][j] == 'X' and
+                (i == 0 or board[i - 1][j] == '.') and
+                (j == 0 or board[i][j - 1] == '.')):
+                count += 1
+    return count
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def strong_password(password):
+    missing_lower = 1
+    missing_upper = 1
+    missing_digit = 1
+    total = len(password)
+    
+    for c in password:
+        if c.islower(): missing_lower = 0
+        if c.isupper(): missing_upper = 0
+        if c.isdigit(): missing_digit = 0
+    
+    missing = missing_lower + missing_upper + missing_digit
+    if total < 6: return max(missing, 6 - total)
+    if total > 20: return missing + total - 20
+
+    return missing
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def findMaximumXOR(nums):
+    max_xor = 0
+    mask = 0
+
+    for i in range(31, -1, -1):
+        mask |= (1 << i)
+        prefixes = {num & mask for num in nums}
+
+        possible_max = max_xor | (1 << i)
+
+        for prefix in prefixes:
+            if prefix ^ possible_max in prefixes:
+                max_xor = possible_max
+                break
+
+    return max_xor
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def valid_word_square(words):
+    for i in range(len(words)):
+        for j in range(len(words[i])):
+            if j >= len(words) or i >= len(words[j]) or words[i][j] != words[j][i]:
+                return False
+    return True
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def find_digits_in_ascending_order(s):
+    count = [0] * 10
+    for c in s:
+        if c == 'z': count[0] += 1
+        if c == 'w': count[2] += 1
+        if c == 'u': count[4] += 1
+        if c == 'x': count[6] += 1
+        if c == 'g': count[8] += 1
+        if c == 'o': count[1] += 1
+        if c == 'h': count[3] += 1
+        if c == 'f': count[5] += 1
+        if c == 's': count[7] += 1
+        if c == 'i': count[9] += 1
+    count[1] -= count[0] + count[2] + count[4]
+    count[3] -= count[8]
+    count[5] -= count[4]
+    count[7] -= count[6]
+    count[9] -= count[5] + count[6] + count[8]
+    
+    res = []
+    for i in range(10):
+        res.extend([str(i)] * count[i])
+    return ''.join(res)
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def characterReplacement(s:str, k:int) -> int:
+    n = len(s)
+    left = 0
+    right = 0
+    maxFreq = 0
+    result = 0
+    freq = [0] * 26
+
+    for right in range(n):
+        freq[ord(s[right]) - ord('A')] += 1
+        maxFreq = max(maxFreq, freq[ord(s[right]) - ord('A')])
+
+        if right - left + 1 - maxFreq > k:
+            freq[ord(s[left]) - ord('A')] -= 1
+            left += 1
+
+        result = max(result, right - left + 1)
+
+    return result
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+from collections import defaultdict
+
+def wordSquares(words):
+    def build(row, squares, word_lens):
+        if row == word_lens:
+            res.append(list(squares))
+            return
+        prefix = ''.join(squares[i][row] for i in range(row))
+        for w in prefixes[prefix]:
+            squares[row] = w
+            build(row+1, squares, word_lens)
+
+    if not words: return []
+    res = []
+    word_lens = len(words[0])
+    
+    prefixes = defaultdict(list)
+    for word in words:
+        for i in range(word_lens+1):
+            prefixes[word[:i]].append(word)
+            
+    for word in words:
+        build(1, [word] + [None]*(word_lens-1), word_lens)
+        
+    return res
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+class Node:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def treeToDoublyList(self, root: 'Node') -> 'Node':
+        if not root:
+            return None
+
+        first = None
+        last = None
+        
+        def inOrder(node):
+            nonlocal first, last
+            
+            if not node:
+                return
+
+            inOrder(node.left)
+
+            if last:
+                last.right = node
+                node.left = last
+            else:
+                first = node
+            
+            last = node
+
+            inOrder(node.right)
+
+        inOrder(root)
+
+        first.left = last
+        last.right = first
+
+        return first
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+class Node:
+    def __init__(self, val, isLeaf, topLeft, topRight, bottomLeft, bottomRight):
+        self.val = val
+        self.isLeaf = isLeaf
+        self.topLeft = topLeft
+        self.topRight = topRight
+        self.bottomLeft = bottomLeft
+        self.bottomRight = bottomRight
+
+def build(grid, row, col, size):
+    if size == 1:
+        return Node(grid[row][col] == 1, True, None, None, None, None)
+    half = size // 2
+    topLeft = build(grid, row, col, half)
+    topRight = build(grid, row, col + half, half)
+    bottomLeft = build(grid, row + half, col, half)
+    bottomRight = build(grid, row + half, col + half, half)
+    if topLeft.isLeaf and topRight.isLeaf and bottomLeft.isLeaf and bottomRight.isLeaf and topLeft.val == topRight.val and topLeft.val == bottomLeft.val and topLeft.val == bottomRight.val:
+        return topLeft
+    return Node(False, False, topLeft, topRight, bottomLeft, bottomRight)
+
+def construct(grid):
+    return build(grid, 0, 0, len(grid))
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children if children is not None else []
+
+class Codec:
+    def serialize(self, root):
+        if root is None:
+            return """"
+        
+        data = str(root.val) + "" ""
+        for child in root.children:
+            data += self.serialize(child)
+        data += ""# ""
+        return data
+
+    def deserialize(self, data):
+        def dfs(iter_data):
+            val = next(iter_data)
+            if val == ""#"":
+                return None
+            
+            node = Node(int(val))
+            while True:
+                child = dfs(iter_data)
+                if child is None:
+                    break
+                node.children.append(child)
+            return node
+
+        return dfs(iter(data.split()))
+
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children if children is not None else []
+
+def levelOrder(root):
+    if not root:
+        return []
+    
+    result = []
+    queue = [root]
+    
+    while queue:
+        currentLevel = []
+        nextLevel = []
+        
+        for node in queue:
+            currentLevel.append(node.val)
+            nextLevel.extend(node.children)
+            
+        result.append(currentLevel)
+        queue = nextLevel
+            
+    return result
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+class Node:
+    def __init__(self, val, prev, next, child):
+        self.val = val
+        self.prev = prev
+        self.next = next
+        self.child = child
+
+def flatten(head: Node) -> Node:
+    if not head:
+        return None
+    
+    cur, prev, next_node = head, None, None
+
+    while cur:
+        next_node = cur.next
+
+        if cur.child:
+            cur.next = flatten(cur.child)
+            cur.child.prev = cur
+            cur.child = None
+
+            if next_node:
+                prev = cur
+                while cur.next:
+                    cur = cur.next
+                    prev = prev.next
+
+                cur.next = next_node
+                next_node.prev = prev
+
+        cur = next_node
+
+    return head
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+class NaryTreeNode:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children if children is not None else []
+
+class BinaryTreeNode:
+    def __init__(self, val=None, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def encode(root: NaryTreeNode) -> BinaryTreeNode:
+    if not root:
+        return None
+    binary_root = BinaryTreeNode(root.val)
+    if root.children:
+        binary_root.left = encode(root.children[0])
+    sibling = binary_root.left
+    for child in root.children[1:]:
+        sibling.right = encode(child)
+        sibling = sibling.right
+    return binary_root
+
+def decode(root: BinaryTreeNode) -> NaryTreeNode:
+    if not root:
+        return None
+    nary_root = NaryTreeNode(root.val)
+    sibling = root.left
+    while sibling:
+        nary_root.children.append(decode(sibling))
+        sibling = sibling.right
+    return nary_root
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+class AllOne:
+    def __init__(self):
+        self.data = dict()
+
+    def inc(self, key: str) -> None:
+        self.data[key] = self.data.get(key, 0) + 1
+
+    def dec(self, key: str) -> None:
+        self.data[key] = self.data.get(key, 0) - 1
+        if self.data[key] == 0:
+            del self.data[key]
+
+    def getMaxKey(self) -> str:
+        if not self.data:
+            return """"
+        return max(self.data, key=lambda x: self.data[x])
+
+    def getMinKey(self) -> str:
+        if not self.data:
+            return """"
+        return min(self.data, key=lambda x: self.data[x])
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+from collections import deque
+
+def minMutation(start, end, bank):
+    q = deque([start])
+    visited = set([start])
+    depth = 0
+
+    while q:
+        levelSize = len(q)
+        for _ in range(levelSize):
+            current = q.popleft()
+            if current == end:
+                return depth
+
+            for gene in bank:
+                if gene not in visited:
+                    diff = sum(1 for j in range(8) if current[j] != gene[j])
+                    if diff == 1:
+                        q.append(gene)
+                        visited.add(gene)
+        depth += 1
+    return -1
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def count_segments(s: str) -> int:
+    return len(s.split())
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def eraseOverlapIntervals(intervals):
+    if not intervals:
+        return 0
+    
+    intervals.sort(key=lambda x: x[1])
+    
+    count = 0
+    prev_end = intervals[0][1]
+    
+    for i in range(1, len(intervals)):
+        if intervals[i][0] < prev_end:
+            count += 1
+        else:
+            prev_end = intervals[i][1]
+    
+    return count
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def findRightInterval(intervals):
+    starts = {interval[0]: index for index, interval in enumerate(intervals)}
+    res = []
+
+    for interval in intervals:
+        right = min(filter(lambda x: x >= interval[1], starts.keys()), default=-1)
+        res.append(starts[right] if right != -1 else -1)
+
+    return res
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def path_sum_helper(node, target_sum, current_sum):
+    if node is None:
+        return 0
+
+    current_sum += node.val
+    total_paths = 1 if current_sum == target_sum else 0
+    total_paths += path_sum_helper(node.left, target_sum, current_sum)
+    total_paths += path_sum_helper(node.right, target_sum, current_sum)
+    return total_paths
+
+def path_sum(root, target_sum):
+    if root is None:
+        return 0
+
+    return path_sum_helper(root, target_sum, 0) + path_sum(root.left, target_sum) + path_sum(root.right, target_sum)
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def find_anagrams(s, p):
+    if len(s) < len(p):
+        return []
+
+    s_count = [0] * 26
+    p_count = [0] * 26
+    for c in p:
+        p_count[ord(c) - ord('a')] += 1
+
+    result = []
+    for i in range(len(s)):
+        s_count[ord(s[i]) - ord('a')] += 1
+        if i >= len(p):
+            s_count[ord(s[i - len(p)]) - ord('a')] -= 1
+        if s_count == p_count:
+            result.append(i - len(p) + 1)
+
+    return result
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def parseTernary(expression: str) -> str:
+    stack = []
+    for c in reversed(expression):
+        if stack and stack[-1] == '?':
+            stack.pop()  # Pop '?'
+            first = stack.pop()
+            stack.pop()  # Pop ':'
+            second = stack.pop()
+            stack.append(first if c == 'T' else second)
+        else:
+            stack.append(c)
+    return stack[-1]
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def find_kth_number(n, k):
+    nums = [i for i in range(1, n + 1)]
+    nums.sort(key=lambda x: str(x))
+    return nums[k - 1]
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def arrange_coins(n: int) -> int:
+    k = 0
+    while n > k:
+        k += 1
+        n -= k
+    return k
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def find_duplicates(nums):
+    duplicates = []
+    for i in range(len(nums)):
+        index = abs(nums[i]) - 1
+        if nums[index] < 0:
+            duplicates.append(abs(nums[i]))
+        else:
+            nums[index] *= -1
+    return duplicates
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def compress(chars):
+    index, i = 0, 0
+    
+    while i < len(chars):
+        count = 1
+        while i + count < len(chars) and chars[i] == chars[i + count]:
+            count += 1
+            
+        chars[index] = chars[i]
+        index += 1
+        
+        if count > 1:
+            count_str = str(count)
+            for c in count_str:
+                chars[index] = c
+                index += 1
+                
+        i += count
+        
+    return index
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def is_shortest_and_unique_supersequence(nums, sequences):
+    pos = {val: idx for idx, val in enumerate(nums)}
+
+    for seq in sequences:
+        if pos[seq[0]] > pos[seq[-1]]:
+            return False
+    return True
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def addTwoNumbers(l1, l2):
+    result = ListNode(0)
+    current = result
+    carry = 0
+    while l1 or l2 or carry:
+        sum = (l1.val if l1 else 0) + (l2.val if l2 else 0) + carry
+        carry = sum // 10
+        current.next = ListNode(sum % 10)
+        current = current.next
+        if l1: l1 = l1.next
+        if l2: l2 = l2.next
+    return result.next
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def numberOfArithmeticSlices(nums):
+    res = 0
+    n = len(nums)
+    dp = [dict() for _ in range(n)]
+
+    for i in range(n):
+        for j in range(i):
+            diff = nums[i] - nums[j]
+            if diff <= -2**31 or diff > 2**31:
+                continue
+
+            dp[i][diff] = dp[i].get(diff, 0) + 1
+
+            if diff in dp[j]:
+                res += dp[j][diff]
+                dp[i][diff] += dp[j][diff]
+
+    return res
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def numberOfBoomerangs(points):
+    count = 0
+
+    for i in points:
+        group_count = {}
+        for j in points:
+            dx, dy = i[0] - j[0], i[1] - j[1]
+            dist = dx * dx + dy * dy
+            group_count[dist] = group_count.get(dist, 0) + 1
+
+        for g in group_count.values():
+            count += g * (g - 1)
+
+    return count
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def find_disappeared_numbers(nums):
+    result = []
+    
+    for num in nums:
+        index = abs(num) - 1
+        nums[index] = -abs(nums[index])
+
+    for i, num in enumerate(nums):
+        if num > 0:
+            result.append(i + 1)
+
+    return result
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+def serialize(root):
+    if not root:
+        return ""#""
+    return str(root.val) + "","" + serialize(root.left) + "","" + serialize(root.right)
+
+def deserialize(data):
+    def deserialize_helper(values):
+        val = next(values)
+        if val == ""#"":
+            return None
+        node = TreeNode(int(val))
+        node.left = deserialize_helper(values)
+        node.right = deserialize_helper(values)
+        return node
+
+    values = iter(data.split("",""))
+    return deserialize_helper(values)
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+def deleteNode(root, key):
+    if root is None:
+        return None
+
+    if key < root.val:
+        root.left = deleteNode(root.left, key)
+    elif key > root.val:
+        root.right = deleteNode(root.right, key)
+    else:
+        if root.left is None:
+            return root.right
+        elif root.right is None:
+            return root.left
+        else:
+            temp = root.right
+            while temp.left is not None:
+                temp = temp.left
+            root.val = temp.val
+            root.right = deleteNode(root.right, temp.val)
+
+    return root
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+from collections import Counter
+
+def sort_by_frequency(s):
+    freq = Counter(s)
+    chars = list(s)
+    chars.sort(key=lambda c: freq[c], reverse=True)
+    return ''.join(chars)
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def findMinArrowShots(points):
+    if not points:
+        return 0
+    points.sort(key=lambda x: x[1])
+
+    arrows = 1
+    end = points[0][1]
+
+    for i in range(1, len(points)):
+        if points[i][0] > end:
+            arrows += 1
+            end = points[i][1]
+
+    return arrows
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def min_moves(nums):
+    min_element = min(nums)
+    moves = sum(num - min_element for num in nums)
+    return moves
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def fourSumCount(nums1, nums2, nums3, nums4):
+    hashMap = {}
+    count = 0
+
+    for i in nums1:
+        for j in nums2:
+            hashMap[i + j] = hashMap.get(i + j, 0) + 1
+
+    for k in nums3:
+        for l in nums4:
+            count += hashMap.get(-(k + l), 0)
+
+    return count
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def find_content_children(g, s):
+    g.sort()
+    s.sort()
+    i = j = 0
+
+    while i < len(g) and j < len(s):
+        if s[j] >= g[i]:
+            i += 1
+
+        j += 1
+
+    return i
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def find132pattern(nums):
+    third, stack = float('-inf'), []
+    for num in reversed(nums):
+        if num < third:
+            return True
+        while stack and stack[-1] < num:
+            third = stack.pop()
+        stack.append(num)
+    return False
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def circularArrayLoop(nums: List[int]) -> bool:
+    N = len(nums)
+    for i in range(N):
+        slow, fast = i, i
+        while True:
+            slow = getNextIndex(slow, nums)
+            fast = getNextIndex(getNextIndex(fast, nums), nums)
+            if slow != fast and nums[slow] * nums[fast] > 0:
+                break
+            if slow == fast:
+                break
+        else:
+            continue
+        cycle = False
+        start = slow
+        while start != slow:
+            cycle |= getNextIndex(start, nums) == start
+            start = getNextIndex(start, nums)
+        if not cycle:
+            return True
+    return False
+
+def getNextIndex(idx: int, nums: List[int]) -> int:
+    N = len(nums)
+    return (idx + nums[idx]) % N
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def poor_pigs(buckets, minutes_to_die, minutes_to_test):
+    pigs = 0
+    while (minutes_to_test // minutes_to_die + 1) ** pigs < buckets:
+        pigs += 1
+    return pigs
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def can_construct(s):
+    n = len(s)
+    for i in range(n // 2, 0, -1):
+        if n % i == 0:
+            substr = s[:i]
+            flag = True
+            for j in range(i, n, i):
+                if s[j:j+i] != substr:
+                    flag = False
+                    break
+
+            if flag:
+                return True
+
+    return False
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+class LFUCache:
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.min_freq = 0
+        self.key_value = {}
+        self.key_freq = {}
+        self.freq_list = {1: []}
+
+    def get(self, key: int) -> int:
+        if key not in self.key_value:
+            return -1
+        count = self.key_freq[key]
+        self.key_freq[key] += 1
+        self.freq_list[count].remove(key)
+
+        if count == self.min_freq and not self.freq_list[count]:
+            self.min_freq += 1
+
+        if count + 1 not in self.freq_list:
+            self.freq_list[count + 1] = []
+        self.freq_list[count + 1].append(key)
+
+        return self.key_value[key]
+
+    def put(self, key: int, value: int) -> None:
+        if self.capacity <= 0:
+            return
+        if key in self.key_value:
+            self.key_value[key] = value
+            self.get(key)
+            return
+        
+        if len(self.key_value) >= self.capacity:
+            evict = self.freq_list[self.min_freq][0]
+            self.freq_list[self.min_freq].pop(0)
+            del self.key_value[evict]
+
+        self.key_value[key] = value
+        self.key_freq[key] = 1
+        self.min_freq = 1
+        self.freq_list[1].append(key)
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def hammingDistance(x: int, y: int) -> int:
+    xorResult = x ^ y
+    dist = 0
+    while xorResult:
+        dist += xorResult & 1
+        xorResult >>= 1
+    return dist
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def min_moves2(nums):
+    nums.sort()
+    mid = nums[len(nums) // 2]
+    moves = 0
+    for num in nums:
+        moves += abs(num - mid)
+    return moves
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def islandPerimeter(grid):
+    perimeter = 0
+    for row in range(len(grid)):
+        for col in range(len(grid[row])):
+            if grid[row][col] == 1:
+                perimeter += 4
+                if row > 0 and grid[row - 1][col] == 1:
+                    perimeter -= 2
+                if col > 0 and grid[row][col - 1] == 1:
+                    perimeter -= 2
+    return perimeter
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def canIWin(maxChoosableInteger, desiredTotal):
+    if maxChoosableInteger >= desiredTotal: return True
+    if (maxChoosableInteger * (maxChoosableInteger + 1)) // 2 < desiredTotal: return False
+
+    memo = {}
+        
+    def canWin(state):
+        if state in memo:
+            return memo[state]
+        for i in range(1, maxChoosableInteger + 1):
+            bitCheck = 1 << i
+            if (state & bitCheck) == 0:
+                if not canWin(state | bitCheck):
+                    memo[state] = True
+                    return True
+    
+        memo[state] = False
+        return False
+
+    return canWin(0)
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+from collections import defaultdict
+
+def minTransfers(transactions):
+    balances = defaultdict(int)
+    for transaction in transactions:
+        balances[transaction[0]] -= transaction[2]
+        balances[transaction[1]] += transaction[2]
+
+    debts = [balance for balance in balances.values() if balance != 0]
+    return dfs(debts, 0)
+
+def dfs(debts, start):
+    while start < len(debts) and debts[start] == 0:
+        start += 1
+    if start == len(debts):
+        return 0
+    result = float('inf')
+    for i in range(start + 1, len(debts)):
+        if (debts[start] > 0) != (debts[i] > 0):
+            debts[i] += debts[start]
+            result = min(result, 1 + dfs(debts, start + 1))
+            debts[i] -= debts[start]
+    return result
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def getMaxRepetitions(s1: str, n1: int, s2: str, n2: int) -> int:
+    count1, count2, i, j = 0, 0, 0, 0
+    while count1 < n1:
+        if s1[i] == s2[j]:
+            j += 1
+            if j == len(s2):
+                j = 0
+                count2 += 1
+        i += 1
+        if i == len(s1):
+            i = 0
+            count1 += 1
+    return count2 // n2
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def findSubstringInWraproundString(p: str) -> int:
+    cnt = [0] * 26
+    length = 0
+
+    for i in range(len(p)):
+        if i > 0 and (p[i] == chr(ord(p[i - 1]) + 1) or ord(p[i - 1]) - ord(p[i]) == 25):
+            length += 1
+        else:
+            length = 1
+        cnt[ord(p[i]) - ord('a')] = max(cnt[ord(p[i]) - ord('a')], length)
+
+    return sum(cnt)
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def validateIP(queryIP):
+    ipv4_parts = queryIP.split('.')
+    ipv6_parts = queryIP.split(':')
+
+    if len(ipv4_parts) == 4:
+        if is_valid_ipv4(ipv4_parts):
+            return ""IPv4""
+    elif len(ipv6_parts) == 8:
+        if is_valid_ipv6(ipv6_parts):
+            return ""IPv6""
+
+    return ""Neither""
+
+def is_valid_ipv4(parts):
+    for part in parts:
+        if not part or len(part) > 3 or (len(part) > 1 and part[0] == '0'):
+            return False
+
+        if not part.isdigit() or int(part) < 0 or int(part) > 255:
+            return False
+
+    return True
+
+def is_valid_ipv6(parts):
+    for part in parts:
+        if not part or len(part) > 4:
+            return False
+
+        for ch in part:
+            if not ch.isdigit() and not (ch.lower() >= 'a' and ch.lower() <= 'f'):
+                return False
+
+    return True
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def isConvex(points):
+    n = len(points)
+    pre = cur = 0
+
+    for i in range(n):
+        x1 = points[(i + 1) % n][0] - points[i][0]
+        y1 = points[(i + 1) % n][1] - points[i][1]
+        x2 = points[(i + 2) % n][0] - points[(i + 1) % n][0]
+        y2 = points[(i + 2) % n][1] - points[(i + 1) % n][1]
+        cur = x1 * y2 - x2 * y1
+
+        if cur == 0:
+            continue
+        if cur * pre < 0:
+            return False
+        pre = cur
+
+    return True
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def rand7():
+    pass  # Provided API
+
+def rand10():
+    result = None
+    while True:
+        result = (rand7() - 1) * 7 + rand7()
+        if result <= 40:
+            break
+    return result % 10 + 1
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def encode(s: str) -> str:
+    n = len(s)
+    for i in range(n // 2, 0, -1):
+        if n % i == 0:
+            reps = n // i
+            sub = s[:i]
+            composed = sub * reps
+            if s == composed:
+                return f""{reps}[{sub}]""
+    return s
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def is_concatenated(word, word_dict):
+    n = len(word)
+    dp = [False] * (n + 1)
+    dp[0] = True
+
+    for i in range(1, n + 1):
+        for j in range(i):
+            if dp[j] and word[j:i] in word_dict:
+                dp[i] = True
+                break
+
+    return dp[n]
+
+
+def find_all_concatenated_words(words):
+    word_dict = set(words)
+    result = []
+
+    for word in words:
+        if is_concatenated(word, word_dict):
+            result.append(word)
+
+    return result
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+from itertools import chain
+
+def makesquare(matchsticks):
+    if len(matchsticks) < 4:
+        return False
+    total = sum(matchsticks)
+    if total % 4:
+        return False
+    target = total // 4
+    matchsticks.sort(reverse=True)
+    sums = [0]*4
+    return dfs(matchsticks, sums, target, 0)
+
+def dfs(matchsticks, sums, target, index):
+    if index == len(matchsticks):
+        return sums[0] == target and sums[1] == target and sums[2] == target
+    for i in range(4):
+        if sums[i] + matchsticks[index] <= target:
+            sums[i] += matchsticks[index]
+            if dfs(matchsticks, sums, target, index + 1):
+                return True
+            sums[i] -= matchsticks[index]
+    return False
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def findMaxForm(strs, m, n):
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    
+    for s in strs:
+        ones = s.count('1')
+        zeros = len(s) - ones
+        
+        for i in range(m, zeros - 1, -1):
+            for j in range(n, ones - 1, -1):
+                dp[i][j] = max(dp[i][j], dp[i - zeros][j - ones] + 1)
+    
+    return dp[m][n]
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def findRadius(houses, heaters):
+    houses.sort()
+    heaters.sort()
+    result, i = 0, 0
+
+    for house in houses:
+        while i < len(heaters) - 1 and abs(heaters[i + 1] - house) <= abs(heaters[i] - house):
+            i += 1
+        result = max(result, abs(heaters[i] - house))
+
+    return result
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def find_complement(num: int) -> int:
+    bit_length = 0
+    mask = num
+    while mask > 0:
+        mask >>= 1
+        bit_length += 1
+    all_ones = (1 << bit_length) - 1
+
+    return num ^ all_ones
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def total_hamming_distance(nums):
+    total_distance = 0
+    n = len(nums)
+
+    for i in range(32):
+        bit_count = sum(((num >> i) & 1) for num in nums)
+        total_distance += bit_count * (n - bit_count)
+
+    return total_distance
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+import random
+from math import sqrt, pi, cos, sin
+
+class Solution:
+
+    def __init__(self, radius: float, x_center: float, y_center: float):
+        self.radius = radius
+        self.x_center = x_center
+        self.y_center = y_center
+
+    def randPoint(self):
+        r = sqrt(random.random()) * self.radius
+        theta = random.random() * 2 * pi
+        return [self.x_center + r * cos(theta), self.y_center + r * sin(theta)]
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def largestPalindrome(n):
+    if n == 1: 
+        return 9
+    upper_limit = 10**n - 1
+    lower_limit = upper_limit // 10
+    for i in range(upper_limit, lower_limit, -1):
+        temp = i
+        reverse = 0
+        while temp != 0:
+            reverse = reverse * 10 + temp % 10
+            temp //= 10
+        palindrome = i * (10**n) + reverse
+        for j in range(upper_limit, lower_limit, -1):
+            product = palindrome // j
+            if palindrome % j == 0 and product <= upper_limit:
+                return palindrome % 1337
+    return -1
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+from sortedcontainers import SortedList
+
+def medianSlidingWindow(nums, k):
+    window = SortedList(nums[:k])
+    medians = []
+    
+    for i in range(k, len(nums) + 1):
+        medians.append((window[k // 2 - 1] + window[k // 2]) / 2 if k % 2 == 0 else float(window[k // 2]))
+        
+        if i < len(nums):
+            window.remove(nums[i - k])
+            window.add(nums[i])
+
+    return medians
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def magical_string(n: int) -> int:
+    if n == 0:
+        return 0
+    if n <= 3:
+        return 1
+
+    magic = [1, 2, 2]
+    count_ones = 1
+    index = 2
+    value = 1
+
+    while len(magic) < n:
+        for _ in range(magic[index]):
+            magic.append(value)
+            if value == 1 and len(magic) <= n:
+                count_ones += 1
+        value = 3 - value
+        index += 1
+
+    return count_ones
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def license_key_formatting(s: str, k: int) -> str:
+    result = []
+    count = 0
+    for c in reversed(s):
+        if c != '-':
+            if count == k:
+                result.append('-')
+                count = 0
+            result.append(c.upper())
+            count += 1
+    return ''.join(reversed(result))
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def smallest_good_base(n: str) -> str:
+    num_n = int(n)
+
+    for m in range(int(num_n.bit_length()), 0, -1):
+        k = int(num_n ** (1.0 / m))
+        if sum(k**i for i in range(m+1)) == num_n:
+            return str(k)
+
+    return ""-1""
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def findPermutation(s: str) -> list[int]:
+    perm = [0] * (len(s) + 1)
+    left = 1
+    i = 0
+    while i < len(s):
+        if s[i] == 'I':
+            perm[i] = left
+            left += 1
+            while i + 1 < len(s) and s[i + 1] == 'D':
+                i += 1
+        i += 1
+    perm[len(s)] = left
+    left += 1
+    for i in reversed(range(len(s))):
+        if s[i] == 'D':
+            perm[i] = left
+            left += 1
+    return perm
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def findMaxConsecutiveOnes(nums):
+    max_consecutive, current_consecutive = 0, 0
+    for num in nums:
+        current_consecutive = current_consecutive + 1 if num == 1 else 0
+        max_consecutive = max(max_consecutive, current_consecutive)
+    return max_consecutive
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def can_win(nums):
+    n = len(nums)
+    dp = [[0] * n for _ in range(n)]
+    for i in range(n):
+        dp[i][i] = nums[i]
+    for len in range(1, n):
+        for i in range(n - len):
+            j = i + len
+            dp[i][j] = max(nums[i] - dp[i + 1][j], nums[j] - dp[i][j - 1])
+    return dp[0][n - 1] >= 0
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def findMaxConsecutiveOnes(nums: List[int]) -> int:
+    max_count, count_zeros, left = 0, 0, 0
+    for right in range(len(nums)):
+        if nums[right] == 0:
+            count_zeros += 1
+        while count_zeros > 1:
+            if nums[left] == 0:
+                count_zeros -= 1
+            left += 1
+        max_count = max(max_count, right - left + 1)
+    return max_count
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+from collections import Counter
+
+def find_min_step(board: str, hand: str) -> int:
+    def find_min_step_helper(board, memo, hand):
+        if not board:
+            return 0
+        if board in memo:
+            return memo[board]
+
+        result = float('inf')
+        i = 0
+        while i < len(board):
+            j = i
+            while j < len(board) and board[i] == board[j]:
+                j += 1            
+
+            color = board[i]
+            required = 3 - (j - i)
+            if hand[color] >= required:
+                hand[color] -= required
+                next_board = board[:i] + board[j:]
+                tmp = find_min_step_helper(next_board, memo, hand)
+                if tmp != -1:
+                    result = min(result, tmp + required)
+                hand[color] += required
+            i = j
+
+        memo[board] = -1 if result == float('inf') else result
+        return memo[board]
+
+    hand_count = Counter(hand)
+    memo = {}
+    return find_min_step_helper(board, memo, hand_count)
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+from math import comb
+
+def kthSmallestPath(destination, k):
+    row, col = destination
+    ans = """"
+
+    for i in range(row + col):
+        if row == 0:
+            ans += 'H'
+            col -= 1
+        elif col == 0:
+            ans += 'V'
+            row -= 1
+        elif k <= comb(row + col - 1, row - 1):
+            ans += 'H'
+            col -= 1
+        else:
+            ans += 'V'
+            k -= comb(row + col - 1, row - 1)
+            row -= 1
+
+    return ans
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def hasPath(maze, start, destination):
+    dirs = ((0, 1), (0, -1), (1, 0), (-1, 0))
+    q = [start]
+    while q:
+        x, y = q.pop(0)
+        if x == destination[0] and y == destination[1]:
+            return True
+        for dx, dy in dirs:
+            i, j = x, y
+            while 0 <= i + dx < len(maze) and 0 <= j + dy < len(maze[0]) and maze[i + dx][j + dy] == 0:
+                i += dx
+                j += dy
+            if maze[i][j] == 0:
+                maze[i][j] = 1
+                q.append((i, j))
+    return False
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+from typing import List
+
+def findSubsequences(nums: List[int]) -> List[List[int]]:
+    res = set()
+    dfs(nums, 0, [], res)
+    return list(res)
+
+def dfs(nums, start, path, res):
+    if len(path) >= 2:
+        res.add(tuple(path))
+    for i in range(start, len(nums)):
+        if path and path[-1] > nums[i]:
+            continue
+        dfs(nums, i + 1, path + [nums[i]], res)
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def constructRectangle(area: int) -> List[int]:
+    width = int(area**0.5)
+    while area % width != 0:
+        width -= 1
+    length = area // width
+    return [length, width]
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def reversePairs(nums):
+    def mergeSort(l, r):
+        if l >= r:
+            return 0
+        
+        mid = (l + r) // 2
+        count = mergeSort(l, mid) + mergeSort(mid + 1, r)
+        j = mid + 1
+        for i in range(l, mid + 1):
+            while j <= r and nums[i] > 2 * nums[j]:
+                j += 1
+            count += j - (mid + 1)
+        
+        nums[l:r + 1] = sorted(nums[l:r + 1])
+        
+        return count
+    
+    return mergeSort(0, len(nums) - 1)
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def findTargetSumWays(nums, target):
+    total_sum = sum(nums)
+    if total_sum < target or (total_sum + target) % 2 != 0:
+        return 0
+    target_sum = (total_sum + target) // 2
+    dp = [0] * (target_sum + 1)
+    dp[0] = 1
+    for num in nums:
+        for j in range(target_sum, num - 1, -1):
+            dp[j] += dp[j - num]
+    return dp[target_sum]
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def find_poisoned_duration(time_series, duration):
+    if not time_series:
+        return 0
+    total = 0
+    for i in range(1, len(time_series)):
+        total += min(time_series[i] - time_series[i - 1], duration)
+    return total + duration
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def next_greater_element(nums1, nums2):
+    next_greater = {}
+    stack = []
+
+    for num in nums2:
+        while stack and stack[-1] < num:
+            next_greater[stack.pop()] = num
+        stack.append(num)
+
+    return [next_greater.get(n, -1) for n in nums1]
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+import random
+from typing import List
+
+class Solution:
+    def __init__(self, rects: List[List[int]]):
+        self.rects = rects
+        self.areas = [0] * len(rects)
+        self.total_area = 0
+
+        for i, rect in enumerate(rects):
+            area = (rect[2] - rect[0] + 1) * (rect[3] - rect[1] + 1)
+            self.areas[i] = area
+            self.total_area += area
+
+    def pick(self) -> List[int]:
+        rnd = random.randint(0, self.total_area - 1)
+        idx = 0
+        while rnd >= self.areas[idx]:
+            rnd -= self.areas[idx]
+            idx += 1
+
+        x = random.randint(self.rects[idx][0], self.rects[idx][2])
+        y = random.randint(self.rects[idx][1], self.rects[idx][3])
+        
+        return [x, y]
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+from typing import List
+
+def findDiagonalOrder(mat: List[List[int]]) -> List[int]:
+    m, n = len(mat), len(mat[0])
+    result = [0] * (m * n)
+    row, col = 0, 0
+    for i in range(m * n):
+        result[i] = mat[row][col]
+        if (row + col) % 2 == 0:
+            if col == n - 1:
+                row += 1
+            elif row == 0:
+                col += 1
+            else:
+                row -= 1
+                col += 1
+        else:
+            if row == m - 1:
+                col += 1
+            elif col == 0:
+                row += 1
+            else:
+                row += 1
+                col -= 1
+    return result
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+from heapq import heappush, heappop
+
+class Solution:
+    def findShortestWay(self, maze: List[List[int]], ball: List[int], hole: List[int]) -> str:
+        m, n = len(maze), len(maze[0])
+        dist = [[float(""inf"")] * n for _ in range(m)]
+        dirs = [""d"", ""l"", ""r"", ""u""]
+        dirs_vector = [[1, 0], [0, -1], [0, 1], [-1, 0]]
+        dist[ball[0]][ball[1]] = 0
+        pq = [(0, """", ball[0], ball[1])]
+        
+        while pq:
+            cur_dist, cur_path, x, y = heappop(pq)
+            if [x, y] == hole:
+                return cur_path
+
+            for k, d in enumerate(dirs):
+                dist_move, r, c = 0, x + dirs_vector[k][0], y + dirs_vector[k][1]
+                while 0 <= r < m and 0 <= c < n and maze[r][c] == 0 and [r, c] != hole:
+                    r += dirs_vector[k][0]
+                    c += dirs_vector[k][1]
+                    dist_move += 1
+                r -= dirs_vector[k][0]
+                c -= dirs_vector[k][1]
+                dist_move -= 1
+                
+                if dist[x][y] + dist_move < dist[r][c]:
+                    dist[r][c] = dist[x][y] + dist_move
+                    heappush(pq, (cur_dist + dist_move, cur_path + d, r, c))
+        
+        return ""impossible""
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def find_words(words):
+    rows = [
+        set(""qwertyuiopQWERTYUIOP""),
+        set(""asdfghjklASDFGHJKL""),
+        set(""zxcvbnmZXCVBNM"")
+    ]
+    res = []
+
+    for word in words:
+        row = -1
+        for i in range(3):
+            if word[0] in rows[i]:
+                row = i
+                break
+
+        if all(c in rows[row] for c in word):
+            res.append(word)
+
+    return res
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def findMode(root):
+    def InOrder(node):
+        if not node: return
+        yield from InOrder(node.left)
+        yield node.val
+        yield from InOrder(node.right)
+        
+    counts = collections.Counter(InOrder(root))
+    max_count = max(counts.values(), default=0)
+    return [k for k, v in counts.items() if v == max_count]
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+import heapq
+
+def findMaximizedCapital(k: int, w: int, profits, capital) -> int:
+    project_pool = list(zip(capital, profits))
+    project_pool.sort(reverse=True)
+    
+    profit_pool = []
+    
+    while k:
+        while project_pool and project_pool[-1][0] <= w:
+            heapq.heappush(profit_pool, -project_pool.pop()[1])
+        
+        if not profit_pool:
+            break
+        
+        w -= heapq.heappop(profit_pool)
+        k -= 1
+        
+    return w
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def nextGreaterElements(nums):
+    result = [-1] * len(nums)
+    stack = []
+
+    for i in range(len(nums) * 2):
+        index = i % len(nums)
+        while stack and nums[stack[-1]] < nums[index]:
+            result[stack.pop()] = nums[index]
+        if i < len(nums):
+            stack.append(index)
+
+    return result
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def convert_to_base7(num: int) -> str:
+    if num == 0:
+        return ""0""
+    result = """"
+    negative = num < 0
+    if negative:
+        num *= -1
+    while num > 0:
+        result = str(num % 7) + result
+        num //= 7
+    return ""-"" + result if negative else result
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+from queue import PriorityQueue
+
+def shortestDistance(maze, start, destination):
+    m, n = len(maze), len(maze[0])
+    directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+    dist = [[-1 for _ in range(n)] for _ in range(m)]
+
+    q = PriorityQueue()
+
+    dist[start[0]][start[1]] = 0
+    q.put((0, start[0], start[1]))
+
+    while not q.empty():
+        cur = q.get()
+        x, y = cur[1], cur[2]
+
+        for dir in directions:
+            newX, newY = x + dir[0], y + dir[1]
+            step = 0
+
+            while 0 <= newX < m and 0 <= newY < n and maze[newX][newY] == 0:
+                newX += dir[0]
+                newY += dir[1]
+                step += 1
+
+            newX -= dir[0]
+            newY -= dir[1]
+
+            if dist[newX][newY] == -1 or dist[x][y] + step < dist[newX][newY]:
+                dist[newX][newY] = dist[x][y] + step
+                q.put((dist[newX][newY], newX, newY))
+
+    return dist[destination[0]][destination[1]]
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def find_relative_ranks(score):
+    rank_sort = sorted(range(len(score)), key=lambda i: score[i], reverse=True)
+    result = [0] * len(score)
+    for i, rank in enumerate(rank_sort):
+        result[rank] = i + 1
+    return result
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def checkPerfectNumber(num: int) -> bool:
+    if num <= 1:
+        return False
+    sum = 1
+    i = 2
+    while i * i <= num:
+        if num % i == 0:
+            sum += i
+            if i * i != num:
+                sum += num // i
+        i += 1
+    return sum == num
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+from collections import defaultdict
+
+def helper(node, counts):
+    if not node: return 0
+    val = node.val + helper(node.left, counts) + helper(node.right, counts)
+    counts[val] += 1
+    return val
+
+def findFrequentTreeSum(root):
+    counts = defaultdict(int)
+    helper(root, counts)
+    max_count = max(counts.values(), default=0)
+    return [s for s, c in counts.items() if c == max_count]
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def fib(n: int) -> int:
+    if n < 2:
+        return n
+    a, b = 0, 1
+    for _ in range(2, n + 1):
+        a, b = b, a + b
+    return b
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+class Node:
+    def __init__(self, val, left=None, right=None, parent=None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.parent = parent
+
+def inorder_successor(node: Node) -> Node:
+    if node.right:
+        node = node.right
+        while node.left:
+            node = node.left
+        return node
+
+    while node.parent and node == node.parent.right:
+        node = node.parent
+
+    return node.parent
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def findBottomLeftValue(self, root: TreeNode) -> int:
+    result = [0, 0] # [depth, value]
+    self.helper(root, 1, result)
+    return result[1]
+
+def helper(self, node, depth, result):
+    if not node:
+        return
+    if depth > result[0]:
+        result[0] = depth
+        result[1] = node.val
+
+    self.helper(node.left, depth+1, result)
+    self.helper(node.right, depth+1, result)
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def find_rotate_steps(ring: str, key: str) -> int:
+    n, m = len(ring), len(key)
+    dp = [[0] * n for _ in range(m + 1)]
+
+    for i in range(m - 1, -1, -1):
+        for j in range(n):
+            dp[i][j] = float('inf')
+            for k in range(n):
+                if ring[k] == key[i]:
+                    diff = abs(j - k)
+                    step = min(diff, n - diff)
+                    dp[i][j] = min(dp[i][j], step + dp[i + 1][k])
+
+    return dp[0][0] + m
+```
+
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+from collections import deque
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def largestValues(root: TreeNode):
+    if not root:
+        return []
+    result = []
+    queue = deque([root])
+
+    while queue:
+        size = len(queue)
+        max_val = float('-inf')
+        for _ in range(size):
+            node = queue.popleft()
+            max_val = max(max_val, node.val)
+
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        result.append(max_val)
+
+    return result
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def longestPalindromeSubseq(s: str) -> int:
+    n = len(s)
+    dp = [[0] * n for _ in range(n)]
+    
+    for i in range(n - 1, -1, -1):
+        dp[i][i] = 1
+        for j in range(i + 1, n):
+            if s[i] == s[j]:
+                dp[i][j] = 2 + dp[i + 1][j - 1]
+            else:
+                dp[i][j] = max(dp[i + 1][j], dp[i][j - 1])
+                
+    return dp[0][n - 1]
+```
+
+"
+"Please optimize the given code for maximum performance while maintaining its functionality. Consider factors such as runtime efficiency, memory usage, and any other relevant performance metrics. Your goal is to make the code as fast and resource-efficient as possible. Here is the code that you need to check, please just put at the output the new code that has been already review. ```python
+def find_min_moves(machines):
+    n = len(machines)
+    total_dresses = sum(machines)
+    if total_dresses % n != 0:
+        return -1
+    average = total_dresses // n
+    moves = 0
+    imbalance = 0
+    
+    for i in range(n):
+        imbalance += machines[i] - average
+        moves = max(moves, abs(imbalance), machines[i] - average)
+        
+    return moves
+```
+
+"

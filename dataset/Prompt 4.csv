@@ -1,0 +1,2042 @@
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def removeDuplicateLetters(s):
+    count = [0] * 256
+    visited = [False] * 256
+    st = []
+
+    for ch in s:
+        count[ord(ch)] += 1
+
+    for ch in s:
+        count[ord(ch)] -= 1
+        if visited[ord(ch)]:
+            continue
+        while st and ch < st[-1] and count[ord(st[-1])] > 0:
+            visited[ord(st.pop())] = False
+        st.append(ch)
+        visited[ord(ch)] = True
+
+    return """".join(st)   
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+from collections import deque
+
+def shortestDistance(grid: list[list[int]]) -> int:
+    m, n = len(grid), len(grid[0])
+
+    total_count = [[0] * n for _ in range(m)]
+    dist_sum = [[0] * n for _ in range(m)]
+    house_count = 0
+
+    dirs = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+    for i in range(m):
+        for j in range(n):
+            if grid[i][j] == 1:
+                house_count += 1
+                q = deque([(i, j)])
+                visited = [[False] * n for _ in range(m)]
+                level = 1
+                while q:
+                    for _ in range(len(q)):
+                        x, y = q.popleft()
+                        for dx, dy in dirs:
+                            x_new, y_new = x + dx, y + dy
+                            if 0 <= x_new < m and 0 <= y_new < n and not visited[x_new][y_new] and grid[x_new][y_new] == 0:
+                                visited[x_new][y_new] = True
+                                q.append((x_new, y_new))
+                                dist_sum[x_new][y_new] += level
+                                total_count[x_new][y_new] += 1
+                    level += 1
+
+    min_dist = float(""inf"")
+    for i in range(m):
+        for j in range(n):
+            if total_count[i][j] == house_count:
+                min_dist = min(min_dist, dist_sum[i][j])
+
+    return -1 if min_dist == float(""inf"") else min_dist
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def maxProduct(words):
+    n = len(words)
+    mask = [0] * n
+    for i, word in enumerate(words):
+        for c in word:
+            mask[i] |= (1 << (ord(c) - ord('a')))
+    
+    max_product = 0
+    for i in range(n):
+        for j in range(i + 1, n):
+            if (mask[i] & mask[j]) == 0:
+                max_product = max(max_product, len(words[i]) * len(words[j]))
+    
+    return max_product
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def bulbSwitch(n):
+    return int(n**0.5)
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def generateAbbreviations(word):
+    if not word:
+        return [""""]
+    res = []
+    for i in range(len(word) + 1):
+        for item in generateAbbreviations(word[i+1:]):
+            if i == 0 or not item or not item[0].isdigit():
+                res.append(word[:i+1] + item)
+            if item and item[0].isdigit():
+                res.append(word[:i] + '1' + item)
+    return res
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: 
+```javascript
+function maxNumber(nums1, nums2, k) {
+    function maxArray(nums, k) {
+        let ans = [];
+        for (let i = 0; i < nums.length; i++) {
+            while (nums.length - i > k - ans.length && ans.length && ans[ans.length - 1] < nums[i])
+                ans.pop();
+            if (ans.length < k) ans.push(nums[i]);
+        }
+        return ans;
+    }
+
+    function merge(nums1, nums2) {
+        let ans = [], i = 0, j = 0;
+        while (i < nums1.length || j < nums2.length)
+            ans.push((nums1.slice(i).join('') >= nums2.slice(j).join('') ? nums1[i++] : nums2[j++]));
+        return ans;
+    }
+
+    let result = [];
+    for (let i = Math.max(0, k - nums2.length); i <= k && i <= nums1.length; i++) {
+        const candidate = merge(maxArray(nums1, i), maxArray(nums2, k - i));
+        if (candidate.join('') > result.join('')) result = candidate;
+    }
+    return result;
+}
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def coinChange(coins, amount):
+    dp = [amount + 1] * (amount + 1)
+    dp[0] = 0
+
+    for coin in coins:
+        for i in range(coin, amount + 1):
+            dp[i] = min(dp[i], dp[i - coin] + 1)
+
+    return dp[amount] if dp[amount] <= amount else -1
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def countComponents(n, edges):
+    adj_list = [[] for _ in range(n)]
+    for edge in edges:
+        adj_list[edge[0]].append(edge[1])
+        adj_list[edge[1]].append(edge[0])
+
+    visited = [False] * n
+    connected_components = 0
+
+    def dfs(node):
+        visited[node] = True
+        for neighbor in adj_list[node]:
+            if not visited[neighbor]:
+                dfs(neighbor)
+
+    for i in range(n):
+        if not visited[i]:
+            dfs(i)
+            connected_components += 1
+
+    return connected_components
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def wiggleSort(nums):
+    nums.sort()
+    for i in range(1, len(nums) - 1, 2):
+        nums[i], nums[i + 1] = nums[i + 1], nums[i]
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def maxSubArrayLen(nums: List[int], k: int) -> int:
+    sum_index = {}
+    maxLength = sum = 0
+    for i, num in enumerate(nums):
+        sum += num
+        if sum == k:
+            maxLength = i + 1
+        if sum - k in sum_index:
+            maxLength = max(maxLength, i - sum_index[sum - k])
+        if sum not in sum_index:
+            sum_index[sum] = i
+    return maxLength
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def is_power_of_three(n: int) -> bool:
+    if n < 1:
+        return False
+    
+    while n % 3 == 0:
+        n //= 3
+    
+    return n == 1
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def countRangeSum(nums, lower, upper):
+    sums = [0] * (len(nums) + 1)
+    for i in range(len(nums)):
+        sums[i + 1] = sums[i] + nums[i]
+
+    def mergeSort(start, end):
+        if start == end:
+            return 0
+        mid = start + (end - start) // 2
+        count = mergeSort(start, mid) + mergeSort(mid + 1, end)
+
+        j, k = mid + 1, mid + 1
+        for i in range(start, mid + 1):
+            while j <= end and sums[j] - sums[i] < lower: j += 1
+            while k <= end and sums[k] - sums[i] <= upper: k += 1
+            count += k - j
+
+        sums[start:end + 1] = sorted(sums[start:end + 1])
+        return count
+
+    return mergeSort(0, len(nums))
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def odd_even_list(head: ListNode) -> ListNode:
+    if not head:
+        return None
+    odd, even, even_head = head, head.next, head.next
+    while even and even.next:
+        odd.next = even.next
+        odd = odd.next
+        even.next = odd.next
+        even = even.next
+    odd.next = even_head
+    return head
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+dx = (0, 0, 1, -1)
+dy = (1, -1, 0, 0)
+
+def dfs(matrix, memo, i, j):
+    if memo[i][j] != 0:
+        return memo[i][j]
+    
+    max_len = 0
+    for k in range(4):
+        ni, nj = i + dx[k], j + dy[k]
+        if (0 <= ni < len(matrix) and 0 <= nj < len(matrix[0]) and matrix[ni][nj] > matrix[i][j]):
+            max_len = max(max_len, dfs(matrix, memo, ni, nj))
+    
+    memo[i][j] = max_len + 1
+    return memo[i][j]
+
+def longest_increasing_path(matrix):
+    m, n = len(matrix), len(matrix[0])
+    
+    memo = [[0] * n for _ in range(m)]
+    
+    ans = 0
+    for i in range(m):
+        for j in range(n):
+            ans = max(ans, dfs(matrix, memo, i, j))
+    
+    return ans
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def minPatches(nums, n):
+    max_sum = 0
+    patches = 0
+    i = 0
+
+    while max_sum < n:
+        if i < len(nums) and nums[i] <= max_sum + 1:
+            max_sum += nums[i]
+            i += 1
+        else:
+            max_sum += max_sum + 1
+            patches += 1
+
+    return patches
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def is_valid_serialization(preorder: str) -> bool:
+    nodes = preorder.split(',')
+    node_count = 1
+
+    for node in nodes:
+        node_count -= 1
+        if node_count < 0:
+            return False
+        if node != '#':
+            node_count += 2
+
+    return node_count == 0
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+from collections import defaultdict
+
+def findItinerary(tickets):
+    flights = defaultdict(list)
+    itinerary = []
+
+    for ticket in tickets:
+        flights[ticket[0]].append(ticket[1])
+        flights[ticket[0]].sort(reverse=True)
+
+    def dfs(airport):
+        while flights[airport]:
+            dfs(flights[airport].pop())
+        itinerary.append(airport)
+
+    dfs(""JFK"")
+    
+    return itinerary[::-1]
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def largestBSTSubtree(root: TreeNode) -> int:
+    def largestBSTUtil(root):
+        if not root:
+            return True, 0, float('inf'), float('-inf')
+        
+        left = largestBSTUtil(root.left)
+        right = largestBSTUtil(root.right)
+        
+        if left[0] and root.val > left[3] and right[0] and root.val < right[2]:
+            largestBST[0] = max(largestBST[0], left[1] + 1 + right[1])
+            return True, left[1] + 1 + right[1], min(root.val, left[2]), max(root.val, right[3])
+        
+        return False, -1, float('inf'), float('-inf')
+    
+    largestBST = [0]
+    largestBSTUtil(root)
+    
+    return largestBST[0]
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def findTriplets(nums: List[int]) -> bool:
+    first = float('inf')
+    second = float('inf')
+
+    for num in nums:
+        if num <= first:
+            first = num
+        elif num <= second:
+            second = num
+        else:
+            return True
+    return False
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def is_path_crossing(distance):
+    visited = set([(0, 0)])
+    x, y = 0, 0
+    directions = [(0, 1), (-1, 0), (0, -1), (1, 0)]
+    
+    for i, d in enumerate(distance):
+        dx, dy = directions[i % 4]
+        for _ in range(d):
+            x += dx
+            y += dy
+            if (x, y) in visited:
+                return True
+            visited.add((x, y))
+    return False
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def palindrome_pairs(words):
+    def is_palindrome(s):
+        return s == s[::-1]
+
+    result = []
+    for i in range(len(words)):
+        for j in range(len(words)):
+            if i == j:
+                continue
+            concat = words[i] + words[j]
+            if is_palindrome(concat):
+                result.append([i, j])
+    return result
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def rob(self, root: TreeNode) -> int:
+    def rob_helper(node):
+        if not node:
+            return 0, 0
+
+        left_with_node, left_without_node = rob_helper(node.left)
+        right_with_node, right_without_node = rob_helper(node.right)
+
+        with_node = node.val + left_without_node + right_without_node
+        without_node = max(left_with_node, left_without_node) + max(right_with_node, right_without_node)
+        return with_node, without_node
+
+    return max(rob_helper(root))
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def countBits(n):
+    ans = [0] * (n + 1)
+    for i in range(1, n + 1):
+        ans[i] = ans[i & (i - 1)] + 1
+    return ans
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+from typing import List, Union
+
+def depth_sum(nested_list: List[Union[int, List]]) -> int:
+    def depth_sum_helper(nested_list: List[Union[int, List]], depth: int) -> int:
+        return sum(element * depth if isinstance(element, int) else depth_sum_helper(element, depth + 1) for element in nested_list)
+
+    return depth_sum_helper(nested_list, 1)
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def length_of_longest_substring_k_distinct(s: str, k: int) -> int:
+    char_count = {}
+    left = 0
+    max_length = 0
+
+    for right, char in enumerate(s):
+        char_count[char] = char_count.get(char, 0) + 1
+
+        while len(char_count) > k:
+            char_count[s[left]] -= 1
+            if char_count[s[left]] == 0:
+                del char_count[s[left]]
+            left += 1
+
+        max_length = max(max_length, right - left + 1)
+
+    return max_length
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+class NestedIterator:
+    def __init__(self, nestedList):
+        def flatten(nestedList, flatList):
+            for item in nestedList:
+                if isinstance(item, int):
+                    flatList.append(item)
+                else:
+                    flatten(item, flatList)
+        self.flatList = []
+        flatten(nestedList, self.flatList)
+        self.index = 0
+
+    def next(self):
+        result = self.flatList[self.index]
+        self.index += 1
+        return result
+
+    def hasNext(self):
+        return self.index < len(self.flatList)
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def isPowerOfFour(n: int) -> bool:
+    if n <= 0:
+        return False
+    while n % 4 == 0:
+        n //= 4
+    return n == 1
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def integer_break(n):
+    if n <= 3:
+        return n - 1
+    product = 1
+    while n > 4:
+        product *= 3
+        n -= 3
+    return product * n
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def reverseString(s: List[str]) -> None:
+    left, right = 0, len(s) - 1
+    while left < right:
+        s[left], s[right] = s[right], s[left]
+        left, right = left + 1, right - 1
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def reverseVowels(s: str) -> str:
+    vowels = set('aeiouAEIOU')
+    s_list = list(s)
+    i, j = 0, len(s) - 1
+    while i < j:
+        if s_list[i] not in vowels:
+            i += 1
+        elif s_list[j] not in vowels:
+            j -= 1
+        else:
+            s_list[i], s_list[j] = s_list[j], s_list[i]
+            i += 1
+            j -= 1
+    return ''.join(s_list)
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+from collections import deque
+
+class MovingAverage:
+    def __init__(self, size: int):
+        self.queue = deque()
+        self.maxSize = size
+        self.sum = 0.0
+
+    def next(self, val: int) -> float:
+        if len(self.queue) == self.maxSize:
+            self.sum -= self.queue.popleft()
+        self.queue.append(val)
+        self.sum += val
+        return self.sum / len(self.queue)
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+from heapq import heappush, heappop
+from collections import Counter
+
+def k_most_frequent(nums, k):
+    frequency = Counter(nums)
+    min_heap = []
+
+    for num, freq in frequency.items():
+        heappush(min_heap, (freq, num))
+        if len(min_heap) > k:
+            heappop(min_heap)
+
+    return [heappop(min_heap)[1] for _ in range(k)]
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+class TicTacToe:
+    def __init__(self, n: int):
+        self.rows, self.cols = [0] * n, [0] * n
+        self.diagonal = self.anti_diagonal = self.n = n
+
+    def move(self, row: int, col: int, player: int) -> int:
+        to_add = 1 if player == 1 else -1
+
+        self.rows[row] += to_add
+        self.cols[col] += to_add
+
+        if row == col:
+            self.diagonal += to_add
+        if row + col == self.n - 1:
+            self.anti_diagonal += to_add
+
+        if (abs(self.rows[row]) == self.n or abs(self.cols[col]) == self.n
+                or abs(self.diagonal) == self.n or abs(self.anti_diagonal) == self.n):
+            return player
+
+        return 0
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def intersection(nums1, nums2):
+    set1 = set(nums1)
+    result = set1.intersection(nums2)
+    return list(result)
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def intersect(nums1, nums2):
+    count_map = {}
+    result = []
+    
+    for num in nums1:
+        count_map[num] = count_map.get(num, 0) + 1
+    
+    for num in nums2:
+        if count_map.get(num, 0) > 0:
+            result.append(num)
+            count_map[num] -= 1
+
+    return result
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def numberOfPatterns(m: int, n: int) -> int:
+    def dfs(curr, remaining):
+        if remaining < 0:
+            return 0
+        if remaining == 0:
+            return 1
+
+        visited[curr] = True
+        cnt = 0
+        for next in range(1, 10):
+            if not visited[next] and (jumps[curr][next] == 0 or visited[jumps[curr][next]]):
+                cnt += dfs(next, remaining - 1)
+        visited[curr] = False
+
+        return cnt
+
+    jumps = [[0] * 10 for _ in range(10)]
+    jumps[1][3] = jumps[3][1] = 2
+    jumps[1][7] = jumps[7][1] = 4
+    jumps[3][9] = jumps[9][3] = 6
+    jumps[7][9] = jumps[9][7] = 8
+    jumps[1][9] = jumps[9][1] = jumps[2][8] = jumps[8][2] = jumps[3][7] = jumps[7][3] = jumps[4][6] = jumps[6][4] = 5
+
+    visited = [False] * 10
+
+    cnt = 0
+    for i in range(m, n + 1):
+        cnt += dfs(1, i - 1) * 4  # 1, 3, 7, 9
+        cnt += dfs(2, i - 1) * 4  # 2, 4, 6, 8
+        cnt += dfs(5, i - 1)      # 5
+
+    return cnt
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+from collections import OrderedDict
+
+class SummaryRanges:
+
+    def __init__(self):
+        self.intervals = OrderedDict()
+
+    def addNum(self, val: int) -> None:
+        if not self.intervals or next(iter(self.intervals)) > val + 1:
+            self.intervals[val] = val
+        else:
+            keys = list(self.intervals.keys())
+            idx = bisect_left(keys, val)
+            if idx > 0 and keys[idx - 1] <= val <= self.intervals[keys[idx - 1]]:
+                pass
+            elif idx < len(keys) and val + 1 == keys[idx]:
+                self.intervals[val] = self.intervals[keys[idx]]
+                del self.intervals[keys[idx]]
+            else:
+                self.intervals[val] = val
+
+    def getIntervals(self):
+        return list(self.intervals.items())
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+from collections import deque
+
+class SnakeGame:
+    def __init__(self, width: int, height: int, food: List[List[int]]):
+        self.width = width
+        self.height = height
+        self.food = food
+        self.pos = 0
+        self.score = 0
+        self.snake = deque([(0, 0)])
+        self.occupied = {(0, 0)}
+        self.dx = {'U': -1, 'D': 1, 'L': 0, 'R': 0}
+        self.dy = {'U': 0, 'D': 0, 'L': -1, 'R': 1}
+
+    def move(self, direction: str) -> int:
+        new_x = self.snake[-1][0] + self.dx[direction]
+        new_y = self.snake[-1][1] + self.dy[direction]
+
+        if new_x < 0 or new_x >= self.height or new_y < 0 or new_y >= self.width:
+            return -1
+
+        new_head = (new_x, new_y)
+        tail = self.snake.popleft()
+
+        if self.pos < len(self.food) and self.food[self.pos] == list(new_head):
+            self.score += 1
+            self.pos += 1
+        else:
+            self.occupied.remove(tail)
+
+        if new_head in self.occupied:
+            return -1
+
+        self.snake.append(new_head)
+        self.occupied.add(new_head)
+        return self.score
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+from bisect import bisect_left
+
+def max_envelopes(envelopes):
+    envelopes.sort(key=lambda x: (x[0], -x[1]))
+    dp = []
+    
+    for _, h in envelopes:
+        idx = bisect_left(dp, h)
+        if idx == len(dp):
+            dp.append(h)
+        else:
+            dp[idx] = h
+
+    return len(dp)
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+from collections import defaultdict
+from typing import List
+
+class Twitter:
+
+    class Tweet:
+        def __init__(self, time, tweetId):
+            self.time = time
+            self.tweetId = tweetId
+
+    def __init__(self):
+        self.tweets = defaultdict(list)
+        self.following = defaultdict(set)
+        self.timeStamp = 0
+
+    def postTweet(self, userId: int, tweetId: int) -> None:
+        self.tweets[userId].append(self.Tweet(self.timeStamp, tweetId))
+        self.timeStamp += 1
+
+    def getNewsFeed(self, userId: int) -> List[int]:
+        feed = self.tweets[userId][:]
+        for user in self.following[userId]:
+            feed.extend(self.tweets[user])
+
+        feed.sort(key=lambda x: x.time, reverse=True)
+        return [t.tweetId for t in feed[:10]]
+
+    def follow(self, followerId: int, followeeId: int) -> None:
+        if followerId != followeeId:
+            self.following[followerId].add(followeeId)
+
+    def unfollow(self, followerId: int, followeeId: int) -> None:
+        self.following[followerId].discard(followeeId)
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def isReflected(points):
+    min_x = min(point[0] for point in points)
+    max_x = max(point[0] for point in points)
+    point_set = {(point[0], point[1]) for point in points}
+    
+    sum_x = min_x + max_x
+    for point in points:
+        if (sum_x - point[0], point[1]) not in point_set:
+            return False
+
+    return True
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def countNumbersWithUniqueDigits(n):
+    if n == 0:
+        return 1
+    
+    total = 10
+    unique_digits = 9
+    current_available_digits = 9
+    
+    while n > 1 and current_available_digits > 0:
+        unique_digits *= current_available_digits
+        total += unique_digits
+        current_available_digits -= 1
+        n -= 1
+        
+    return total
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+import heapq
+from collections import Counter
+
+def rearrange_string(s, k):
+    if k == 0:
+        return s
+
+    counter = Counter(s)
+    max_heap = [(-count, char) for char, count in counter.items()]
+    heapq.heapify(max_heap)
+
+    result = []
+    while max_heap:
+        temp = []
+
+        for _ in range(k):
+            if not max_heap:
+                break
+
+            count, char = heapq.heappop(max_heap)
+            result.append(char)
+
+            if count + 1 < 0:
+                temp.append((count + 1, char))
+
+        for item in temp:
+            heapq.heappush(max_heap, item)
+
+        if not max_heap:
+            break
+
+        if len(result) < len(s):
+            result.extend([' '] * (k - len(temp)))
+
+    if len(result) < len(s):
+        return """"
+    return """".join(result)
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+class Logger:
+    def __init__(self):
+        self.message_timestamps = {}
+
+    def shouldPrintMessage(self, timestamp: int, message: str) -> bool:
+        if message not in self.message_timestamps or timestamp - self.message_timestamps[message] >= 10:
+            self.message_timestamps[message] = timestamp
+            return True
+        return False
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def sort_transformed_array(nums, a, b, c):
+    result = [0] * len(nums)
+    i, j = 0, len(nums) - 1
+    index = len(nums) - 1 if a >= 0 else 0
+    
+    while i <= j:
+        left = nums[i] * nums[i] * a + nums[i] * b + c
+        right = nums[j] * nums[j] * a + nums[j] * b + c
+        
+        if a >= 0:
+            if left >= right:
+                result[index] = left
+                index -= 1
+                i += 1
+            else:
+                result[index] = right
+                index -= 1
+                j -= 1
+        else:
+            if left <= right:
+                result[index] = left
+                index += 1
+                i += 1
+            else:
+                result[index] = right
+                index += 1
+                j -= 1
+    return result
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def maxKilledEnemies(grid):
+    if not grid: return 0
+    m, n, result, rowhits = len(grid), len(grid[0]), 0, 0
+    colhits = [0] * n
+    for i in range(m):
+        for j in range(n):
+            if j == 0 or grid[i][j - 1] == 'W':
+                rowhits = 0
+                k = j
+                while k < n and grid[i][k] != 'W':
+                    rowhits += grid[i][k] == 'E'
+                    k += 1
+            if i == 0 or grid[i - 1][j] == 'W':
+                colhits[j] = 0
+                k = i
+                while k < m and grid[k][j] != 'W':
+                    colhits[j] += grid[k][j] == 'E'
+                    k += 1
+            if grid[i][j] == '0':
+                result = max(result, rowhits + colhits[j])
+    return result
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+from collections import deque
+
+class HitCounter:
+
+    def __init__(self):
+        self.queue = deque()
+
+    def hit(self, timestamp: int) -> None:
+        self.queue.append(timestamp)
+
+    def getHits(self, timestamp: int) -> int:
+        while self.queue and self.queue[0] <= timestamp - 300:
+            self.queue.popleft()
+        return len(self.queue)
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+from sortedcontainers import SortedList
+
+def maxSumSubmatrix(matrix, k):
+    rows = len(matrix)
+    cols = len(matrix[0])
+    max_sum = float('-inf')
+
+    for l in range(cols):
+        sums = [0] * rows
+        for r in range(l, cols):
+            for i in range(rows):
+                sums[i] += matrix[i][r]
+
+            sorted_sums = SortedList()
+            sorted_sums.add(0)
+            curr_sum = 0
+            for sum in sums:
+                curr_sum += sum
+                it = sorted_sums.bisect_left(curr_sum - k)
+                if it != len(sorted_sums):
+                    max_sum = max(max_sum, curr_sum - sorted_sums[it])
+                sorted_sums.add(curr_sum)
+
+    return max_sum
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+from typing import List, Union
+
+NestedInteger = Union[int, List[Union[int, ""NestedInteger""]]]
+
+def depthSumInverse(nestedList: List[NestedInteger]) -> int:
+    max_depth = max_depth_helper(nestedList)
+    return sum_helper(nestedList, max_depth)
+
+def max_depth_helper(nested_list: List[NestedInteger]) -> int:
+    depth = 1
+    for nested in nested_list:
+        if isinstance(nested, list):
+            depth = max(depth, 1 + max_depth_helper(nested))
+    return depth
+
+def sum_helper(nested_list: List[NestedInteger], depth: int) -> int:
+    sum = 0
+    for nested in nested_list:
+        if isinstance(nested, int):
+            sum += depth * nested
+        else:
+            sum += sum_helper(nested, depth - 1)
+    return sum
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def canMeasureWater(jug1Capacity, jug2Capacity, targetCapacity):
+    if targetCapacity > jug1Capacity + jug2Capacity:
+        return False
+    if jug1Capacity == targetCapacity or jug2Capacity == targetCapacity or jug1Capacity + jug2Capacity == targetCapacity:
+        return True
+    return targetCapacity % gcd(jug1Capacity, jug2Capacity) == 0
+
+def gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def find_leaves(node, result, level):
+    if not node:
+        return -1
+    left_level = find_leaves(node.left, result, level + 1)
+    right_level = find_leaves(node.right, result, level + 1)
+    level = max(left_level, right_level) + 1
+    if len(result) <= level:
+        result.append([])
+    result[level].append(node.val)
+    return level
+
+def findLeaves(root):
+    result = []
+    find_leaves(root, result, 0)
+    return result
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def is_perfect_square(num: int) -> bool:
+    if num < 2:
+        return True
+    left, right = 2, num // 2
+    while left <= right:
+        mid = left + (right - left) // 2
+        square = mid * mid
+        if square == num:
+            return True
+        if square > num:
+            right = mid - 1
+        else:
+            left = mid + 1
+    return False
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def largestDivisibleSubset(nums):
+    nums.sort()
+    n = len(nums)
+    count = [1] * n
+    prev = [-1] * n
+
+    max_idx = 0
+    for i in range(1, n):
+        for j in range(i):
+            if nums[i] % nums[j] == 0 and count[i] < count[j] + 1:
+                count[i] = count[j] + 1
+                prev[i] = j
+        if count[max_idx] < count[i]:
+            max_idx = i
+
+    res = []
+    i = max_idx
+    while i >= 0:
+        res.append(nums[i])
+        i = prev[i]
+
+    return res
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def plusOne(head: ListNode) -> ListNode:
+    def plusOneDfs(node):
+        if not node:
+            return 1
+        carry = plusOneDfs(node.next)
+        if carry + node.val == 10:
+            node.val = 0
+            return 1
+        else:
+            node.val += carry
+            return 0
+
+    if not head:
+        return head
+    carry = plusOneDfs(head)
+    if carry == 1:
+        new_head = ListNode(1)
+        new_head.next = head
+        return new_head
+    return head
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def get_updated_array(length, updates):
+    arr = [0] * length
+
+    for start, end, inc in updates:
+        arr[start] += inc
+        if end + 1 < length:
+            arr[end + 1] -= inc
+
+    for i in range(1, length):
+        arr[i] += arr[i - 1]
+
+    return arr
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def add(a, b):
+    MAX = 0x7FFFFFFF
+    MASK = 0xFFFFFFFF
+    while b:
+        a, b = (a ^ b) & MASK, ((a & b) << 1) & MASK
+    return a if a <= MAX else ~(a ^ MASK)
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def powmod(a, b):
+    if b == 0:
+        return 1
+    res = powmod(a, b // 2)
+    return res * res % 1337 * a % 1337 if b % 2 else res * res % 1337
+
+def superPow(a, b):
+    n = 0
+    for bi in b:
+        n = (n * 10 + bi) % 1140
+    return powmod(a % 1337, n + 1140)
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+import heapq
+
+def kSmallestPairs(nums1, nums2, k):
+    if not nums1 or not nums2:
+        return []
+    
+    heap = [(nums1[i] + nums2[0], i, 0) for i in range(min(k, len(nums1)))]
+    heapq.heapify(heap)
+    result = []
+
+    while k > 0 and heap:
+        s, i, j = heapq.heappop(heap)
+        result.append([nums1[i], nums2[j]])
+        if j + 1 < len(nums2):
+            heapq.heappush(heap, (nums1[i] + nums2[j + 1], i, j + 1))
+        k -= 1
+
+    return result
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def guessNumber(n):
+    low, high = 1, n
+    while low <= high:
+        mid = low + (high - low) // 2
+        result = guess(mid)
+        if result == 0:
+            return mid
+        elif result < 0:
+            high = mid - 1
+        else:
+            low = mid + 1
+    return -1
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def getMoneyAmount(n: int) -> int:
+    dp = [[0] * (n + 1) for _ in range(n + 1)]
+    for i in range(n - 1, 0, -1):
+        for j in range(i + 1, n + 1):
+            min_cost = float(""inf"")
+            for k in range(i, j):
+                cost = k + max(dp[i][k - 1], dp[k + 1][j])
+                min_cost = min(min_cost, cost)
+            dp[i][j] = min_cost
+    return dp[1][n]
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def wiggleMaxLength(nums):
+    if len(nums) < 2:
+        return len(nums)
+
+    up, down = 1, 1
+    for i in range(1, len(nums)):
+        if nums[i] > nums[i - 1]:
+            up = down + 1
+        elif nums[i] < nums[i - 1]:
+            down = up + 1
+    return max(up, down)
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def combination_sum(nums, target):
+    dp = [0] * (target + 1)
+    dp[0] = 1
+
+    for num in nums:
+        for i in range(num, target + 1):
+            dp[i] += dp[i - num]
+
+    return dp[target]
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+import heapq
+
+def kthSmallest(matrix, k):
+    n = len(matrix)
+    min_heap = []
+
+    for i in range(n):
+        heapq.heappush(min_heap, (matrix[i][0], i, 0))
+
+    while k > 1:
+        val, row, col = heapq.heappop(min_heap)
+
+        if col + 1 < n:
+            heapq.heappush(min_heap, (matrix[row][col + 1], row, col + 1))
+
+        k -= 1
+
+    return min_heap[0][0]
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+from collections import deque
+
+class PhoneDirectory:
+    def __init__(self, maxNumbers: int):
+        self.available = [True] * maxNumbers
+        self.released = deque()
+    
+    def get(self) -> int:
+        if self.released:
+            number = self.released.popleft()
+            self.available[number] = False
+            return number
+        for i in range(len(self.available)):
+            if self.available[i]:
+                self.available[i] = False
+                return i
+        return -1
+    
+    def check(self, number: int) -> bool:
+        return self.available[number]
+    
+    def release(self, number: int) -> None:
+        if not self.available[number]:
+            self.available[number] = True
+            self.released.append(number)
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+import random
+
+class RandomizedSet:
+    def __init__(self):
+        self.index_map = {}
+        self.nums = []
+
+    def insert(self, val: int) -> bool:
+        if val in self.index_map:
+            return False
+
+        self.index_map[val] = len(self.nums)
+        self.nums.append(val)
+        return True
+
+    def remove(self, val: int) -> bool:
+        if val not in self.index_map:
+            return False
+
+        last = self.nums[-1]
+        self.index_map[last] = self.index_map[val]
+        self.nums[self.index_map[val]] = last
+
+        self.nums.pop()
+        del self.index_map[val]
+        return True
+
+    def getRandom(self) -> int:
+        return self.nums[random.randint(0, len(self.nums) - 1)]
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+import random
+from collections import defaultdict
+
+class RandomizedCollection:
+    def __init__(self):
+        self.indices = defaultdict(set)
+        self.nums = []
+
+    def insert(self, val):
+        self.nums.append(val)
+        self.indices[val].add(len(self.nums) - 1)
+        return len(self.indices[val]) == 1
+
+    def remove(self, val):
+        if not self.indices[val]:
+            return False
+
+        idx = self.indices[val].pop()
+        if idx < len(self.nums) - 1:
+            last = self.nums[-1]
+            self.nums[idx] = last
+            self.indices[last].remove(len(self.nums) - 1)
+            self.indices[last].add(idx)
+        self.nums.pop()
+        return True
+
+    def getRandom(self):
+        return self.nums[random.randint(0, len(self.nums) - 1)]
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+import random
+
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class Solution:
+    def __init__(self, head: ListNode):
+        self.head = head
+
+    def getRandom(self) -> int:
+        current, result = self.head, 0
+        for i, node in enumerate(self.iterate_nodes(current)):
+            if random.randint(0, i) == 0:
+                result = node.val
+        return result
+
+    def iterate_nodes(self, current):
+        while current:
+            yield current
+            current = current.next
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def can_construct(ransom_note, magazine):
+    letter_count = {}
+    
+    for c in magazine:
+        letter_count[c] = letter_count.get(c, 0) + 1
+        
+    for c in ransom_note:
+        if c not in letter_count or letter_count[c] == 0:
+            return False
+        letter_count[c] -= 1
+        
+    return True
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+import random
+
+class Solution:
+    def __init__(self, nums):
+        self.original = nums
+
+    def reset(self):
+        return self.original
+
+    def shuffle(self):
+        shuffled = self.original[:]
+        for i in range(len(shuffled) - 1, 0, -1):
+            j = random.randint(0, i)
+            shuffled[i], shuffled[j] = shuffled[j], shuffled[i]
+        return shuffled
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+class NestedInteger:
+    def __init__(self, value=None):
+        pass
+
+    def add(self, ni):
+        pass
+
+def deserialize(s: str) -> NestedInteger:
+    if s[0] != '[':
+        return NestedInteger(int(s))
+
+    stack = []
+    curr, start = None, 0
+
+    for i, c in enumerate(s):
+        if c == '[':
+            if curr:
+                stack.append(curr)
+            curr = NestedInteger()
+            start = i + 1
+        elif c == ',' or c == ']':
+            if i > start:
+                curr.add(NestedInteger(int(s[start:i])))
+            start = i + 1
+
+            if c == ']' and stack:
+                popped = stack.pop()
+                popped.add(curr)
+                curr = popped
+
+    return curr
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def lexicographical_order_helper(current, n, result):
+    if current > n:
+        return
+
+    result.append(current)
+    for i in range(10):
+        lexicographical_order_helper(current * 10 + i, n, result)
+
+def lexical_order(n):
+    result = []
+    for i in range(1, 10):
+        lexicographical_order_helper(i, n, result)
+    return result
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def firstUniqChar(s):
+    char_count = {}
+    for c in s:
+        char_count[c] = char_count.get(c, 0) + 1
+    for i in range(len(s)):
+        if char_count[s[i]] == 1:
+            return i
+    return -1
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def length_longest_path(input: str) -> int:
+    dir_length_stack = []
+    max_file_length = 0
+    lines = input.split('\n')
+
+    for line in lines:
+        level = line.count('\t')
+        line = line.lstrip('\t')
+
+        while len(dir_length_stack) > level:
+            dir_length_stack.pop()
+
+        if dir_length_stack:
+            length = dir_length_stack[-1] + len(line) + 1
+        else:
+            length = len(line)
+        dir_length_stack.append(length)
+
+        if '.' in line:
+            max_file_length = max(max_file_length, length)
+            
+    return max_file_length
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def findTheDifference(s: str, t: str) -> str:
+    return chr(sum(ord(c) for c in t) - sum(ord(c) for c in s))
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def last_remaining(n: int) -> int:
+    direction = True
+    head = 1
+    remaining = n
+    step = 1
+
+    while remaining > 1:
+        if direction or remaining % 2 == 1:
+            head += step
+        remaining //= 2
+        step *= 2
+        direction = not direction
+
+    return head
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def isRectangleCover(rectangles):
+    area = 0
+    points = set()
+    lx, ly, rx, ry = float('inf'), float('inf'), float('-inf'), float('-inf')
+
+    for rect in rectangles:
+        lx, ly = min(lx, rect[0]), min(ly, rect[1])
+        rx, ry = max(rx, rect[2]), max(ry, rect[3])
+
+        area += (rect[2] - rect[0]) * (rect[3] - rect[1])
+
+        p1, p2, p3, p4 = (rect[0], rect[1]), (rect[0], rect[3]), (rect[2], rect[1]), (rect[2], rect[3])
+
+        points ^= {p1, p2, p3, p4}
+
+    return len(points) == 4 and area == (rx - lx) * (ry - ly) and (lx, ly) in points and \
+           (lx, ry) in points and (rx, ly) in points and (rx, ry) in points
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def is_subsequence(s, t):
+    si, ti = 0, 0
+
+    while si < len(s) and ti < len(t):
+        if s[si] == t[ti]:
+            si += 1
+        ti += 1
+
+    return si == len(s)
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def validUtf8(data):
+    count = 0
+    for byte in data:
+        if count == 0:
+            if byte >> 5 == 0b110:
+                count = 1
+            elif byte >> 4 == 0b1110:
+                count = 2
+            elif byte >> 3 == 0b11110:
+                count = 3
+            elif byte >> 7:
+                return False
+        else:
+            if byte >> 6 != 0b10:
+                return False
+            count -= 1
+    return count == 0
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def decodeString(s):
+    counts = []
+    results = []
+    current = """"
+    ptr = 0
+
+    while ptr < len(s):
+        if s[ptr].isdigit():
+            count = 0
+            while s[ptr].isdigit():
+                count = count * 10 + int(s[ptr])
+                ptr += 1
+            counts.append(count)
+        elif s[ptr] == '[':
+            results.append(current)
+            current = """"
+            ptr += 1
+        elif s[ptr] == ']':
+            prev = results.pop()
+            count = counts.pop()
+            current = prev + current * count
+            ptr += 1
+        else:
+            current += s[ptr]
+            ptr += 1
+
+    return current
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def longestSubstring(s: str, k: int) -> int:
+    if not s or k <= 0:
+        return 0
+
+    char_count = {}
+    for ch in s:
+        char_count[ch] = char_count.get(ch, 0) + 1
+
+    for char, count in char_count.items():
+        if count < k:
+            return max(longestSubstring(sub_s, k) for sub_s in s.split(char))
+    return len(s)
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def maxRotateFunction(nums):
+    n = len(nums)
+    total_sum = sum(nums)
+    f = sum(i * num for i, num in enumerate(nums))
+
+    max_f = f
+    for i in range(1, n):
+        f += total_sum - n * nums[-i]
+        max_f = max(max_f, f)
+
+    return max_f
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def min_operations(n):
+    steps = 0
+    while n > 1:
+        n = n // 2 if n % 2 == 0 else n - 1
+        steps += 1
+    return steps
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+import random
+
+class Solution:
+
+    def __init__(self, nums):
+        self.nums = nums
+
+    def pick(self, target):
+        count, res = 0, 0
+        for i, num in enumerate(self.nums):
+            if num == target:
+                count += 1
+                if random.randint(0, count - 1) == 0:
+                    res = i
+        return res
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+from collections import defaultdict
+
+def dfs(s1, s2, graph):
+    if s1 not in graph or s2 not in graph:
+        return -1.0
+    if s1 == s2:
+        return 1.0
+    
+    for neighbor, weight in graph[s1]:
+        if neighbor not in visited:
+            visited.add(neighbor)
+            temp = dfs(neighbor, s2, graph)
+            if temp > 0:
+                return weight * temp
+    return -1.0
+
+def calcEquation(equations, values, queries):
+    graph = defaultdict(list)
+    for (s1, s2), value in zip(equations, values):
+        graph[s1].append((s2, value))
+        graph[s2].append((s1, 1 / value))
+    
+    ans = []
+    for s1, s2 in queries:
+        visited = set()
+        ans.append(dfs(s1, s2, graph))
+    return ans
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def findNthDigit(n):
+    size = 1
+    length = 9
+    start = 1
+
+    while n > length * size:
+        n -= length * size
+        size += 1
+        length *= 10
+        start *= 10
+
+    start += (n - 1) // size
+    s = str(start)
+    return int(s[(n - 1) % size])
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def readBinaryWatch(turnedOn: int):
+    def count_bits(n):
+        return bin(n).count('1')
+
+    times = []
+    for h in range(12):
+        for m in range(60):
+            if count_bits(h) + count_bits(m) == turnedOn:
+                times.append(f""{h}:{m:02d}"")
+    return times
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def remove_k_digits(num, k):
+    stack = []
+    for c in num:
+        while k > 0 and stack and stack[-1] > c:
+            stack.pop()
+            k -= 1
+        stack.append(c)
+    while k > 0:
+        stack.pop()
+        k -= 1
+    return ''.join(stack).lstrip('0') or '0'
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def can_cross(stones):
+    dp = {stone: set() for stone in stones}
+    dp[0].add(0)
+
+    for stone in stones:
+        for k in dp[stone]:
+            for jump in (k - 1, k, k + 1):
+                if jump > 0 and stone + jump in dp:
+                    dp[stone + jump].add(jump)
+
+    return bool(dp[stones[-1]])
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def sum_of_left_leaves(root):
+    if not root:
+        return 0
+    left_sum = 0
+    if root.left and not root.left.left and not root.left.right:
+        left_sum += root.left.val
+    return left_sum + sum_of_left_leaves(root.left) + sum_of_left_leaves(root.right)
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def to_hex(num: int) -> str:
+    if num == 0:
+        return '0'
+    hex_str = ''
+    hex_digits = '0123456789abcdef'
+    n = num & 0xffffffff
+    while n:
+        hex_str = hex_digits[n & 0xf] + hex_str
+        n >>= 4
+    return hex_str
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+from typing import List
+
+def reconstructQueue(people: List[List[int]]) -> List[List[int]]:
+    people.sort(key=lambda x: (-x[0], x[1]))
+
+    result = []
+    for p in people:
+        result.insert(p[1], p)
+    return result
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+import heapq
+
+def trapRainWater(heightMap):
+    m, n = len(heightMap), len(heightMap[0])
+    pq = []
+    visited = [[False] * n for _ in range(m)]
+
+    for i in range(m):
+        heapq.heappush(pq, (heightMap[i][0], i, 0))
+        heapq.heappush(pq, (heightMap[i][n - 1], i, n - 1))
+        visited[i][0] = visited[i][n - 1] = True
+
+    for i in range(1, n - 1):
+        heapq.heappush(pq, (heightMap[0][i], 0, i))
+        heapq.heappush(pq, (heightMap[m - 1][i], m - 1, i))
+        visited[0][i] = visited[m - 1][i] = True
+
+    water, maxHeight = 0, 0
+    dirs = ((0, 1), (0, -1), (1, 0), (-1, 0))
+
+    while pq:
+        h, r, c = heapq.heappop(pq)
+        maxHeight = max(maxHeight, h)
+        for dx, dy in dirs:
+            x, y = r + dx, c + dy
+            if x < 0 or x >= m or y < 0 or y >= n or visited[x][y]:
+                continue
+            if heightMap[x][y] < maxHeight:
+                water += maxHeight - heightMap[x][y]
+            heapq.heappush(pq, (heightMap[x][y], x, y))
+            visited[x][y] = True
+
+    return water
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def validWordAbbreviation(word, abbr):
+    i, j = 0, 0
+    while i < len(word) and j < len(abbr):
+        if abbr[j].isdigit():
+            if abbr[j] == '0': return False  # leading zero
+            num = 0
+            while j < len(abbr) and abbr[j].isdigit():
+                num = num * 10 + int(abbr[j])
+                j += 1
+            i += num
+        else:
+            if word[i] != abbr[j]: return False
+            i, j = i + 1, j + 1
+    return i == len(word) and j == len(abbr)
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def longestPalindrome(s: str) -> int:
+    charCount = [0] * 128
+    result = 0
+    for c in s:
+        charCount[ord(c)] += 1
+    for count in charCount:
+        result += count // 2 * 2
+        if result % 2 == 0 and count % 2 == 1:
+            result += 1
+    return result
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def splitArray(nums, m):
+    left, right = max(nums), sum(nums)
+
+    while left < right:
+        mid = (left + right) // 2
+        count, cur_sum = 1, 0
+        for num in nums:
+            cur_sum += num
+            if cur_sum > mid:
+                cur_sum = num
+                count += 1
+
+        if count > m:
+            left = mid + 1
+        else:
+            right = mid
+
+    return left
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def abbreviate(s, k, i):
+    if i == len(s):
+        return str(k) if k > 0 else """"
+    if k == 0:
+        return s[i:] + (abbreviate(s, 1, i + 1) if i + 1 < len(s) else """")
+    return str(k) + s[i] + (abbreviate(s, 1, i + 1) if i + 1 < len(s) else """")
+
+def is_abbreviation(target, word):
+    i, j = 0, 0
+    while i < len(target) and j < len(word):
+        if target[i] == word[j]:
+            i, j = i + 1, j + 1
+        elif target[i].isdigit():
+            k = 0
+            while i < len(target) and target[i].isdigit():
+                k = k * 10 + int(target[i])
+                i += 1
+            j += k
+        else:
+            return False
+    return i == len(target) and j == len(word)
+
+def min_abbreviation(target, dictionary):
+    ans = target
+    for k in range(0, len(target) + 1):
+        for i in range(0, len(target) - k + 1):
+            current = abbreviate(target, k, i)
+            if len(current) < len(ans):
+                valid = True
+                for word in dictionary:
+                    if is_abbreviation(current, word):
+                        valid = False
+                        break
+                if valid:
+                    ans = current
+    return ans
+```
+
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def fizzBuzz(n):
+    result = []
+    for i in range(1, n + 1):
+        if i % 15 == 0:
+            result.append(""FizzBuzz"")
+        elif i % 3 == 0:
+            result.append(""Fizz"")
+        elif i % 5 == 0:
+            result.append(""Buzz"")
+        else:
+            result.append(str(i))
+    return result
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def numberOfArithmeticSlices(nums):
+    n = len(nums)
+    count, cur = 0, 0
+    for i in range(2, n):
+        if nums[i] - nums[i - 1] == nums[i - 1] - nums[i - 2]:
+            cur += 1
+            count += cur
+        else:
+            cur = 0
+    return count
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def third_max(nums):
+    top3 = set()
+    for num in nums:
+        top3.add(num)
+        if len(top3) > 3:
+            top3.remove(min(top3))
+    return min(top3) if len(top3) == 3 else max(top3)
+```
+
+"
+"Please optimize the given code to improve its performance while maintaining its functionality. Consider techniques such as code refactoring, algorithmic improvements, and resource utilization to make it more efficient. The output just need to be the optimized code, anything else. Here's the code to improve: ```python
+def addStrings(num1: str, num2: str) -> str:
+    i, j, carry, result = len(num1) - 1, len(num2) - 1, 0, []
+
+    while i >= 0 or j >= 0 or carry:
+        sum = carry
+
+        if i >= 0:
+            sum += int(num1[i])
+            i -= 1
+        if j >= 0:
+            sum += int(num2[j])
+            j -= 1
+
+        carry = sum // 10
+        result.append(str(sum % 10))
+
+    return ''.join(result[::-1])
+```
+
+
+"

@@ -1,0 +1,2028 @@
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def is_same_tree(p, q):
+    if p is None and q is None:
+        return True
+    if p is None or q is None:
+        return False
+    if p.val != q.val:
+        return False
+    return is_same_tree(p.left, q.left) and is_same_tree(p.right, q.right)
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def isSymmetric(root):
+    return checkSymmetry(root, root)
+
+def checkSymmetry(node1, node2):
+    if not node1 and not node2:
+        return True
+    if not node1 or not node2:
+        return False
+    return (node1.val == node2.val) and checkSymmetry(node1.right, node2.left) and checkSymmetry(node1.left, node2.right)
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def levelOrder(root):
+    if not root:
+        return []
+
+    result = []
+    queue = [root]
+
+    while queue:
+        level = []
+        for i in range(len(queue)):
+            node = queue.pop(0)
+
+            if node.left:
+                queue.append(node.left)
+
+            if node.right:
+                queue.append(node.right)
+
+            level.append(node.val)
+
+        result.append(level)
+
+    return result
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def zigzagLevelOrder(root):
+    if not root:
+        return []
+
+    result = []
+    queue = [root]
+    zigzag = False
+
+    while queue:
+        level = []
+        for i in range(len(queue)):
+            node = queue.pop(0)
+
+            if zigzag:
+                level.insert(0, node.val)
+            else:
+                level.append(node.val)
+
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+
+        result.append(level)
+        zigzag = not zigzag
+
+    return result
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def maxDepth(root):
+    if root is None:
+        return 0
+    return 1 + max(maxDepth(root.left), maxDepth(root.right))
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def build_tree(preorder, inorder):
+    def construct_tree(in_left, in_right):
+        nonlocal pre_idx
+        if in_left > in_right:
+            return None
+
+        root_val = preorder[pre_idx]
+        root = TreeNode(root_val)
+        idx = in_map[root_val]
+
+        pre_idx += 1
+        root.left = construct_tree(in_left, idx - 1)
+        root.right = construct_tree(idx + 1, in_right)
+
+        return root
+
+    in_map = {val: idx for idx, val in enumerate(inorder)}
+    pre_idx = 0
+    return construct_tree(0, len(inorder) - 1)
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def buildTree(self, inorder, postorder):
+        def _build(in_left, in_right, post_root):
+            if in_left > in_right:
+                return None
+            
+            root = TreeNode(postorder[post_root])
+
+            inorder_root_index = index_map[root.val]
+            left_tree_size = inorder_root_index - in_left
+
+            root.left = _build(in_left, inorder_root_index - 1, post_root - 1 - in_right + inorder_root_index)
+            root.right = _build(inorder_root_index + 1, in_right, post_root - 1)
+
+            return root
+
+        index_map = {val: i for i, val in enumerate(inorder)}
+        return _build(0, len(inorder) - 1, len(postorder) - 1)
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+from collections import deque
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def levelOrderBottom(root):
+    result = []
+    if not root:
+        return result
+
+    queue = deque([root])
+
+    while queue:
+        level = []
+        size = len(queue)
+
+        for i in range(size):
+            current = queue.popleft()
+            level.append(current.val)
+
+            if current.left:
+                queue.append(current.left)
+            if current.right:
+                queue.append(current.right)
+
+        result.insert(0, level)
+
+    return result
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def sorted_array_to_bst(nums):
+    def helper(start, end):
+        if start > end:
+            return None
+
+        mid = start + (end - start) // 2
+        node = TreeNode(nums[mid])
+        node.left = helper(start, mid - 1)
+        node.right = helper(mid + 1, end)
+
+        return node
+
+    return helper(0, len(nums) - 1)
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+def sortedListToBST(head):
+    if not head:
+        return None
+    if not head.next:
+        return TreeNode(head.val)
+    slow = head
+    fast = head
+    prev = None
+
+    while fast and fast.next:
+        prev = slow
+        slow = slow.next
+        fast = fast.next.next
+
+    prev.next = None
+
+    root = TreeNode(slow.val)
+    root.left = sortedListToBST(head)
+    root.right = sortedListToBST(slow.next)
+    return root
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def getHeight(node):
+    if not node:
+        return 0
+    left_height = getHeight(node.left)
+    right_height = getHeight(node.right)
+    if left_height == -1 or right_height == -1 or abs(left_height - right_height) > 1:
+        return -1
+    return 1 + max(left_height, right_height)
+
+def isBalanced(root):
+    return getHeight(root) != -1
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def minDepth(root):
+    if not root:
+        return 0
+    left = minDepth(root.left)
+    right = minDepth(root.right)
+    return (left == 0 or right == 0) and left + right + 1 or min(left, right) + 1
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def hasPathSum(root, targetSum):
+    if root is None:
+        return False
+    if root.left is None and root.right is None:
+        return targetSum - root.val == 0
+    return hasPathSum(root.left, targetSum - root.val) or hasPathSum(root.right, targetSum - root.val)
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def pathSum(root, targetSum):
+    def helper(root, targetSum, current, ans):
+        if not root:
+            return
+        current.append(root.val)
+        if not root.left and not root.right and targetSum == root.val:
+            ans.append(current[:])
+        helper(root.left, targetSum - root.val, current, ans)
+        helper(root.right, targetSum - root.val, current, ans)
+        current.pop()
+
+    ans = []
+    helper(root, targetSum, [], ans)
+    return ans
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def flatten(root):
+    if not root:
+        return
+    flatten(root.left)
+    flatten(root.right)
+    if root.left:
+        temp = root.right
+        root.right = root.left
+        root.left = None
+        while root.right:
+            root = root.right
+        root.right = temp
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def numDistinct(s: str, t: str) -> int:
+    m, n = len(s), len(t)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+
+    for i in range(m + 1):
+        dp[i][0] = 1
+
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if s[i - 1] == t[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j]
+            else:
+                dp[i][j] = dp[i - 1][j]
+
+    return dp[m][n]
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def connect(self, root: 'Node') -> 'Node':
+    if not root or not root.left:
+        return root
+    root.left.next = root.right
+    if root.next:
+        root.right.next = root.next.left
+    self.connect(root.left)
+    self.connect(root.right)
+    return root
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class Node:
+    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+
+def connect(root: 'Node') -> 'Node':
+    if not root:
+        return None
+
+    q = [root]
+
+    while q:
+        level_size = len(q)
+        prev = None
+
+        for i in range(level_size):
+            current_node = q.pop(0)
+
+            if prev:
+                prev.next = current_node
+            prev = current_node
+
+            if current_node.left:
+                q.append(current_node.left)
+            if current_node.right:
+                q.append(current_node.right)
+
+    return root
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def generate(numRows):
+    pascalsTriangle = []
+    for i in range(numRows):
+        row = [1]
+        if i > 0:
+            for j in range(1, i):
+                row.append(pascalsTriangle[i-1][j-1] + pascalsTriangle[i-1][j])
+            row.append(1)
+        pascalsTriangle.append(row)
+    return pascalsTriangle
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def get_row(rowIndex):
+    row = [1] * (rowIndex + 1)
+    for i in range(1, rowIndex + 1):
+        for j in range(i - 1, 0, -1):
+            row[j] += row[j - 1]
+    return row
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def minimumTotal(triangle):
+    for row in range(len(triangle) - 2, -1, -1):
+        for col in range(len(triangle[row])):
+            triangle[row][col] += min(triangle[row + 1][col], triangle[row + 1][col + 1])
+    return triangle[0][0]
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def maxProfit(prices):
+    minPrice = float('inf')
+    maxProfit = 0
+    for price in prices:
+        minPrice = min(minPrice, price)
+        maxProfit = max(maxProfit, price - minPrice)
+    return maxProfit
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def max_profit(prices):
+    max_profit = 0
+    for i in range(1, len(prices)):
+        if prices[i] > prices[i - 1]:
+            max_profit += prices[i] - prices[i - 1]
+    return max_profit
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def maxProfit(prices):
+    buy1, buy2 = float(""inf""), float(""inf"")
+    profit1, profit2 = 0, 0
+
+    for price in prices:
+        buy1 = min(buy1, price)
+        profit1 = max(profit1, price - buy1)
+        buy2 = min(buy2, price - profit1)
+        profit2 = max(profit2, price - buy2)
+
+    return profit2
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def maxPathSum(root: TreeNode) -> int:
+    def helper(root):
+        nonlocal maxSum
+        if not root:
+            return 0
+
+        left = max(0, helper(root.left))
+        right = max(0, helper(root.right))
+
+        maxSum = max(maxSum, left + right + root.val)
+
+        return max(left, right) + root.val
+
+    maxSum = float('-inf')
+    helper(root)
+    return maxSum
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def isPalindrome(s: str) -> bool:
+    cleaned = """".join(c.lower() for c in s if c.isalnum())
+    left, right = 0, len(cleaned) - 1
+    while left < right:
+        if cleaned[left] != cleaned[right]:
+            return False
+        left += 1
+        right -= 1
+    return True
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+from collections import defaultdict, deque
+
+def findLadders(beginWord, endWord, wordList):
+    wordList = set(wordList)
+    if endWord not in wordList:
+        return []
+
+    adjacent = defaultdict(list)
+    distance = defaultdict(int)
+    queue = deque([beginWord])
+    distance[beginWord] = 0
+    
+    def neighbors(word):
+        for i in range(len(word)):
+            for j in range(ord('a'), ord('z') + 1):
+                yield word[:i] + chr(j) + word[i + 1:]
+                
+    while queue:
+        current = queue.popleft()
+        if current == endWord:
+            break
+        for neighbor in neighbors(current):
+            if neighbor not in wordList:
+                continue
+            if neighbor not in distance:
+                distance[neighbor] = distance[current] + 1
+                queue.append(neighbor)
+            if distance[neighbor] == distance[current] + 1:
+                adjacent[current].append(neighbor)
+
+    result = []
+    path = [beginWord]
+
+    def backtrack(word):
+        if word == endWord:
+            result.append(path[:])
+        else:
+            for next_word in adjacent[word]:
+                path.append(next_word)
+                backtrack(next_word)
+                path.pop()
+                
+    backtrack(beginWord)
+    return result
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+from collections import deque
+
+def ladderLength(beginWord, endWord, wordList):
+    word_set = set(wordList)
+    if endWord not in word_set:
+        return 0
+
+    q = deque([beginWord])
+    steps = 1
+
+    while q:
+        size = len(q)
+        current_level = set()
+        
+        for _ in range(size):
+            current_word = q.popleft()
+            if current_word == endWord:
+                return steps
+
+            word_chars = list(current_word)
+            for i in range(len(word_chars)):
+                original_char = word_chars[i]
+                for j in range(26):
+                    word_chars[i] = chr(ord('a') + j)
+                    new_word = ''.join(word_chars)
+                    if new_word in word_set:
+                        q.append(new_word)
+                        current_level.add(new_word)
+                        
+                word_chars[i] = original_char
+        
+        word_set -= current_level
+        steps += 1
+        
+    return 0
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def longest_consecutive(nums):
+    elements = set(nums)
+    longest_seq = 0
+
+    for num in nums:
+        if num - 1 not in elements:
+            current_num = num
+            current_seq = 1
+            
+            while current_num + 1 in elements:
+                current_num += 1
+                current_seq += 1
+
+            longest_seq = max(longest_seq, current_seq)
+    
+    return longest_seq
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def sumNumbers(root, cur=0):
+    if root is None: return 0
+    cur = cur * 10 + root.val
+    if root.left is None and root.right is None: return cur
+    return sumNumbers(root.left, cur) + sumNumbers(root.right, cur)
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        if not board:
+            return
+        m, n = len(board), len(board[0])
+
+        def dfs(x, y):
+            if x < 0 or x >= m or y < 0 or y >= n or board[x][y] != 'O':
+                return
+            board[x][y] = '#'
+            dfs(x - 1, y)
+            dfs(x + 1, y)
+            dfs(x, y - 1)
+            dfs(x, y + 1)
+
+        for i in range(m):
+            dfs(i, 0)
+            dfs(i, n - 1)
+        for i in range(n):
+            dfs(0, i)
+            dfs(m - 1, i)
+
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == '#':
+                    board[i][j] = 'O'
+                elif board[i][j] == 'O':
+                    board[i][j] = 'X'
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def isPalindrome(s, start, end):
+    while start < end:
+        if s[start] != s[end]:
+            return False
+        start += 1
+        end -= 1
+    return True
+
+def dfs(s, start, results, current):
+    if start == len(s):
+        results.append(current[:])
+        return
+    
+    for end in range(start, len(s)):
+        if isPalindrome(s, start, end):
+            current.append(s[start:end+1])
+            dfs(s, end + 1, results, current)
+            current.pop()
+
+def partition(s):
+    results = []
+    dfs(s, 0, results, [])
+    return results
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def minCut(s):
+    n = len(s)
+    dp = [i - 1 for i in range(n + 1)]
+    is_palindrome = [[False] * n for _ in range(n)]
+    
+    for j in range(1, n):
+        for i in range(j, -1, -1):
+            if s[i] == s[j] and (j - i < 2 or is_palindrome[i + 1][j - 1]):
+                is_palindrome[i][j] = True
+                dp[j + 1] = min(dp[j + 1], dp[i] + 1)
+                
+    return dp[n]
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class Node:
+    def __init__(self, val=0, neighbors=None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+
+def cloneGraph(node, visited=None):
+    if node is None:
+        return None
+
+    if visited is None:
+        visited = {}
+
+    if node in visited:
+        return visited[node]
+
+    cloneNode = Node(node.val)
+    visited[node] = cloneNode
+
+    for neighbor in node.neighbors:
+        cloneNode.neighbors.append(cloneGraph(neighbor, visited))
+
+    return cloneNode
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def can_complete_circuit(gas, cost):
+    total_gas, total_cost, start, gas_tank = 0, 0, 0, 0
+    for i in range(len(gas)):
+        total_gas += gas[i]
+        total_cost += cost[i]
+        gas_tank += gas[i] - cost[i]
+        if gas_tank < 0:
+            start = i + 1
+            gas_tank = 0
+    return -1 if total_gas < total_cost else start
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def min_candies(ratings):
+    n = len(ratings)
+    candies = [1] * n
+
+    for i in range(1, n):
+        if ratings[i] > ratings[i - 1]:
+            candies[i] = candies[i - 1] + 1
+
+    for i in range(n - 2, -1, -1):
+        if ratings[i] > ratings[i + 1]:
+            candies[i] = max(candies[i], candies[i + 1] + 1)
+
+    return sum(candies)
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def singleNumber(nums):
+    result = 0
+    for num in nums:
+        result ^= num
+    return result
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def singleNumber(nums):
+    ones, twos = 0, 0
+    for n in nums:
+        ones = (ones ^ n) & ~twos
+        twos = (twos ^ n) & ~ones
+    return ones
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class Node:
+    def __init__(self, val, next=None, random=None):
+        self.val = val
+        self.next = next
+        self.random = random
+        
+def copyRandomList(head):
+    if not head:
+        return None
+
+    curr = head
+    while curr:
+        temp = Node(curr.val)
+        temp.next = curr.next
+        curr.next = temp
+        curr = curr.next.next
+
+    curr = head
+    while curr:
+        if curr.random:
+            curr.next.random = curr.random.next
+        curr = curr.next.next
+
+    orig = head
+    copy = head.next
+    copy_head = copy
+
+    while orig and copy:
+        orig.next = copy.next
+        orig = orig.next
+        if orig:
+            copy.next = orig.next
+            copy = copy.next
+
+    return copy_head
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def word_break(s, word_dict):
+    word_set = set(word_dict)
+    dp = [False] * (len(s) + 1)
+    dp[0] = True
+    for i in range(1, len(s) + 1):
+        for j in range(i):
+            if dp[j] and s[j:i] in word_set:
+                dp[i] = True
+                break
+    return dp[len(s)]
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def word_break(s, word_dict):
+    def helper(s, dict, memo):
+        if s in memo:
+            return memo[s]
+
+        res = []
+        if s in dict:
+            res.append(s)
+
+        for i in range(1, len(s)):
+            prefix = s[:i]
+            if prefix not in dict:
+                continue
+            suffix = s[i:]
+            temp = helper(suffix, dict, memo)
+            for t in temp:
+                res.append(prefix + "" "" + t)
+
+        memo[s] = res
+        return res
+
+    word_set = set(word_dict)
+    memo = {}
+    return helper(s, word_set, memo)
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def hasCycle(head):
+    slow = fast = head
+    while fast is not None and fast.next is not None:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:
+            return True
+    return False
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def detectCycle(head):
+    slow, fast = head, head
+    
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        
+        if slow == fast:
+            start = head
+            while start != slow:
+                start = start.next
+                slow = slow.next
+            return start
+    
+    return None
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def reorderList(head):
+    if not head or not head.next or not head.next.next:
+        return
+
+    # Find the middle node
+    slow = head
+    fast = head
+    while fast.next and fast.next.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    # Reverse the second half
+    prev = None
+    curr = slow.next
+    while curr:
+        next = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next
+    slow.next = None
+
+    # Merge two halves
+    first = head
+    second = prev
+    while second:
+        next = first.next
+        first.next = second
+        first = second
+        second = next
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def preorderTraversal(root):
+    if root is None:
+        return []
+        
+    return [root.val] + preorderTraversal(root.left) + preorderTraversal(root.right)
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def postorderTraversal(root):
+    if not root:
+        return []
+
+    result = []
+    s = [root]
+    while s:
+        current = s.pop()
+        result.insert(0, current.val)
+        if current.left:
+            s.append(current.left)
+        if current.right:
+            s.append(current.right)
+
+    return result
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.cache = OrderedDict()
+        self.capacity = capacity
+
+    def get(self, key: int) -> int:
+        if key not in self.cache:
+            return -1
+        value = self.cache.pop(key)
+        self.cache[key] = value
+        return value
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.cache:
+            self.cache.pop(key)
+        elif len(self.cache) >= self.capacity:
+            self.cache.popitem(last=False)
+        self.cache[key] = value
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def insertionSortList(head):
+    dummy = ListNode(0)
+    cur = dummy
+
+    while head:
+        while cur.next and cur.next.val < head.val:
+            cur = cur.next
+        
+        temp = head.next
+        head.next = cur.next
+        cur.next = head
+        head = temp
+        cur = dummy
+
+    return dummy.next
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+def sortList(head):
+    if not head or not head.next:
+        return head
+
+    slow, fast = head, head.next
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    mid = slow.next
+    slow.next = None
+
+    return merge(sortList(head), sortList(mid))
+
+def merge(left, right):
+    if not left:
+        return right
+    if not right:
+        return left
+    if left.val < right.val:
+        left.next = merge(left.next, right)
+        return left
+    else:
+        right.next = merge(left, right.next)
+        return right
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+from math import gcd
+from collections import defaultdict
+
+def maxPoints(points):
+    n = len(points)
+    if n <= 2:
+        return n
+
+    max_count = 0
+
+    for i in range(n):
+        slope_map = defaultdict(int)
+        duplicates = 0
+        local_max = 0
+
+        for j in range(i+1, n):
+            deltaX = points[j][0] - points[i][0]
+            deltaY = points[j][1] - points[i][1]
+
+            if deltaX == 0 and deltaY == 0:
+                duplicates += 1
+                continue
+
+            g = gcd(deltaX, deltaY)
+            deltaX = deltaX // g
+            deltaY = deltaY // g
+
+            key = f""{deltaX}_{deltaY}""
+            slope_map[key] += 1
+            local_max = max(local_max, slope_map[key])
+
+        max_count = max(max_count, local_max + duplicates + 1)
+
+    return max_count
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def evalRPN(tokens):
+    stack = []
+    for token in tokens:
+        if token in {""+"", ""-"", ""*"", ""/""}:
+            b = stack.pop()
+            a = stack.pop()
+            if token == ""+"":
+                stack.append(a + b)
+            elif token == ""-"":
+                stack.append(a - b)
+            elif token == ""*"":
+                stack.append(a * b)
+            else:
+                stack.append(int(a / b))
+        else:
+            stack.append(int(token))
+    return stack[-1]
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def reverseWords(s):
+    words = s.split()
+    words.reverse()
+    return ' '.join(words)
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def maxProduct(nums):
+    max_so_far = min_so_far = result = nums[0]
+    
+    for i in range(1, len(nums)):
+        if nums[i] < 0:
+            max_so_far, min_so_far = min_so_far, max_so_far
+        
+        max_so_far = max(nums[i], max_so_far * nums[i])
+        min_so_far = min(nums[i], min_so_far * nums[i])
+        result = max(result, max_so_far)
+    
+    return result
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def find_min(nums):
+    left, right = 0, len(nums) - 1
+
+    while left < right:
+        mid = left + (right - left) // 2
+        if nums[mid] > nums[right]:
+            left = mid + 1
+        else:
+            right = mid
+    return nums[left]
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def findMin(nums):
+    low, high = 0, len(nums) - 1
+    
+    while low < high:
+        mid = low + (high - low) // 2
+        if nums[mid] > nums[high]:
+            low = mid + 1
+        elif nums[mid] < nums[high]:
+            high = mid
+        else:
+            high -= 1
+            
+    return nums[low]
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class MinStack:
+
+    def __init__(self):
+        self.stack = []
+        self.min_stack = []
+        
+    def push(self, val: int):
+        self.stack.append(val)
+        if not self.min_stack or val <= self.min_stack[-1]:
+            self.min_stack.append(val)
+        
+    def pop(self):
+        if self.stack[-1] == self.min_stack[-1]:
+            self.min_stack.pop()
+        self.stack.pop()
+
+    def top(self) -> int:
+        return self.stack[-1]
+
+    def getMin(self) -> int:
+        return self.min_stack[-1]
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+def upside_down_binary_tree(root):
+    if not root or not root.left:
+        return root
+    new_root = upside_down_binary_tree(root.left)
+    root.left.right = root
+    root.left.left = root.right
+    root.left = None
+    root.right = None
+    return new_root
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def read4(buf4: List[str]) -> int:
+    pass
+
+def read(buf: List[str], n: int) -> int:
+    total_read = 0
+    buf4 = [''] * 4
+
+    while total_read < n:
+        read4_count = read4(buf4)
+        for i in range(read4_count):
+            if total_read < n:
+                buf[total_read] = buf4[i]
+                total_read += 1
+            else:
+                break
+        if read4_count < 4:
+            break
+
+    return total_read
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class Solution:
+    def __init__(self):
+        self.buffer_index = 0
+        self.buffer_len = 0
+        self.buf4 = [None] * 4
+
+    def read(self, buf, n):
+        cnt = 0
+        while cnt < n:
+            if self.buffer_index == self.buffer_len:
+                self.buffer_len = self.read4(self.buf4)
+                self.buffer_index = 0
+            if self.buffer_len == 0:
+                break
+            while cnt < n and self.buffer_index < self.buffer_len:
+                buf[cnt] = self.buf4[self.buffer_index]
+                cnt += 1
+                self.buffer_index += 1
+        return cnt
+
+    def read4(self, buf4):
+        return 0
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def lengthOfLongestSubstringTwoDistinct(s: str) -> int:
+    l, r, max_len, cur_len = 0, 0, 0, 0
+    char_count = {}
+
+    while r < len(s):
+        if s[r] in char_count:
+            char_count[s[r]] += 1
+        else:
+            char_count[s[r]] = 1
+        if len(char_count) <= 2:
+            cur_len += 1
+        else:
+            while len(char_count) > 2 and l <= r:
+                char_count[s[l]] -= 1
+                if char_count[s[l]] == 0:
+                    del char_count[s[l]]
+                l += 1
+                cur_len -= 1
+            cur_len += 1
+        max_len = max(max_len, cur_len)
+        r += 1
+    return max_len
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+def getIntersectionNode(headA, headB):
+    pA, pB = headA, headB
+    while pA is not pB:
+        pA = pA.next if pA else headB
+        pB = pB.next if pB else headA
+    return pA
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def isOneEditDistance(s: str, t: str) -> bool:
+    m, n = len(s), len(t)
+    if m > n:
+        return isOneEditDistance(t, s)
+    if n - m > 1:
+        return False
+    for i in range(m):
+        if s[i] != t[i]:
+            return s[i + (m < n):] == t[i + 1:]
+    return m + 1 == n
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def findPeakElement(nums):
+    left, right = 0, len(nums) - 1
+    while left < right:
+        mid = left + (right - left) // 2
+        if nums[mid] < nums[mid + 1]:
+            left = mid + 1
+        else:
+            right = mid
+    return left
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+from typing import List
+
+def find_missing_ranges(nums: List[int], lower: int, upper: int) -> List[str]:
+    result = []
+    prev = lower - 1
+
+    for i, num in enumerate(nums + [upper + 1]):
+        if num - prev >= 2:
+            result.append(f""{prev + 1}"" + ("""" if num - prev == 2 else ""->"") + f""{num - 1}"")
+        prev = num
+
+    return result
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def maximumGap(nums):
+    if len(nums) < 2:
+        return 0
+
+    min_val = min(nums)
+    max_val = max(nums)
+    length = len(nums)
+    bucket_size = max(1, (max_val - min_val) // (length - 1))
+    bucket_num = (max_val - min_val) // bucket_size + 1
+    buckets = [[float(""inf""), float(""-inf"")] for _ in range(bucket_num)]
+
+    for num in nums:
+        idx = (num - min_val) // bucket_size
+        buckets[idx][0] = min(buckets[idx][0], num)
+        buckets[idx][1] = max(buckets[idx][1], num)
+
+    max_gap = 0
+    prev_max = min_val
+    for bucket in buckets:
+        if bucket[0] == float(""inf""):
+            continue
+        max_gap = max(max_gap, bucket[0] - prev_max)
+        prev_max = bucket[1]
+    return max_gap
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def compare_version(version1, version2):
+    v1 = version1.split('.')
+    v2 = version2.split('.')
+    
+    while v1 or v2:
+        num1 = int(v1.pop(0)) if v1 else 0
+        num2 = int(v2.pop(0)) if v2 else 0
+        
+        if num1 < num2:
+            return -1
+        if num1 > num2:
+            return 1
+    return 0
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def fraction_to_decimal(numerator, denominator):
+    if numerator == 0:
+        return ""0""
+    res = []
+    if (numerator > 0) ^ (denominator > 0):
+        res.append(""-"")
+    num = abs(numerator)
+    den = abs(denominator)
+    res.append(str(num // den))
+    num %= den
+    if num == 0:
+        return """".join(res)
+    res.append(""."")
+    map = {}
+    while num:
+        if num in map:
+            res.insert(map[num], ""("")
+            res.append("")"")
+            break
+        map[num] = len(res)
+        num *= 10
+        res.append(str(num // den))
+        num %= den
+    return """".join(res)
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def twoSum(numbers, target):
+    left, right = 0, len(numbers) - 1
+    while left < right:
+        current_sum = numbers[left] + numbers[right]
+        if current_sum == target:
+            return [left + 1, right + 1]
+        elif current_sum < target:
+            left += 1
+        else:
+            right -= 1
+    return []
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def convert_to_title(columnNumber: int) -> str:
+    result = """"
+    while columnNumber:
+        columnNumber -= 1
+        result = chr(columnNumber % 26 + ord('A')) + result
+        columnNumber //= 26
+    return result
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def majority_element(nums):
+    count = 0
+    candidate = None
+
+    for num in nums:
+        if count == 0:
+            candidate = num
+        count += (num == candidate) - (num != candidate)
+
+    return candidate
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TwoSum:
+
+    def __init__(self):
+        self.nums = {}
+
+    def add(self, number: int) -> None:
+        if number in self.nums:
+            self.nums[number] += 1
+        else:
+            self.nums[number] = 1
+
+    def find(self, value: int) -> bool:
+        for num in self.nums:
+            target = value - num
+            if target in self.nums:
+                if target != num or self.nums[num] > 1:
+                    return True
+        return False
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def title_to_number(column_title: str) -> int:
+    result = 0
+    for c in column_title:
+        result = result * 26 + (ord(c) - ord('A') + 1)
+    return result
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def trailing_zeroes(n: int) -> int:
+    count = 0
+    while n > 0:
+        n //= 5
+        count += n
+    return count
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class BSTIterator:
+
+    def __init__(self, root):
+        self.stack = []
+        self.push_left(root)
+
+    def next(self):
+        top = self.stack.pop()
+        self.push_left(top.right)
+        return top.val
+
+    def hasNext(self):
+        return len(self.stack) > 0
+
+    def push_left(self, node):
+        while node:
+            self.stack.append(node)
+            node = node.left
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def calculateMinimumHP(dungeon):
+    m, n = len(dungeon), len(dungeon[0])
+    dp = [[0] * n for _ in range(m)]
+
+    for i in range(m - 1, -1, -1):
+        for j in range(n - 1, -1, -1):
+            if i == m - 1 and j == n - 1:
+                dp[i][j] = min(0, dungeon[i][j])
+            elif i == m - 1:
+                dp[i][j] = min(0, dp[i][j + 1] + dungeon[i][j])
+            elif j == n - 1:
+                dp[i][j] = min(0, dp[i + 1][j] + dungeon[i][j])
+            else:
+                dp[i][j] = min(0, max(dp[i + 1][j], dp[i][j + 1]) + dungeon[i][j])
+
+    return abs(dp[0][0]) + 1
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+from functools import cmp_to_key
+
+def largestNumber(nums):
+    def comparator(a, b):
+        return -1 if a + b > b + a else int(a + b < b + a)
+
+    nums_as_str = list(map(str, nums))
+    nums_as_str.sort(key=cmp_to_key(comparator))
+    return '0' if nums_as_str[0] == ""0"" else """".join(nums_as_str)
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def reverseWords(s: list) -> None:
+    def reverse(s, start, end):
+        while start < end:
+            s[start], s[end] = s[end], s[start]
+            start += 1
+            end -= 1
+
+    reverse(s, 0, len(s)-1)
+    start = 0
+    for i, char in enumerate(s + [' ']):
+        if char == ' ':
+            reverse(s, start, i - 1)
+            start = i + 1
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+from collections import defaultdict
+
+def findRepeatedDnaSequences(s: str):
+    dna_counter = defaultdict(int)
+    result = []
+
+    for i in range(len(s) - 9):
+        sequence = s[i:i + 10]
+        dna_counter[sequence] += 1
+        if dna_counter[sequence] == 2:
+            result.append(sequence)
+
+    return result
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def maxProfit(k, prices):
+    n = len(prices)
+    if k > n // 2:
+        return sum(max(prices[i] - prices[i - 1], 0) for i in range(1, n))
+
+    dp = [[0] * n for _ in range(k + 1)]
+    for i in range(1, k + 1):
+        max_diff = -prices[0]
+        for j in range(1, n):
+            dp[i][j] = max(dp[i][j - 1], prices[j] + max_diff)
+            max_diff = max(max_diff, dp[i - 1][j] - prices[j])
+    return dp[k][n - 1]
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def rotate(nums, k):
+    n = len(nums)
+    k %= n
+    nums[:] = nums[-k:] + nums[:-k]
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def reverse_bits(n: int) -> int:
+    res = 0
+    for _ in range(32):
+        res <<= 1
+        res |= n & 1
+        n >>= 1
+    return res
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def hamming_weight(n):
+    count = 0
+    while n:
+        count += n & 1
+        n >>= 1
+    return count
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def transpose(content):
+    data = [line.split("" "") for line in content]
+    result = ["" "".join(data[j][i] for j in range(len(data))) for i in range(len(data[0]))]
+    return result
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def rob(nums):
+    prev1, prev2 = 0, 0
+    for num in nums:
+        prev1, prev2 = max(prev2 + num, prev1), prev1
+    return prev1
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def rightSideView(root):
+    if not root:
+        return []
+
+    result = []
+    queue = [root]
+
+    while queue:
+        level_size = len(queue)
+
+        for i in range(level_size):
+            current = queue.pop(0)
+
+            if i == level_size - 1:
+                result.append(current.val)
+            
+            if current.left:
+                queue.append(current.left)
+            if current.right:
+                queue.append(current.right)
+
+    return result
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def dfs(grid, i, j):
+    if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]) or grid[i][j] == '0':
+        return
+
+    grid[i][j] = '0'
+    dfs(grid, i + 1, j)
+    dfs(grid, i - 1, j)
+    dfs(grid, i, j + 1)
+    dfs(grid, i, j - 1)
+
+def numIslands(grid):
+    count = 0
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            if grid[i][j] == '1':
+                count += 1
+                dfs(grid, i, j)
+    return count
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def range_bitwise_and(left: int, right: int) -> int:
+    shift = 0
+    while left != right:
+        left >>= 1
+        right >>= 1
+        shift += 1
+    return left << shift
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def get_next(n):
+    sum = 0
+    while n > 0:
+        digit = n % 10
+        sum += digit * digit
+        n //= 10
+    return sum
+
+def is_happy(n):
+    slow, fast = n, get_next(n)
+    while fast != 1 and slow != fast:
+        slow = get_next(slow)
+        fast = get_next(get_next(fast))
+    return fast == 1
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def remove_elements(head, val):
+    sentinel = ListNode(0)
+    sentinel.next = head
+    prev, curr = sentinel, head
+
+    while curr:
+        if curr.val == val:
+            prev.next = curr.next
+        else:
+            prev = curr
+        curr = curr.next
+
+    return sentinel.next
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def countPrimes(n: int) -> int:
+    if n <= 2:
+        return 0
+    is_prime = [True] * n
+    is_prime[0] = is_prime[1] = False
+    for i in range(2, int(n**0.5) + 1):
+        if is_prime[i]:
+            for j in range(i * i, n, i):
+                is_prime[j] = False
+    return sum(is_prime)
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def is_isomorphic(s: str, t: str) -> bool:
+    map1, map2 = {}, {}
+    for char_s, char_t in zip(s, t):
+        if char_s not in map1:
+            map1[char_s] = char_t
+        if char_t not in map2:
+            map2[char_t] = char_s
+        if map1[char_s] != char_t or map2[char_t] != char_s:
+            return False
+    return True
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def reverse_list(head):
+    prev = None
+    current = head
+    while current is not None:
+        next = current.next
+        current.next = prev
+        prev = current
+        current = next
+    return prev
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+from collections import defaultdict, deque
+
+def canFinish(numCourses, prerequisites):
+    adj = defaultdict(list)
+    inDegree = [0] * numCourses
+    
+    for a, b in prerequisites:
+        adj[b].append(a)
+        inDegree[a] += 1
+    
+    q = deque([i for i in range(numCourses) if inDegree[i]==0])
+    
+    while q:
+        currCourse = q.popleft()
+        numCourses -= 1
+        
+        for nextCourse in adj[currCourse]:
+            inDegree[nextCourse] -= 1
+            if inDegree[nextCourse] == 0:
+                q.append(nextCourse)
+    
+    return numCourses == 0
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end_of_word = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word: str) -> None:
+        node = self.root
+        for c in word:
+            if c not in node.children:
+                node.children[c] = TrieNode()
+            node = node.children[c]
+        node.is_end_of_word = True
+
+    def search(self, word: str) -> bool:
+        node = self.root
+        for c in word:
+            if c not in node.children:
+                return False
+            node = node.children[c]
+        return node.is_end_of_word
+
+    def startsWith(self, prefix: str) -> bool:
+        node = self.root
+        for c in prefix:
+            if c not in node.children:
+                return False
+            node = node.children[c]
+        return True
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def minSubArrayLen(target: int, nums: List[int]) -> int:
+    left, cur_sum, min_len = 0, 0, float('inf')
+    for right in range(len(nums)):
+        cur_sum += nums[right]
+        while cur_sum >= target:
+            min_len = min(min_len, right - left + 1)
+            cur_sum -= nums[left]
+            left += 1
+    return min_len if min_len != float('inf') else 0
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+from collections import deque
+
+def findOrder(numCourses, prerequisites):
+    in_degree = [0] * numCourses
+    adj_list = [[] for _ in range(numCourses)]
+    
+    for p in prerequisites:
+        adj_list[p[1]].append(p[0])
+        in_degree[p[0]] += 1
+    
+    q = deque([i for i in range(numCourses) if in_degree[i] == 0])
+    order = []
+    
+    while q:
+        curr = q.popleft()
+        order.append(curr)
+        for next in adj_list[curr]:
+            in_degree[next] -= 1
+            if in_degree[next] == 0:
+                q.append(next)
+    
+    return order if len(order) == numCourses else []
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+class TrieNode:
+    def __init__(self):
+        self.children = [None] * 26
+        self.is_word = False
+
+class WordDictionary:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def addWord(self, word: str) -> None:
+        current = self.root
+        for c in word:
+            index = ord(c) - ord('a')
+            if current.children[index] is None:
+                current.children[index] = TrieNode()
+            current = current.children[index]
+        current.is_word = True
+
+    def search(self, word: str) -> bool:
+        return self._search_helper(self.root, word, 0)
+
+    def _search_helper(self, node: TrieNode, word: str, index: int) -> bool:
+        if index == len(word):
+            return node.is_word
+
+        if word[index] == '.':
+            for child_node in node.children:
+                if child_node is not None and self._search_helper(child_node, word, index + 1):
+                    return True
+            return False
+        else:
+            child_node = node.children[ord(word[index]) - ord('a')]
+            if child_node is None:
+                return False
+            return self._search_helper(child_node, word, index + 1)
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def findWords(board, words):
+    def dfs(board, word, index, i, j, visited):
+        if index == len(word):
+            return True
+        if i < 0 or j < 0 or i >= len(board) or j >= len(board[0]) or visited[i][j] or board[i][j] != word[index]:
+            return False
+        visited[i][j] = True
+        found = dfs(board, word, index + 1, i - 1, j, visited) or \
+                dfs(board, word, index + 1, i + 1, j, visited) or \
+                dfs(board, word, index + 1, i, j - 1, visited) or \
+                dfs(board, word, index + 1, i, j + 1, visited)
+        visited[i][j] = False
+        return found
+
+    res = []
+    for word in words:
+        if any(dfs(board, word, 0, i, j, [[False] * len(board[0]) for _ in range(len(board))])
+               for i in range(len(board)) for j in range(len(board[0]))):
+            res.append(word)
+    return res
+```
+
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def rob(nums):
+    if len(nums) == 1:
+        return nums[0]
+    prev, curr = 0, 0
+    for i in range(len(nums) - 1):
+        temp = max(curr, prev + nums[i])
+        prev, curr = curr, temp
+    res = curr
+    prev, curr = 0, 0
+    for i in range(1, len(nums)):
+        temp = max(curr, prev + nums[i])
+        prev, curr = curr, temp
+    return max(res, curr)
+```
+
+"
+"Please analyze and optimize the following code for performance, considering both time and memory efficiency. Identify areas where improvements can be made and provide a revised version of the code that demonstrates these optimizations. Please give me just the optimized code. Here's the code I need to optimize: ```python
+def shortest_palindrome(s: str) -> str:
+    n = len(s)
+    rev_s = s[::-1]
+    
+    for i in range(n):
+        if s[:n - i] == rev_s[i:]:
+            return rev_s[:i] + s
+    return """"
+```
+
+
+"

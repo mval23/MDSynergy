@@ -1,0 +1,1961 @@
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def findKthLargest(nums: List[int], k: int) -> int:
+    nums.sort(reverse=True)
+    return nums[k-1]
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def combinationSum3(k, n):
+    def helper(k, n, current, current_comb, result):
+        if k == 0 and n == 0:
+            result.append(list(current_comb))
+        elif k > 0 and n > 0:
+            for i in range(current + 1, 10):
+                current_comb.append(i)
+                helper(k - 1, n - i, i, current_comb, result)
+                current_comb.pop()
+
+    result = []
+    helper(k, n, 0, [], result)
+    return result
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def containsDuplicate(nums):
+    return len(nums) != len(set(nums))
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+from sortedcontainers import SortedList
+
+def getSkyline(buildings):
+    points = []
+    for l, r, h in buildings:
+        points.append((l, -h))
+        points.append((r, h))
+    points.sort()
+    heights = SortedList([0])
+    prev = 0
+    skyline = []
+    for x, h in points:
+        if h < 0:
+            heights.add(-h)
+        else:
+            heights.remove(h)
+        cur = heights[-1]
+        if cur != prev:
+            skyline.append([x, cur])
+            prev = cur
+    return skyline
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def containsNearbyDuplicate(nums, k):
+    value_index_map = {}
+    for i, num in enumerate(nums):
+        if num in value_index_map and i - value_index_map[num] <= k:
+            return True
+        value_index_map[num] = i
+    return False
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+from sortedcontainers import SortedList
+
+def containsNearbyAlmostDuplicate(nums, k, t):
+    window = SortedList()
+    for i in range(len(nums)):
+        if i > k:
+            window.remove(nums[i - k - 1])
+        pos = window.bisect_left(nums[i] - t)
+        if pos != len(window) and window[pos] - nums[i] <= t:
+            return True
+        window.add(nums[i])
+    return False
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def maximalSquare(matrix):
+    m, n = len(matrix), len(matrix[0])
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    maxSize = 0
+
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if matrix[i - 1][j - 1] == '1':
+                dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
+                maxSize = max(maxSize, dp[i][j])
+
+    return maxSize * maxSize
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class TreeNode:
+    def __init__(self, left=None, right=None):
+        self.left = left
+        self.right = right
+
+def count_nodes(root):
+    if not root:
+        return 0
+    ld = rd = 0
+    l = r = root
+
+    while l:
+        l = l.left
+        ld += 1
+
+    while r:
+        r = r.right
+        rd += 1
+
+    if ld == rd:
+        return (1 << ld) - 1
+    return 1 + count_nodes(root.left) + count_nodes(root.right)
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def total_area(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2):
+    area1 = (ax2 - ax1) * (ay2 - ay1)
+    area2 = (bx2 - bx1) * (by2 - by1)
+
+    overlap_width = min(ax2, bx2) - max(ax1, bx1)
+    overlap_height = min(ay2, by2) - max(ay1, by1)
+
+    overlap_area = max(overlap_width, 0) * max(overlap_height, 0)
+
+    return area1 + area2 - overlap_area
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def calculate(s: str) -> int:
+    result = 0
+    sign = 1
+    num = 0
+    st = []
+    for c in s:
+        if c.isdigit():
+            num = num * 10 + int(c)
+        else:
+            result += sign * num
+            num = 0
+            if c == '+':
+                sign = 1
+            elif c == '-':
+                sign = -1
+            elif c == '(':
+                st.append(result)
+                st.append(sign)
+                result = 0
+                sign = 1
+            elif c == ')':
+                prev_sign = st.pop()
+                prev_result = st.pop()
+                result = prev_result + prev_sign * result
+    result += sign * num
+    return result
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+from collections import deque
+
+class MyStack:
+
+    def __init__(self):
+        self.q1 = deque()
+        self.q2 = deque()
+
+    def push(self, x: int) -> None:
+        self.q2.append(x)
+        while self.q1:
+            self.q2.append(self.q1.popleft())
+        self.q1, self.q2 = self.q2, self.q1
+
+    def pop(self) -> int:
+        return self.q1.popleft()
+
+    def top(self) -> int:
+        return self.q1[0]
+
+    def empty(self) -> bool:
+        return not self.q1
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def invert_tree(root):
+    if root is None:
+        return None
+    root.left, root.right = invert_tree(root.right), invert_tree(root.left)
+    return root
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def calculate(s: str) -> int:
+    result, num, sign, stack = 0, 0, 1, []
+
+    for c in s:
+        if c.isdigit():
+            num = num * 10 + int(c)
+        elif c == '+':
+            result += sign * num
+            num = 0
+            sign = 1
+        elif c == '-':
+            result += sign * num
+            num = 0
+            sign = -1
+        elif c == '(':
+            stack.append(result)
+            stack.append(sign)
+            result = 0
+            sign = 1
+        elif c == ')':
+            result += sign * num
+            num = 0
+            result *= stack.pop()
+            result += stack.pop()
+    
+    if num:
+        result += sign * num
+        
+    return result
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+from typing import List
+
+def find_ranges(nums: List[int]) -> List[str]:
+    result = []
+    n = len(nums)
+    if n == 0: 
+        return result
+
+    start = nums[0]
+    for i in range(1, n):
+        if nums[i] > nums[i-1] + 1:
+            if start == nums[i-1]:
+                result.append(str(start))
+            else:
+                result.append(str(start) + ""->"" + str(nums[i-1]))
+            start = nums[i]
+
+    if start == nums[n-1]:
+        result.append(str(start))
+    else:
+        result.append(str(start) + ""->"" + str(nums[n-1]))
+
+    return result
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def majorityElement(nums):
+    n = len(nums)
+    count = {}
+    result = []
+
+    for num in nums:
+        if num not in count:
+            count[num] = 1
+        else:
+            count[num] += 1
+        if count[num] > n / 3 and num not in result:
+            result.append(num)
+
+    return result
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def kthSmallest(root, k):
+    stk = []
+    curr = root
+    
+    while True:
+        while curr:
+            stk.append(curr)
+            curr = curr.left
+        
+        curr = stk.pop()
+        
+        k -= 1
+        if k == 0:
+            return curr.val
+        
+        curr = curr.right
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def is_power_of_two(n):
+    if n <= 0:
+        return False
+    return (n & (n - 1)) == 0
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class MyQueue:
+
+    def __init__(self):
+        self.stack1 = []
+        self.stack2 = []
+
+    def push(self, x: int) -> None:
+        self.stack1.append(x)
+
+    def pop(self) -> int:
+        if not self.stack2:
+            while self.stack1:
+                self.stack2.append(self.stack1.pop())
+        return self.stack2.pop()
+
+    def peek(self) -> int:
+        if not self.stack2:
+            while self.stack1:
+                self.stack2.append(self.stack1.pop())
+        return self.stack2[-1]
+
+    def empty(self) -> bool:
+        return not self.stack1 and not self.stack2
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def countDigitOne(n):
+    count = 0
+    i = 1
+    while i <= n:
+        divider = i * 10
+        count += (n // divider) * i + min(max(n % divider - i + 1, 0), i)
+        i *= 10
+    return count
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def isPalindrome(head):
+    if not head or not head.next:
+        return True
+
+    fast, slow, prev = head, head, None
+    while fast and fast.next:
+        fast = fast.next.next
+        temp = slow.next
+        slow.next = prev
+        prev = slow
+        slow = temp
+
+    if fast:
+        slow = slow.next
+
+    while prev and prev.val == slow.val:
+        prev = prev.next
+        slow = slow.next
+
+    return prev == None
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def lowest_common_ancestor(root, p, q):
+    if root is None or root == p or root == q:
+        return root
+
+    left = lowest_common_ancestor(root.left, p, q)
+    right = lowest_common_ancestor(root.right, p, q)
+
+    if left is not None and right is not None:
+        return root
+    else:
+        return left if left is not None else right
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def lowestCommonAncestor(root, p, q):
+    if not root or root == p or root == q:
+        return root
+    left = lowestCommonAncestor(root.left, p, q)
+    right = lowestCommonAncestor(root.right, p, q)
+    return right if left is None else (left if right is None else root)
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def deleteNode(node):
+    next_node = node.next
+    node.val = next_node.val
+    node.next = next_node.next
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def productExceptSelf(nums):
+    n = len(nums)
+    answer = [1] * n
+    
+    left = 1
+    for i in range(n):
+        answer[i] *= left
+        left *= nums[i]
+    
+    right = 1
+    for i in range(n - 1, -1, -1):
+        answer[i] *= right
+        right *= nums[i]
+    
+    return answer
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+from collections import deque
+
+def maxSlidingWindow(nums, k):
+    dq = deque()
+    result = []
+
+    for i in range(len(nums)):
+        while dq and dq[0] < i - k + 1:
+            dq.popleft()
+
+        while dq and nums[dq[-1]] < nums[i]:
+            dq.pop()
+
+        dq.append(i)
+
+        if i >= k - 1:
+            result.append(nums[dq[0]])
+
+    return result
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def searchMatrix(matrix, target):
+    row, col = len(matrix) - 1, 0
+    while row >= 0 and col < len(matrix[0]):
+        if matrix[row][col] > target:
+            row -= 1
+        elif matrix[row][col] < target:
+            col += 1
+        else:
+            return True
+    return False
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def diffWaysToCompute(input: str):
+    result = []
+    for i in range(len(input)):
+        c = input[i]
+        if c == '+' or c == '-' or c == '*':
+            left = diffWaysToCompute(input[:i])
+            right = diffWaysToCompute(input[i + 1:])
+            for l in left:
+                for r in right:
+                    if c == '+': result.append(l + r)
+                    elif c == '-': result.append(l - r)
+                    elif c == '*': result.append(l * r)
+    if not result:
+        result.append(int(input))
+    return result
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def is_anagram(s, t):
+    if len(s) != len(t):
+        return False
+
+    counts = {}
+    for c in s:
+        if c in counts:
+            counts[c] += 1
+        else:
+            counts[c] = 1
+
+    for c in t:
+        if c not in counts or counts[c] == 0:
+            return False
+        counts[c] -= 1
+
+    return True
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def shortestDistance(wordsDict, word1, word2):
+    idx1, idx2, minDistance = -1, -1, float('inf')
+    for i, word in enumerate(wordsDict):
+        if word == word1:
+            idx1 = i
+        if word == word2:
+            idx2 = i
+        if idx1 != -1 and idx2 != -1:
+            minDistance = min(minDistance, abs(idx1 - idx2))
+    return minDistance
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class WordDistance:
+
+    def __init__(self, wordsDict):
+        self.word_indexes = {}
+        for i, word in enumerate(wordsDict):
+            if word not in self.word_indexes:
+                self.word_indexes[word] = []
+            self.word_indexes[word].append(i)
+
+    def shortest(self, word1, word2):
+        indexes1 = self.word_indexes[word1]
+        indexes2 = self.word_indexes[word2]
+        i, j, min_dist = 0, 0, float('inf')
+
+        while i < len(indexes1) and j < len(indexes2):
+            min_dist = min(min_dist, abs(indexes1[i] - indexes2[j]))
+            if indexes1[i] < indexes2[j]:
+                i += 1
+            else:
+                j += 1
+
+        return min_dist
+```
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def shortest_distance(words_dict, word1, word2):
+    index1, index2, min_distance = -1, -1, float('inf')
+    for i, word in enumerate(words_dict):
+        if word == word1:
+            index1 = i
+        if word == word2:
+            index2 = i
+        if index1 != -1 and(index2 != -1):
+            min_distance = min(min_distance, abs(index1 - index2))
+    return min_distance
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def isStrobogrammatic(num: str) -> bool:
+    lookup = {'0': '0', '1': '1', '6': '9', '8': '8', '9': '6'}
+    left, right = 0, len(num) - 1
+    while left <= right:
+        if num[left] not in lookup or lookup[num[left]] != num[right]:
+            return False
+        left += 1
+        right -= 1
+    return True
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def findStrobogrammatic(n):
+    def helper(n, m):
+        if n == 0:
+            return [""""]
+        if n == 1:
+            return [""0"", ""1"", ""8""]
+
+        list = helper(n - 2, m)
+        res = []
+
+        for s in list:
+            if n != m:
+                res.append(""0"" + s + ""0"")
+
+            res.append(""1"" + s + ""1"")
+            res.append(""6"" + s + ""9"")
+            res.append(""8"" + s + ""8"")
+            res.append(""9"" + s + ""6"")
+
+        return res
+
+    return helper(n, n)
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def strobogrammaticInRange(low, high):
+    count = 0
+    for len in range(len(low), len(high)+1):
+        count += 1 if low <= helper(len, len) <= high else 0
+    return count
+
+def helper(m, n):
+    if m == 0:
+        return """"
+    if m == 1:
+        return ""0 1 8""
+    if n == 0:
+        return ""11 69 88 96""
+    res = """"
+    for a in helper(m-2, n).split():
+        if m != n:
+            res += a + ""0"" + a + "" ""
+        res += a + ""1"" + a + "" ""
+        res += a + ""6"" + a + "" ""
+        res += a + ""8"" + a + "" ""
+        res += a + ""9"" + a + "" ""
+    return res
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+from collections import defaultdict
+
+def groupStrings(strings):
+    groups = defaultdict(list)
+
+    for s in strings:
+        key = tuple((ord(c) - ord(s[0])) % 26 for c in s)
+        groups[key].append(s)
+
+    return list(groups.values())
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def countUnivalSubtrees(self, root: TreeNode) -> int:
+        count = 0
+
+        def helper(node):
+            nonlocal count
+            if node is None:
+                return True
+
+            left = helper(node.left)
+            right = helper(node.right)
+
+            if left and right:
+                if node.left and node.val != node.left.val:
+                    return False
+                if node.right and node.val != node.right.val:
+                    return False
+                count += 1
+                return True
+
+            return False
+
+        helper(root)
+        return count
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class Vector2D:
+    def __init__(self, vec):
+        self.vec = vec
+        self.row = 0
+        self.col = 0
+
+    def next(self):
+        val = self.vec[self.row][self.col]
+        self.col += 1
+        return val
+
+    def hasNext(self):
+        while self.row < len(self.vec):
+            if self.col < len(self.vec[self.row]):
+                return True
+            self.row += 1
+            self.col = 0
+        return False
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def can_attend_meetings(intervals):
+    intervals.sort()
+
+    for i in range(1, len(intervals)):
+        if intervals[i][0] < intervals[i - 1][1]:
+            return False
+
+    return True
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+import heapq
+
+def minMeetingRooms(intervals):
+    if not intervals:
+        return 0
+
+    intervals.sort(key=lambda x: x[0])
+
+    min_heap = [intervals[0][1]]
+    for start, end in intervals[1:]:
+        if start >= min_heap[0]:
+            heapq.heappop(min_heap)
+        heapq.heappush(min_heap, end)
+
+    return len(min_heap)
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def getFactors(n):
+    def helper(n, start, path, result):
+        if n == 1:
+            if len(path) > 1:
+                result.append(path[:])
+            return
+
+        for i in range(start, n + 1):
+            if n % i == 0:
+                path.append(i)
+                helper(n // i, i, path, result)
+                path.pop()
+
+    result = []
+    helper(n, 2, [], result)
+    return result
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def isValidPreorder(preorder: List[int]) -> bool:
+    stack = []
+    lower_bound = float('-inf')
+    for num in preorder:
+        if num < lower_bound:
+            return False
+        while stack and num > stack[-1]:
+            lower_bound = stack.pop()
+        stack.append(num)
+    return True
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def minCost(costs: List[List[int]]) -> int:
+    if not costs:
+        return 0
+    for i in range(1, len(costs)):
+        costs[i][0] += min(costs[i - 1][1], costs[i - 1][2])
+        costs[i][1] += min(costs[i - 1][0], costs[i - 1][2])
+        costs[i][2] += min(costs[i - 1][0], costs[i - 1][1])
+    return min(costs[-1][0], costs[-1][1], costs[-1][2])
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def binary_tree_paths(root: TreeNode):
+    if not root:
+        return []
+    if not root.left and not root.right:
+        return [str(root.val)]
+    paths = []
+    for path in binary_tree_paths(root.left):
+        paths.append(str(root.val) + ""->"" + path)
+    for path in binary_tree_paths(root.right):
+        paths.append(str(root.val) + ""->"" + path)
+    return paths
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def addDigits(num: int) -> int:
+    return 1 + (num - 1) % 9
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def threeSumSmaller(nums, target):
+    count = 0
+    nums.sort()
+    for i in range(len(nums)):
+        j, k = i + 1, len(nums) - 1
+        while j < k:
+            if nums[i] + nums[j] + nums[k] < target:
+                count += k - j
+                j += 1
+            else:
+                k -= 1
+    return count
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def singleNumber(nums):
+    xor_all = 0
+    for num in nums:
+        xor_all ^= num
+
+    bit = xor_all & -xor_all
+    n1 = 0
+    n2 = 0
+    for num in nums:
+        if num & bit:
+            n1 ^= num
+        else:
+            n2 ^= num
+
+    return n1, n2
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+from typing import List
+
+def isTree(n: int, edges: List[List[int]]) -> bool:
+    neighbors = [[] for _ in range(n)]
+    for edge in edges:
+        neighbors[edge[0]].append(edge[1])
+        neighbors[edge[1]].append(edge[0])
+    visited = [False] * n
+    if hasCycle(neighbors, visited, -1, 0): return False
+    return all(visited)
+
+def hasCycle(neighbors: List[List[int]], visited: List[bool], parent: int, node: int) -> bool:
+    visited[node] = True
+    for neighbor in neighbors[node]:
+        if (neighbor != parent and visited[neighbor]) or (not visited[neighbor] and hasCycle(neighbors, visited, node, neighbor)): return True
+    return False
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def is_ugly(n: int) -> bool:
+    if n <= 0:
+        return False
+    for factor in [2, 3, 5]:
+        while n % factor == 0:
+            n //= factor
+    return n == 1
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def nthUglyNumber(n: int) -> int:
+    ugly_numbers = [0] * n
+    ugly_numbers[0] = 1
+    i2, i3, i5 = 0, 0, 0
+
+    for i in range(1, n):
+        ugly_numbers[i] = min(ugly_numbers[i2] * 2, ugly_numbers[i3] * 3, ugly_numbers[i5] * 5)
+        if ugly_numbers[i] == ugly_numbers[i2] * 2: i2 += 1
+        if ugly_numbers[i] == ugly_numbers[i3] * 3: i3 += 1
+        if ugly_numbers[i] == ugly_numbers[i5] * 5: i5 += 1
+
+    return ugly_numbers[n - 1]
+
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def min_cost(costs: List[List[int]]) -> int:
+    if not costs:
+        return 0
+
+    n, k = len(costs), len(costs[0])
+
+    for i in range(1, n):
+        for j in range(k):
+            min_cost = float(""inf"")
+            for l in range(k):
+                if l == j:
+                    continue
+                min_cost = min(min_cost, costs[i - 1][l])
+            costs[i][j] += min_cost
+
+    return min(costs[n - 1])
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def canPermutePalindrome(s: str) -> bool:
+    count = {}
+    for c in s:
+        if c in count:
+            count[c] += 1
+        else:
+            count[c] = 1
+    odd_count = 0
+    for value in count.values():
+        if value % 2:
+            odd_count += 1
+    return odd_count <= 1
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+from collections import Counter
+from itertools import permutations
+
+def generatePalindromes(s):
+    result = []
+    char_count = Counter(s)
+
+    mid_char = """"
+    half_str = []
+    num_ocurrences = 0
+
+    for char, count in char_count.items():
+        if count % 2 == 1:
+            num_ocurrences += 1
+            mid_char = char
+        half_str.extend([char] * (count // 2))
+
+        if num_ocurrences > 1:
+            return result
+
+    for perm in set(permutations(half_str)):
+        palindrome = """".join(perm) + mid_char + """".join(reversed(perm))
+        result.append(palindrome)
+
+    return result
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def missingNumber(nums):
+    n = len(nums)
+    expected_sum = (n * (n + 1)) // 2
+    actual_sum = sum(nums)
+    return expected_sum - actual_sum
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+from collections import deque, defaultdict, Counter
+
+def alienOrder(words):
+    graph = defaultdict(set)
+    in_degree = Counter({c: 0 for word in words for c in word})
+    
+    for word1, word2 in zip(words, words[1:]):
+        found = False
+        for c1, c2 in zip(word1, word2):
+            if c1 != c2:
+                if c2 not in graph[c1]:
+                    graph[c1].add(c2)
+                    in_degree[c2] += 1
+                found = True
+                break
+        if not found and len(word1) > len(word2):
+            return """"
+    
+    q = deque([c for c in in_degree if in_degree[c] == 0])
+    result = []
+    while q:
+        c = q.popleft()
+        result.append(c)
+        
+        for neigh in graph[c]:
+            in_degree[neigh] -= 1
+            if in_degree[neigh] == 0:
+                q.append(neigh)
+                 
+    if len(result) < len(in_degree):
+        return """"
+    
+    return """".join(result)
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class Solution:
+    def closestValue(self, root: TreeNode, target: float) -> int:
+        closest = root.val
+        while root:
+            if abs(target - closest) > abs(target - root.val):
+                closest = root.val
+            root = root.left if target < root.val else root.right
+        return closest
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def encode(strs):
+    encoded_string = """"
+    for s in strs:
+        encoded_string += str(len(s)) + ""#"" + s
+    return encoded_string
+
+def decode(s):
+    strs = []
+    i = 0
+    while i < len(s):
+        delimiter_pos = s.find('#', i)
+        length = int(s[i:delimiter_pos])
+        strs.append(s[delimiter_pos + 1:delimiter_pos + 1 + length])
+        i = delimiter_pos + 1 + length
+    return strs
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+from heapq import heappush, heappop
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def closestKValues(root, target, k):
+    values = []
+    max_heap = []
+
+    def inorder_traverse(node):
+        if not node:
+            return
+        inorder_traverse(node.left)
+        heappush(max_heap, (-abs(node.val - target), node.val))
+        if len(max_heap) > k:
+            heappop(max_heap)
+        inorder_traverse(node.right)
+
+    inorder_traverse(root)
+    while max_heap:
+        _, val = heappop(max_heap)
+        values.append(val)
+    return values
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class Solution:
+    def numberToWords(self, num: int) -> str:
+        if num == 0:
+            return ""Zero""
+        LESS_THAN_20 = ["""", ""One"", ""Two"", ""Three"", ""Four"", ""Five"", ""Six"", ""Seven"", ""Eight"", ""Nine"", ""Ten"", ""Eleven"", ""Twelve"", ""Thirteen"", ""Fourteen"", ""Fifteen"", ""Sixteen"", ""Seventeen"", ""Eighteen"", ""Nineteen""]
+        TENS = ["""", ""Ten"", ""Twenty"", ""Thirty"", ""Forty"", ""Fifty"", ""Sixty"", ""Seventy"", ""Eighty"", ""Ninety""]
+        THOUSANDS = ["""", ""Thousand"", ""Million"", ""Billion""]
+
+        def helper(num):
+            if num == 0:
+                return """"
+            elif num < 20:
+                return LESS_THAN_20[num] + "" ""
+            elif num < 100:
+                return TENS[num // 10] + "" "" + helper(num % 10)
+            else:
+                return LESS_THAN_20[num // 100] + "" Hundred "" + helper(num % 100)
+
+        result = """"
+        i = 0
+        while num > 0:
+            if num % 1000 != 0:
+                result = helper(num % 1000) + THOUSANDS[i] + "" "" + result
+            num //= 1000
+            i += 1
+        return result.strip()
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def hIndex(citations: List[int]) -> int:
+    citations.sort(reverse=True)
+    h = 0
+    for i, citation in enumerate(citations):
+        if citation >= i + 1:
+            h = i + 1
+        else:
+            break
+    return h
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def hIndex(citations: List[int]) -> int:
+    n = len(citations)
+    left, right = 0, n - 1
+
+    while left <= right:
+        mid = left + (right - left) // 2
+        if citations[mid] == n - mid:
+            return n - mid
+        elif citations[mid] < n - mid:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return n - left
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def numWays(n, k):
+    if n == 0:
+        return 0
+    if n == 1:
+        return k
+    same = k
+    different = k * (k - 1)
+    for i in range(2, n):
+        temp = different
+        different = (same + different) * (k - 1)
+        same = temp
+    return same + different
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def knows(a: int, b:int) -> bool:
+    pass
+
+def findCelebrity(n: int) -> int:
+    candidate = 0
+    for i in range(1, n):
+        if knows(candidate, i):
+            candidate = i
+    
+    for i in range(n):
+        if i != candidate and (knows(candidate, i) or not knows(i, candidate)):
+            return -1
+    return candidate
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def first_bad_version(n):
+    left, right = 1, n
+    while left < right:
+        mid = left + (right - left) // 2
+        if is_bad_version(mid):
+            right = mid
+        else:
+            left = mid + 1
+    return left
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def numSquares(n):
+    dp = [float('inf')] * (n + 1)
+    dp[0] = 0
+    
+    for i in range(1, n + 1):
+        j = 1
+        while j * j <= i:
+            dp[i] = min(dp[i], dp[i - j * j] + 1)
+            j += 1
+            
+    return dp[n]
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def wiggleSort(nums):
+    for i in range(1, len(nums)):
+        if (i % 2 == 0 and nums[i] > nums[i-1]) or (i % 2 == 1 and nums[i] < nums[i-1]):
+            nums[i], nums[i-1] = nums[i-1], nums[i]
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class ZigzagIterator:
+
+    def __init__(self, v1: List[int], v2: List[int]):
+        self.v1, self.v2 = v1, v2
+        self.index1, self.index2 = 0, 0
+
+    def next(self) -> int:
+        if self.index1 < len(self.v1) and (self.index1 <= self.index2 or self.index2 == len(self.v2)):
+            result = self.v1[self.index1]
+            self.index1 += 1
+            return result
+        if self.index2 < len(self.v2) and (self.index2 < self.index1 or self.index1 == len(self.v1)):
+            result = self.v2[self.index2]
+            self.index2 += 1
+            return result
+
+    def hasNext(self) -> bool:
+        return self.index1 < len(self.v1) or self.index2 < len(self.v2)
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+from typing import List
+
+def addOperators(num: str, target: int) -> List[str]:
+    def helper(num, target, pos, currVal, prevVal, currExpr):
+        if pos == len(num):
+            if currVal == target:
+                res.append(currExpr)
+            return
+
+        for i in range(pos, len(num)):
+            if i != pos and num[pos] == '0':
+                break
+
+            val = int(num[pos:i + 1])
+            if pos == 0:
+                helper(num, target, i + 1, val, val, currExpr + num[pos:i + 1])
+            else:
+                helper(num, target, i + 1, currVal + val, val, currExpr + ""+"" + num[pos:i + 1])
+                helper(num, target, i + 1, currVal - val, -val, currExpr + ""-"" + num[pos:i + 1])
+                helper(num, target, i + 1, currVal - prevVal + prevVal * val, prevVal * val, currExpr + ""*"" + num[pos:i + 1])
+
+    res = []
+    helper(num, target, 0, 0, 0, """")
+    return res
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def moveZeroes(nums):
+    index = 0
+    for i in range(len(nums)):
+        if nums[i] != 0:
+            nums[index] = nums[i]
+            index += 1
+    for i in range(index, len(nums)):
+        nums[i] = 0
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class PeekingIterator:
+    def __init__(self, iterator):
+        self.iterator = iterator
+        self.next_val = next(self.iterator, None)
+
+    def peek(self):
+        return self.next_val
+
+    def next(self):
+        current_val = self.next_val
+        self.next_val = next(self.iterator, None)
+        return current_val
+
+    def hasNext(self):
+        return self.next_val is not None
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def inorder_successor(root: TreeNode, p: TreeNode) -> TreeNode:
+    successor = None
+    while root:
+        if root.val > p.val:
+            successor = root
+            root = root.left
+        else:
+            root = root.right
+    return successor
+```
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+from collections import deque
+
+def wallsAndGates(rooms):
+    m, n = len(rooms), len(rooms[0])
+    q = deque()
+    INF = 2147483647
+
+    for i in range(m):
+        for j in range(n):
+            if rooms[i][j] == 0:
+                q.append((i, j))
+
+    directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+
+    while q:
+        i, j = q.popleft()
+
+        for d in directions:
+            ni, nj = i + d[0], j + d[1]
+
+            if 0 <= ni < m and 0 <= nj < n and rooms[ni][nj] == INF:
+                rooms[ni][nj] = rooms[i][j] + 1
+                q.append((ni, nj))
+
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def findDuplicate(nums):
+    slow = nums[0]
+    fast = nums[0]
+
+    while True:
+        slow = nums[slow]
+        fast = nums[nums[fast]]
+        if slow == fast:
+            break
+
+    slow = nums[0]
+
+    while slow != fast:
+        slow = nums[slow]
+        fast = nums[fast]
+
+    return slow
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class ValidWordAbbr:
+
+    def __init__(self, dictionary):
+        self.word_map = {}
+        for word in dictionary:
+            abbr = self.get_abbreviation(word)
+            if abbr not in self.word_map:
+                self.word_map[abbr] = {word}
+            else:
+                self.word_map[abbr].add(word)
+
+    def isUnique(self, word):
+        abbr = self.get_abbreviation(word)
+        abbr_group = self.word_map.get(abbr, set())
+        return len(abbr_group) == 0 or (len(abbr_group) == 1 and word in abbr_group)
+
+    def get_abbreviation(self, word):
+        n = len(word)
+        return word if n <= 2 else word[0] + str(n - 2) + word[-1]
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def gameOfLife(board):
+    m, n = len(board), len(board[0])
+    result = [[0] * n for _ in range(m)]
+    dirs = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
+    
+    for i in range(m):
+        for j in range(n):
+            liveNeighbors = 0
+            
+            for dir in dirs:
+                newRow = i + dir[0]
+                newCol = j + dir[1]
+                
+                if newRow >= 0 and newRow < m and newCol >= 0 and newCol < n and board[newRow][newCol] == 1:
+                    liveNeighbors += 1
+            
+            if board[i][j] == 1 and (liveNeighbors == 2 or liveNeighbors == 3):
+                result[i][j] = 1
+            elif board[i][j] == 0 and liveNeighbors == 3:
+                result[i][j] = 1
+                
+    return result
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def word_pattern(pattern, s):
+    words = s.split()
+    if len(pattern) != len(words):
+        return False
+
+    char_map, word_map = {}, {}
+    for c, word in zip(pattern, words):
+        if c not in char_map and word not in word_map:
+            char_map[c] = word
+            word_map[word] = c
+        else:
+            if char_map.get(c) != word or word_map.get(word) != c:
+                return False
+
+    return True
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def wordPatternMatch(pattern: str, s: str) -> bool:
+    def backtrack(p_index, s_index, pattern_map, words):
+        if p_index == len(pattern) and s_index == len(s):
+            return True
+        if p_index == len(pattern) or s_index == len(s):
+            return False
+
+        p = pattern[p_index]
+        if p in pattern_map:
+            word = pattern_map[p]
+            if not s.startswith(word, s_index):
+                return False
+            return backtrack(p_index + 1, s_index + len(word), pattern_map, words)
+        else:
+            for length in range(1, len(s) - s_index + 1):
+                word = s[s_index : s_index + length]
+                if word in words:
+                    continue
+                pattern_map[p] = word
+                words.add(word)
+                if backtrack(p_index + 1, s_index + length, pattern_map, words):
+                    return True
+                pattern_map.pop(p)
+                words.remove(word)
+        return False
+
+    return backtrack(0, 0, {}, set())
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def canWinNim(n):
+    return n % 4 != 0
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def generate_possible_next_moves(current_state):
+    result = []
+    for i in range(1, len(current_state)):
+        if current_state[i] == '+' and current_state[i - 1] == '+':
+            result.append(current_state[:i - 1] + '--' + current_state[i + 1:])
+    return result
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def canWin(currentState: str) -> bool:
+    for i in range(len(currentState) - 1):
+        if currentState[i] == '+' and currentState[i + 1] == '+':
+            temp = currentState[:i] + ""--"" + currentState[i + 2:]
+            if not canWin(temp):
+                return True
+    return False
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+import heapq
+
+class MedianFinder:
+    def __init__(self):
+        self.left = []  # max heap
+        self.right = []  # min heap
+
+    def addNum(self, num: int) -> None:
+        if not self.left or num <= -self.left[0]:
+            heapq.heappush(self.left, -num)
+        else:
+            heapq.heappush(self.right, num)
+        
+        if len(self.left) < len(self.right):
+            heapq.heappush(self.left, -heapq.heappop(self.right))
+        elif len(self.left) > len(self.right) + 1:
+            heapq.heappush(self.right, -heapq.heappop(self.left))
+
+    def findMedian(self) -> float:
+        if len(self.left) == len(self.right):
+            return (-self.left[0] + self.right[0]) / 2
+        else:
+            return -self.left[0]
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def minTotalDistance(grid):
+    m, n = len(grid), len(grid[0])
+    rows, cols = [], []
+    for i in range(m):
+        for j in range(n):
+            if grid[i][j] == 1:
+                rows.append(i)
+                cols.append(j)
+
+    cols.sort()
+    row_median, col_median = rows[len(rows) // 2], cols[len(cols) // 2]
+    distance = sum(abs(i - row_median) for i in rows) + sum(abs(j - col_median) for j in cols)
+    return distance
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+def serialize(root):
+    if not root: return ""null,""
+    return str(root.val) + "","" + serialize(root.left) + serialize(root.right)
+
+def deserialize(data):
+    def deserialize_helper(values):
+        val = values.pop(0)
+        if val == 'null': return None
+        root = TreeNode(int(val))
+        root.left = deserialize_helper(values)
+        root.right = deserialize_helper(values)
+        return root
+
+    values = data.split("","")
+    return deserialize_helper(values[:-1])  # Excluding the last empty element
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def longest_consecutive_sequence(root, longest_path):
+    if root is None:
+        return 0
+    left = longest_consecutive_sequence(root.left, longest_path)
+    right = longest_consecutive_sequence(root.right, longest_path)
+    curr_path = 1
+    if root.left and root.left.val == root.val + 1:
+        curr_path = max(curr_path, left + 1)
+    if root.right and root.right.val == root.val + 1:
+        curr_path = max(curr_path, right + 1)
+    longest_path[0] = max(longest_path[0], curr_path)
+    return curr_path
+
+def longest_consecutive(root):
+    longest_path = [0]
+    longest_consecutive_sequence(root, longest_path)
+    return longest_path[0]
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def get_hint(secret: str, guess: str) -> str:
+    bulls = cows = 0
+    secret_count = [0] * 10
+    guess_count = [0] * 10
+
+    for i in range(len(secret)):
+        if secret[i] == guess[i]:
+            bulls += 1
+        else:
+            secret_count[int(secret[i])] += 1
+            guess_count[int(guess[i])] += 1
+   
+    for i in range(10):
+        cows += min(secret_count[i], guess_count[i])
+    
+    return f""{bulls}A{cows}B""
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def lengthOfLIS(nums):
+    dp = [1] * len(nums)
+    max_length = 1
+    for i in range(1, len(nums)):
+        for j in range(i):
+            if nums[i] > nums[j]:
+                dp[i] = max(dp[i], dp[j] + 1)
+        max_length = max(max_length, dp[i])
+    return max_length
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+from collections import deque
+
+class Solution:
+    def removeInvalidParentheses(self, s: str):
+        visited = set()
+        queue = deque([s])
+        result = []
+        found = False
+
+        while queue:
+            cur = queue.popleft()
+
+            if self.is_valid(cur):
+                found = True
+                result.append(cur)
+
+            if found: continue
+
+            for i in range(len(cur)):
+                if cur[i] == '(' or cur[i] == ')':
+                    next_str = cur[:i] + cur[i+1:]
+                    if next_str not in visited:
+                        visited.add(next_str)
+                        queue.append(next_str)
+
+        return result
+
+    def is_valid(self, s: str) -> bool:
+        count = 0
+        for c in s:
+            if c == '(': count += 1
+            if c == ')':
+                count -= 1
+                if count < 0: return False
+        return count == 0
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def minArea(image, x, y):
+    top, bottom, left, right = x, x, y, y
+    for i, row in enumerate(image):
+        for j, cell in enumerate(row):
+            if cell == '1':
+                top, bottom = min(top, i), max(bottom, i)
+                left, right = min(left, j), max(right, j)
+    return (bottom - top + 1) * (right - left + 1)
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class NumArray:
+
+    def __init__(self, nums: List[int]):
+        self.pSum = [0] * (len(nums) + 1)
+        for i, num in enumerate(nums):
+            self.pSum[i + 1] = self.pSum[i] + num
+
+    def sumRange(self, left: int, right: int) -> int:
+        return self.pSum[right + 1] - self.pSum[left]
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class NumMatrix:
+
+    def __init__(self, matrix: List[List[int]]):
+        m, n = len(matrix), len(matrix[0])
+        self.dp = [[0] * (n + 1) for _ in range(m + 1)]
+
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                self.dp[i][j] = self.dp[i - 1][j] + self.dp[i][j - 1] - self.dp[i - 1][j - 1] + matrix[i - 1][j - 1]
+
+    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
+        return self.dp[row2 + 1][col2 + 1] - self.dp[row1][col2 + 1] - self.dp[row2 + 1][col1] + self.dp[row1][col1]
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def numIslands2(m: int, n: int, positions: List[List[int]]) -> List[int]:
+    def index(x: int, y: int) -> int:
+        return x * n + y
+    
+    def find(x: int) -> int:
+        if roots[x] != x:
+            roots[x] = find(roots[x])
+        return roots[x]
+
+    roots = [-1] * (m * n)
+    dirs = [[0, 1], [1, 0], [-1, 0], [0, -1]]
+    islandCount = 0
+    result = []
+
+    for i, j in positions:
+        idx = index(i, j)
+        if roots[idx] != -1:
+            result.append(islandCount)
+            continue
+        islandCount += 1
+        roots[idx] = idx
+        for dx, dy in dirs:
+            ni, nj = i + dx, j + dy
+            neighbor = index(ni, nj)
+            if 0 <= ni < m and 0 <= nj < n and roots[neighbor] != -1:
+                root_neighbor = find(neighbor)
+                if idx != root_neighbor:
+                    roots[root_neighbor] = idx
+                    islandCount -= 1
+        result.append(islandCount)
+    return result
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def isAdditiveNumber(num):
+    for i in range(1, len(num) // 2 + 1):
+        for j in range(1, (len(num) - i) // 2 + 1):
+            if check(num[:i], num[i:i+j], num[i+j:]):
+                return True
+    return False
+
+def check(num1, num2, remaining):
+    if (len(num1) > 1 and num1[0] == '0') or (len(num2) > 1 and num2[0] == '0'):
+        return False
+    _sum = add(num1, num2)
+    if remaining == _sum:
+        return True
+    if not remaining.startswith(_sum):
+        return False
+    return check(num2, _sum, remaining[len(_sum):])
+
+def add(num1, num2):
+    carry, result = 0, []
+    i, j = len(num1) - 1, len(num2) - 1
+    while i >= 0 or j >= 0 or carry > 0:
+        n1 = int(num1[i]) if i >= 0 else 0
+        n2 = int(num2[j]) if j >= 0 else 0
+        _sum = n1 + n2 + carry
+        carry = _sum // 10
+        result.append(str(_sum % 10))
+        i, j = i - 1, j - 1
+    return ''.join(result[::-1])
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class NumArray:
+
+    def __init__(self, nums: List[int]):
+        self.prefix_sum = [0] * (len(nums) + 1)
+        for i in range(len(nums)):
+            self.prefix_sum[i + 1] = self.prefix_sum[i] + nums[i]
+
+    def sumRange(self, left: int, right: int) -> int:
+        return self.prefix_sum[right + 1] - self.prefix_sum[left]
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+class NumMatrix:
+
+    def __init__(self, matrix: List[List[int]]):
+        self.dp = [[0] * (len(matrix[0]) + 1) for _ in range(len(matrix) + 1)]
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                self.dp[i + 1][j + 1] = self.dp[i + 1][j] + self.dp[i][j + 1] - self.dp[i][j] + matrix[i][j]
+                
+    def update(self, row: int, col: int, val: int) -> None:
+        oldValue = self.dp[row + 1][col + 1] - self.dp[row + 1][col] - self.dp[row][col + 1] + self.dp[row][col]
+        delta = val - oldValue
+        for i in range(row + 1, len(self.dp)):
+            for j in range(col + 1, len(self.dp[0])):
+                self.dp[i][j] += delta
+
+    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
+        return self.dp[row2 + 1][col2 + 1] - self.dp[row2 + 1][col1] - self.dp[row1][col2 + 1] + self.dp[row1][col1]
+```
+
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def maxProfit(prices):
+    profit = 0
+    for i in range(1, len(prices)):
+        profit += max(prices[i] - prices[i - 1], 0)
+    return profit
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+from collections import deque
+from typing import List
+
+def find_min_height_trees(n: int, edges: List[List[int]]) -> List[int]:
+    if n == 1:
+        return [0]
+
+    adj_list = [set() for _ in range(n)]
+    for a, b in edges:
+        adj_list[a].add(b)
+        adj_list[b].add(a)
+
+    leaves = deque(i for i in range(n) if len(adj_list[i]) == 1)
+
+    while n > 2:
+        leaves_size = len(leaves)
+        n -= leaves_size
+        for _ in range(leaves_size):
+            leaf = leaves.popleft()
+            for neighbor in adj_list[leaf]:
+                adj_list[neighbor].remove(leaf)
+                if len(adj_list[neighbor]) == 1:
+                    leaves.append(neighbor)
+
+    return list(leaves)
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def multiply(mat1, mat2):
+    m, k, n = len(mat1), len(mat1[0]), len(mat2[0])
+    result = [[0] * n for _ in range(m)]
+    for i in range(m):
+        for j in range(k):
+            if mat1[i][j] != 0:
+                for l in range(n):
+                    result[i][l] += mat1[i][j] * mat2[j][l]
+    return result
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def maxCoins(nums):
+    nums = [1] + nums + [1]
+    n = len(nums)
+    dp = [[0] * n for _ in range(n)]
+
+    for length in range(1, n - 1):
+        for left in range(1, n - length):
+            right = left + length - 1
+            for i in range(left, right + 1):
+                dp[left][right] = max(dp[left][right], nums[left - 1] * nums[i] * nums[right + 1] + dp[left][i - 1] + dp[i + 1][right])
+
+    return dp[1][n - 2]
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def nthSuperUglyNumber(n, primes):
+    ugly = [0] * n
+    ugly[0] = 1
+    indices = [0] * len(primes)
+
+    for i in range(1, n):
+        min_val = float(""inf"")
+
+        for j in range(len(primes)):
+            min_val = min(min_val, ugly[indices[j]] * primes[j])
+
+        ugly[i] = min_val
+
+        for j in range(len(primes)):
+            if ugly[i] == ugly[indices[j]] * primes[j]:
+                indices[j] += 1
+
+    return ugly[-1]
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+from collections import defaultdict, deque
+from typing import List, Optional
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def verticalOrder(root: Optional[TreeNode]) -> List[List[int]]:
+    if not root: return []
+
+    column_table = defaultdict(list)
+    q = deque([(root, 0)])
+
+    while q:
+        cur_node, column = q.popleft()
+
+        if cur_node:
+            column_table[column].append(cur_node.val)
+            q.append((cur_node.left, column - 1))
+            q.append((cur_node.right, column + 1))
+
+    return [column_table[key] for key in sorted(column_table)]
+```
+
+"
+"I was given with the task to optimize a code taking into account time, memory and performance of it. With the code given, search and made the changes that you consider necessary to improve the performance of the code. I need in your answer the new code, and the information of the execution time and the memory usage in an average case before and after the changes you just made. Here is the code: ```python
+def countSmaller(nums):
+    def merge_sort(indices):
+        if len(indices) <= 1:
+            return indices
+        mid = len(indices) // 2
+        left = merge_sort(indices[:mid])
+        right = merge_sort(indices[mid:])
+        return merge(left, right)
+
+    def merge(left, right):
+        merged, count = [], 0
+        while left and right:
+            if nums[left[0]] <= nums[right[0]]:
+                counts[left[0]] += count
+                merged.append(left.pop(0))
+            else:
+                count += len(left)
+                merged.append(right.pop(0))
+        for i in left:
+            counts[i] += count
+        return merged + left + right
+
+    counts = [0] * len(nums)
+    merge_sort(list(range(len(nums))))
+    return counts
+```
+
+"
