@@ -21,6 +21,7 @@ def get_stock_price(ticker):
 
 def calculate_SMA(ticker, window):
     """
+    Media Móvil Simple(SMA)
     Returns the Simple Moving Average of the ticker
     :param ticker: str - ticker of the stock
     :param window: int - window of the SMA
@@ -32,6 +33,7 @@ def calculate_SMA(ticker, window):
 
 def calculate_EMA(ticker, window):
     """
+    Media Móvil Exponencial
     Returns the Simple Moving Average of the ticker
     :param ticker: str - ticker of the stock
     :param window: int - window of the SMA
@@ -120,7 +122,101 @@ functions = [
     },
     {
         "name": "calculate_EMA",
-        
+        "description": "Calculate the exponential moving average for a given stock ticker and a window.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "ticker": {
+                    "type": "string",
+                    "description": "The stock  ticker symbol for a company (e.g., AAPL for Apple)",
+                },
+                "window": {
+                    "type": "integer",
+                    "description": "The timeframe to consider when calculating the EMA"
+                }
+            },
+            "required": ["ticker", "window"],
+        },
+    },
+    {
+        "name": "calculate_RSI",
+        "description": "Calculate the RSI for a given stock ticker.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "ticker": {
+                    "type": "string",
+                    "description": "The stock ticker symbol for a company (e.g. AAPL for Apple)",
+                },
+            },
+            "required": ["ticker"],
+        },
+    },
+    {
+        "name": "calculate_MACD",
+        "description": "Calculate the MACD for a given stock ticker.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "ticker": {
+                    "type": "string",
+                    "description": "The stock ticker symbol for a company (e.g., AAPL for Apple)",
+                },
+            },
+            "required": ["ticker"],
+        },
+    },
+    {
+        "name": "plot_stock_price",
+        "description": "Plot the stock price for the last year given the ticker symbol of a company.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "ticker": {
+                    "type": "string",
+                    "description": "The stock ticker symbol for a company (e.g., AAPL for Apple)",
+                },
+            },
+            "required": ["ticker"],
+        },
+    },
 ]
 
+available_functions = {
+    'get_stock_price': get_stock_price,
+    'calculate_SMA': calculate_SMA,
+    'calculate_EMA': calculate_EMA,
+    'calculate_RSI': calculate_RSI,
+    'calculate_MACD': calculate_MACD,
+    'plot_stock_price': plot_stock_price
+}
 
+if 'messages' not in st.session_state:
+    st.session_state['messages'] = []
+
+st.title('Stock Analysis Chatbot Assistant')
+
+user_input = st.text_input('Your input:')
+
+if user_input:
+    try:
+        st.session_state['messages'].append({'role': 'user', 'content': f'{user_input}'})
+
+        response = openai.ChatCompletion.create(
+            model='gpt-3.5=turbo-0613',
+            messages=st.session_state['messages'],
+            functions=functions,
+            function_call='auto'
+        )
+
+        response_message = response['choices'][0]['message']
+
+        if response_message.get('function_call'):
+            function_name = response_message['function_call']['name']
+            function_args = json.loads(response_message['function_call']['arguments'])
+            if function_name in ['get_stock_price', 'calculate_RSI', 'calculate_MACD', 'plot_stock_price']:
+                args_dict = {'ticker': function_args.get('ticker')}
+            elif function_name in ['calculate_SMA', 'calculate_EMA']:
+                args_dict = {'ticker': function_args.get('ticker'), 'window': function_args.get('window')}
+    except:
+        pass
