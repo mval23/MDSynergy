@@ -5,10 +5,11 @@ import matplotlib.pyplot as plt
 import streamlit as st
 import yfinance as yf
 
-# Functions
-
+# API call
 openai.api_key = open('API_KEY', 'r').read()
 
+
+# Functions
 
 def get_stock_price(ticker):
     """
@@ -87,16 +88,18 @@ def plot_stock_price(ticker):
     plt.close()
 
 
+# ChatGPT Function Calling
+
 functions = [
     {
         "name": "get_stock_price",
         "description": "Gets the latest stock price given the ticker symbol of a company.",
-        "params": {
+        "parameters": {
             'type': 'object',
             'properties': {
                 'ticker': {
                     'type': 'string',
-                    'description': 'The stock ticker symbol for a company. (for example: AAPL for Apple)'
+                    'description': 'The stock ticker symbol for a company (for example: AAPL for Apple).'
                 }
             },
             'required': ['ticker']
@@ -105,20 +108,20 @@ functions = [
     {
         "name": "calculate_SMA",
         "description": "Calculate the simple moving average for a given stock ticker and a window.",
-        "params": {
+        "parameters": {
             'type': 'object',
             'properties': {
                 'ticker': {
                     'type': 'string',
-                    'description': 'The stock ticker symbol for a company. (for example: AAPL for Apple)'
+                    'description': 'The stock ticker symbol for a company (for example: AAPL for Apple)'
                 },
                 'window': {
                     'type': 'integer',
                     'description': 'The timeframe to consider when calculating the SMA'
                 }
             },
-            'required': ['ticker', 'window']
-        }
+            'required': ['ticker', 'window'],
+        },
     },
     {
         "name": "calculate_EMA",
@@ -128,7 +131,7 @@ functions = [
             "properties": {
                 "ticker": {
                     "type": "string",
-                    "description": "The stock  ticker symbol for a company (e.g., AAPL for Apple)",
+                    "description": "The stock ticker symbol for a company (e.g., AAPL for Apple)",
                 },
                 "window": {
                     "type": "integer",
@@ -191,10 +194,14 @@ available_functions = {
     'plot_stock_price': plot_stock_price
 }
 
+
+# Streamlit Web Application
+
 if 'messages' not in st.session_state:
     st.session_state['messages'] = []
 
 st.title('Stock Analysis Chatbot Assistant')
+st.markdown('by MDSynergy')
 
 user_input = st.text_input('Your input:')
 
@@ -203,7 +210,7 @@ if user_input:
         st.session_state['messages'].append({'role': 'user', 'content': f'{user_input}'})
 
         response = openai.ChatCompletion.create(
-            model='gpt-3.5=turbo-0613',
+            model='gpt-3.5-turbo-0613',
             messages=st.session_state['messages'],
             functions=functions,
             function_call='auto'
@@ -218,5 +225,30 @@ if user_input:
                 args_dict = {'ticker': function_args.get('ticker')}
             elif function_name in ['calculate_SMA', 'calculate_EMA']:
                 args_dict = {'ticker': function_args.get('ticker'), 'window': function_args.get('window')}
-    except:
-        pass
+
+            function_to_call = available_functions[function_name]
+            function_response = function_to_call(**args_dict)
+
+            if function_name == 'plot_stock_price':
+                st.image('stock.png')
+            else:
+                st.session_state['messages'].append(response_message)
+                st.session_state['messages'].append(
+                    {
+                        'role': 'function',
+                        'name': function_name,
+                        'content': function_response
+                    }
+                )
+                second_response = openai.ChatCompletion.create(
+                    model='gpt-3.5-turbo-0613',
+                    messages=st.session_state['messages']
+                )
+                st.text(second_response['choices'][0]['message']['content'])
+                st.session_state['messages'].append({'role': 'assistant', 'content': second_response['choices'][0]['message']['content']})
+        else:
+            st.text(response_message['content'])
+            st.session_state['messages'].append({'role': 'assistant', 'content': response_message['content']})
+
+    except Exception as e:
+        st.text('Error occurred, ', str(e))
