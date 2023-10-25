@@ -1,254 +1,168 @@
-import json
-import openai
-import pandas as pd
+from chatgpt import *
+import numpy as np
+from PIL import Image
 import matplotlib.pyplot as plt
-import streamlit as st
-import yfinance as yf
-
-# API call
-openai.api_key = open('API_KEY', 'r').read()
-
-
-# Functions
-
-def get_stock_price(ticker):
-    """
-    Returns the current stock price of the ticker
-    :param ticker: str - ticker of the stock
-
-    """
-    return str(yf.Ticker(ticker).history(period='1y').iloc[-1].Close)
-
-
-def calculate_SMA(ticker, window):
-    """
-    Media Móvil Simple(SMA)
-    Returns the Simple Moving Average of the ticker
-    :param ticker: str - ticker of the stock
-    :param window: int - window of the SMA
-
-    """
-    data = yf.Ticker(ticker).history(period='1y').Close
-    return str(data.rolling(window=window).mean().iloc[-1])
-
-
-def calculate_EMA(ticker, window):
-    """
-    Media Móvil Exponencial
-    Returns the Simple Moving Average of the ticker
-    :param ticker: str - ticker of the stock
-    :param window: int - window of the SMA
-
-    """
-    data = yf.Ticker(ticker).history(period='1y').Close
-    return str(data.ewm(span=window, adjust=False).mean().iloc[-1])
-
-
-def calculate_RSI(ticker, window):
-    """
-    Returns the Simple Moving Average of the ticker
-    :param ticker: str - ticker of the stock
-    :param window: int - window of the SMA
-
-    """
-    data = yf.Ticker(ticker).history(period='1y').Close
-    delta = data.diff()
-    up = delta.clip(lower=0)
-    down = -1 * delta.clip(upper=0)
-    ema_up = up.ewm(com=14 - 1, adjust=False).mean()
-    ema_down = down.ewm(com=14 - 1, adjust=False).mean()
-    rs = ema_up / ema_down
-    return str(100 - (100 / (1 + rs.iloc[-1])))
-
-
-def calculate_MACD(ticker):
-    data = yf.Ticker(ticker).history(period='1y').Close
-    short_EMA = data.ewm(span=12, adjust=False).mean()
-    long_EMA = data.ewm(span=26, adjust=False).mean()
-    MACD = short_EMA - long_EMA
-    signal = MACD.ewm(span=9, adjust=False).mean()
-    MACD_histogram = MACD - signal
-    return f'MACD: {MACD.iloc[-1]}, Signal: {signal.iloc[-1]}, MACD Histogram: {MACD_histogram.iloc[-1]}'
-
-
-def plot_stock_price(ticker):
-    """
-    Plots the stock price of the ticker
-    :param ticker: str - ticker of the stock
-
-    """
-    data = yf.Ticker(ticker).history(period='1y')
-    plt.figure(figsize=(10, 5))
-    plt.plot(data.index, data.Close)
-    plt.title(f'{ticker} Stock Price Over Last Year')
-    plt.xlabel('Date')
-    plt.ylabel('Stock Price ($)')
-    plt.grid(True)
-    plt.savefig('stock.png')
-    plt.close()
-
-
-# ChatGPT Function Calling
-
-functions = [
-    {
-        "name": "get_stock_price",
-        "description": "Gets the latest stock price given the ticker symbol of a company.",
-        "parameters": {
-            'type': 'object',
-            'properties': {
-                'ticker': {
-                    'type': 'string',
-                    'description': 'The stock ticker symbol for a company (for example: AAPL for Apple).'
-                }
-            },
-            'required': ['ticker']
-        }
-    },
-    {
-        "name": "calculate_SMA",
-        "description": "Calculate the simple moving average for a given stock ticker and a window.",
-        "parameters": {
-            'type': 'object',
-            'properties': {
-                'ticker': {
-                    'type': 'string',
-                    'description': 'The stock ticker symbol for a company (for example: AAPL for Apple)'
-                },
-                'window': {
-                    'type': 'integer',
-                    'description': 'The timeframe to consider when calculating the SMA'
-                }
-            },
-            'required': ['ticker', 'window'],
-        },
-    },
-    {
-        "name": "calculate_EMA",
-        "description": "Calculate the exponential moving average for a given stock ticker and a window.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "ticker": {
-                    "type": "string",
-                    "description": "The stock ticker symbol for a company (e.g., AAPL for Apple)",
-                },
-                "window": {
-                    "type": "integer",
-                    "description": "The timeframe to consider when calculating the EMA"
-                }
-            },
-            "required": ["ticker", "window"],
-        },
-    },
-    {
-        "name": "calculate_RSI",
-        "description": "Calculate the RSI for a given stock ticker.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "ticker": {
-                    "type": "string",
-                    "description": "The stock ticker symbol for a company (e.g. AAPL for Apple)",
-                },
-            },
-            "required": ["ticker"],
-        },
-    },
-    {
-        "name": "calculate_MACD",
-        "description": "Calculate the MACD for a given stock ticker.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "ticker": {
-                    "type": "string",
-                    "description": "The stock ticker symbol for a company (e.g., AAPL for Apple)",
-                },
-            },
-            "required": ["ticker"],
-        },
-    },
-    {
-        "name": "plot_stock_price",
-        "description": "Plot the stock price for the last year given the ticker symbol of a company.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "ticker": {
-                    "type": "string",
-                    "description": "The stock ticker symbol for a company (e.g., AAPL for Apple)",
-                },
-            },
-            "required": ["ticker"],
-        },
-    },
-]
-
-available_functions = {
-    'get_stock_price': get_stock_price,
-    'calculate_SMA': calculate_SMA,
-    'calculate_EMA': calculate_EMA,
-    'calculate_RSI': calculate_RSI,
-    'calculate_MACD': calculate_MACD,
-    'plot_stock_price': plot_stock_price
-}
-
 
 # Streamlit Web Application
 
-if 'messages' not in st.session_state:
-    st.session_state['messages'] = []
+# Create a menu bar in the sidebar
+st.sidebar.title("Menu")
 
-st.title('Stock Analysis Chatbot Assistant')
-st.markdown('by MDSynergy')
+# Define menu options
+menu_options = ["MD Synergy", "MD Stockbot", "Prediction", "Tests"]
 
-user_input = st.text_input('Your input:')
+# Create button-like options in the sidebar
+selected_option = st.sidebar.radio("Select an option", menu_options)
 
-if user_input:
-    try:
-        st.session_state['messages'].append({'role': 'user', 'content': f'{user_input}'})
+list_messages = []
 
-        response = openai.ChatCompletion.create(
-            model='gpt-3.5-turbo-0613',
-            messages=st.session_state['messages'],
-            functions=functions,
-            function_call='auto'
-        )
+if selected_option == "MD Synergy":
+    # Display the content for MD Synergy
+    st.title("MD Synergy")
+    st.write("Welcome to the MD Synergy page.")
+elif selected_option == "MD Stockbot":
+    # Display the content for MD Stockbot
+    st.markdown("""
+        <div style='display: flex; justify-content: center; align-items: center; height: 8vh;'>
+            <h1>MD Stockbot</h1>
+        </div>
+        """, unsafe_allow_html=True)
+    st.markdown("""
+        <div style='display: flex; justify-content: center; align-items: center; height: 2vh;'>
+            <br>
+        </div>
+        """, unsafe_allow_html=True)
+    st.markdown("""
+        <div style='display: flex; justify-content: center; align-items: center; height: 5vh;'>
+            <h3>by MDSynergy</h3>
+        </div>
+        """, unsafe_allow_html=True)
 
-        response_message = response['choices'][0]['message']
+    if 'messages' not in st.session_state:
+        st.session_state['messages'] = []
 
-        if response_message.get('function_call'):
-            function_name = response_message['function_call']['name']
-            function_args = json.loads(response_message['function_call']['arguments'])
-            if function_name in ['get_stock_price', 'calculate_RSI', 'calculate_MACD', 'plot_stock_price']:
-                args_dict = {'ticker': function_args.get('ticker')}
-            elif function_name in ['calculate_SMA', 'calculate_EMA']:
-                args_dict = {'ticker': function_args.get('ticker'), 'window': function_args.get('window')}
+    user_input = st.text_input('Your input:')
 
-            function_to_call = available_functions[function_name]
-            function_response = function_to_call(**args_dict)
+    current_message = {'input': user_input, 'content': None, 'img': None}
 
-            if function_name == 'plot_stock_price':
-                st.image('stock.png')
+    if user_input:
+        try:
+            st.session_state['messages'].append({'role': 'user', 'content': f'{user_input}'})
+
+            response = openai.ChatCompletion.create(model='gpt-3.5-turbo-0613', messages=st.session_state['messages'],
+                                                    functions=functions, function_call='auto')
+
+            response_message = response['choices'][0]['message']
+
+            if response_message.get('function_call'):
+                function_name = response_message['function_call']['name']
+                function_args = json.loads(response_message['function_call']['arguments'])
+                if function_name in ['get_stock_price', 'calculate_RSI', 'calculate_MACD', 'plot_stock_price']:
+                    args_dict = {'ticker': function_args.get('ticker')}
+                elif function_name in ['calculate_SMA', 'calculate_EMA']:
+                    args_dict = {'ticker': function_args.get('ticker'), 'window': function_args.get('window')}
+
+                function_to_call = available_functions[function_name]
+                function_response = function_to_call(**args_dict)
+
+                if function_name == 'plot_stock_price':
+                    plt.imshow(image_array, cmap='gray')
+                    plt.savefig('stock.png')  # Save the image as 'stock.png'
+                    st.session_state['messages'].append({'role': 'img', 'content': 'stock.png'})
+                    image = Image.open('stock.png')  # Replace 'your_image.png' with your image file path
+                    image_array = np.array(image)
+                    current_message['content'] = image_array
+                else:
+                    st.session_state['messages'].append(response_message)
+                    st.session_state['messages'].append(
+                        {'role': 'function', 'name': function_name, 'content': function_response})
+                    second_response = openai.ChatCompletion.create(model='gpt-3.5-turbo-0613',
+                                                                   messages=st.session_state['messages'])
+                    message = second_response['choices'][0]['message']['content']
+                    st.markdown("""
+                        <style>
+                        .paragraph-section {
+                            padding: 20px;
+                            border-radius: 5px;
+                        }
+                        </style>
+                        """, unsafe_allow_html=True, )
+                    st.markdown(f"""
+                            <div class="paragraph-section">
+                                {message}
+                            </div>
+                            """, unsafe_allow_html=True, )
+                    current_message['content'] = message
+                    st.session_state['messages'].append({'role': 'assistant', 'content': message})
             else:
-                st.session_state['messages'].append(response_message)
-                st.session_state['messages'].append(
-                    {
-                        'role': 'function',
-                        'name': function_name,
-                        'content': function_response
-                    }
-                )
-                second_response = openai.ChatCompletion.create(
-                    model='gpt-3.5-turbo-0613',
-                    messages=st.session_state['messages']
-                )
-                st.text(second_response['choices'][0]['message']['content'])
-                st.session_state['messages'].append({'role': 'assistant', 'content': second_response['choices'][0]['message']['content']})
-        else:
-            st.text(response_message['content'])
-            st.session_state['messages'].append({'role': 'assistant', 'content': response_message['content']})
+                message = response_message['content']
+                st.markdown("""
+                                        <style>
+                                        .paragraph-section {
+                                            padding: 20px;
+                                            border-radius: 5px;
+                                        }
+                                        </style>
+                                        """, unsafe_allow_html=True, )
+                st.markdown(f"""
+                                            <div class="paragraph-section">
+                                                {message}
+                                            </div>
+                                            """, unsafe_allow_html=True, )
+                current_message['content'] = message
+                st.session_state['messages'].append({'role': 'assistant', 'content': message})
+            list_messages.append(current_message)
+        except Exception as e:
+            raise e
 
-    except Exception as e:
-        st.text('Error occurred, ', str(e))
+elif selected_option == "Prediction":
+    # Display the content for the Prediction option
+    st.title("Prediction")
+    st.write("Contact us here.")
+
+elif selected_option == "Tests":
+    # Display the content for the Prediction option
+    st.title("Prediction")
+    st.write("Contact us here.")
+
+    # Custom CSS for the paragraph section
+    st.markdown("""
+        <style>
+        .paragraph-section {
+            padding: 20px;
+            border-radius: 5px;
+        }
+        </style>
+        """, unsafe_allow_html=True, )
+
+    # Define the text content using a variable
+    text_content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, \
+     dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, \
+     varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non \
+     fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit."
+
+    # Create a section with flexible height but a fixed width
+    st.markdown(f"""
+        <div class="paragraph-section">
+            {text_content}
+        </div>
+        """, unsafe_allow_html=True, )
+
+    st.title("Conversation History")
+    # if 'messages' in st.session_state:
+    #     for message in st.session_state['messages']:
+    #         if message['role'] == 'user':
+    #             st.markdown(f"**Input:** {message['content']}")
+    #         elif message['role'] == 'assistant':
+    #             st.markdown(f"**Assistant:** {message['content']}")
+    #         elif message['role'] == 'img':
+    #             st.image(message['content'], caption='Loaded Image', use_column_width=True)
+
+    for m in list_messages:
+        st.markdown(f"**User:** {m['input']}")
+        if m['content'] != None:
+            st.markdown(f"**Stockbot:** {m['content']}")
+        if m['img'] != None:
+            # Display the image in Streamlit
+            st.image(m['img'], caption='Stockbot Plot', use_column_width=True)
+
