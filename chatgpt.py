@@ -4,7 +4,7 @@ from functions import *
 
 # API call
 
-openai.api_key = open('API_KEY', 'r').read()
+openai.api_key = open('API_KEY.txt', 'r').read()
 
 functions = [
     {"name": "get_stock_price", "description": "Gets the latest stock price given the ticker symbol of a company.",
