@@ -66,11 +66,10 @@ elif selected_option == "MD Stockbot":
                 function_response = function_to_call(**args_dict)
 
                 if function_name == 'plot_stock_price':
-                    plt.imshow(image_array, cmap='gray')
                     plt.savefig('stock.png')  # Save the image as 'stock.png'
-                    st.session_state['messages'].append({'role': 'img', 'content': 'stock.png'})
                     image = Image.open('stock.png')  # Replace 'your_image.png' with your image file path
                     image_array = np.array(image)
+                    st.image('stock.png')
                     current_message['content'] = image_array
                 else:
                     st.session_state['messages'].append(response_message)
