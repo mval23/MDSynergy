@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 
 # Streamlit Web Application
 
+# Creación del título
+st.set_page_config(page_title="MDSynergy")
+# TODO Colocación de logo (¿Parte Superior izquierda?)
+
 # Create a menu bar in the sidebar
 st.sidebar.title("Menu")
 
