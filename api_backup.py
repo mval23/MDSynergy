@@ -1,6 +1,5 @@
 from chatgpt import *
 
-# Streamlit Web Application
 
 
 if 'messages' not in st.session_state:
