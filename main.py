@@ -102,6 +102,8 @@ elif selected == 'MD Stockbot':
                     image = Image.open('stock.png')  # Replace 'your_image.png' with your image file path
                     image_array = np.array(image)
                     current_message['img'] = image_array
+
+
                 else:
                     st.session_state['messages'].append(response_message)
                     st.session_state['messages'].append(
