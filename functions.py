@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import streamlit as st
 import yfinance as yf
 
+
 # Functions
 
 def get_stock_price(ticker):
@@ -85,7 +86,6 @@ def plot_stock_price(ticker):
     plt.savefig('stock.png')
     plt.close()
 
-
 # def calculate_Bollinger_Bands(ticker, window, num_std_dev):
 #     """
 #     Calculates the Bollinger Bands for a given stock.
@@ -100,36 +100,24 @@ def plot_stock_price(ticker):
 #     upper_band = middle_band + num_std_dev * std_dev
 #     lower_band = middle_band - num_std_dev * std_dev
 #     return upper_band.iloc[-1], middle_band.iloc[-1], lower_band.iloc[-1]
-#
-#
-# def plot_multiple_stock_prices(tickers):
-#     """
-#     Plots the historical stock prices of multiple tickers for the current year.
-#     :param tickers: List of stock ticker symbols (e.g., ['AAPL', 'MSFT'])
-#     """
-#     # Calculate the current year's start and end dates
-#     current_year = datetime.now().year
-#     start_date = f"{current_year}-01-01"
-#     end_date = f"{current_year}-12-31"
-#
-#     # Fetch historical data for each ticker for the current year
-#     data = yf.download(tickers, start=start_date, end=end_date)
-#
-#     # Create a plot
-#     plt.figure(figsize=(10, 5))
-#
-#     # Plot the stock prices for each ticker
-#     for ticker in tickers:
-#         plt.plot(data.index, data['Adj Close'][ticker], label=ticker)
-#
-#     # Set labels and title
-#     plt.xlabel('Date')
-#     plt.ylabel('Stock Price')
-#     plt.title(f'Stock Prices for {current_year}')
-#
-#     # Add a legend
-#     plt.legend(tickers)
-#
-#     # Show the plot
-#     plt.grid(True)
-#     plt.show()
+
+
+def plot_multiple_stock_prices(tickers):
+    """
+    Plots the stock prices of multiple tickers on the same graph.
+    :param tickers: list of str - list of stock ticker symbols
+    """
+
+    plt.figure(figsize=(12, 6))
+
+    for ticker in tickers:
+        data = yf.Ticker(ticker).history(period='1y')
+        plt.plot(data.index, data['Close'], label=ticker)
+
+    plt.title('Stock Prices Over Last Year')
+    plt.xlabel('Date')
+    plt.ylabel('Stock Price ($)')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig('stock.png')
+    plt.close()

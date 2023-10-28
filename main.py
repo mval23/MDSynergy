@@ -93,11 +93,15 @@ elif selected == 'MD Stockbot':
                     args_dict = {'ticker': function_args.get('ticker')}
                 elif function_name in ['calculate_SMA', 'calculate_EMA']:
                     args_dict = {'ticker': function_args.get('ticker'), 'window': function_args.get('window')}
+                elif function_name in ['plot_multiple_stock_prices']:
+                    args_dict = {'tickers': function_args.get('tickers')}
+                elif function_name in ['calculate_Bollinger_Bands']:
+                    args_dict = {'ticker': function_args.get('ticker'), 'window': function_args.get('window'), 'num_std_dev': function_args.get('num_std_dev')}
 
                 function_to_call = available_functions[function_name]
                 function_response = function_to_call(**args_dict)
 
-                if function_name == 'plot_stock_price':
+                if function_name == 'plot_stock_price' or function_name == 'plot_multiple_stock_prices':
                     st.image('stock.png')
                     image = Image.open('stock.png')  # Replace 'your_image.png' with your image file path
                     image_array = np.array(image)
@@ -148,51 +152,53 @@ elif selected == 'MD Stockbot':
             st.session_state.session_history.append(current_message)
             st.session_state.session_history_2.insert(0, current_message)
 
-            # Option 2 Print at the same page
 
-            # Define the CSS class
-            st.markdown("""
-                    <style>
-                    .paragraph-section {
-                        padding: 20px;
-                        border-radius: 5px;
-                    }
-                    </style>
-                    """, unsafe_allow_html=True)
-
-            # Display messages and images
-            for message in st.session_state.session_history_2:
-
-                # Verify if the message is the same as the current one
-                if message['input'] == user_input:
-                    continue
-
-                st.markdown(f"""
-                            <div class="paragraph-section">
-                                <b><i>User:</i></b>
-                                {message['input']}
-                            </div>
-                            """, unsafe_allow_html=True)
-
-                if message['img'] is not None:
-                    st.markdown(f"""
-                                            <div class="paragraph-section">
-                                                <b><i>Stockbot:</i></b>
-                                            </div>
-                                            """, unsafe_allow_html=True)
-                    st.image(message['img'], caption='Stockbot Plot', use_column_width=True)
-
-                if message['content'] is not None:
-                    text_content = message['content']
-                    st.markdown(f"""
-                                <div class="paragraph-section">
-                                    <b><i>Stockbot:</i></b>
-                                    {text_content}
-                                </div>
-                                """, unsafe_allow_html=True)
 
         except Exception as e:
             raise e
+
+    # Option 2 Print at the same page
+
+    # Define the CSS class
+    st.markdown("""
+                <style>
+                .paragraph-section {
+                    padding: 20px;
+                    border-radius: 5px;
+                }
+                </style>
+                """, unsafe_allow_html=True)
+
+    # Display messages and images
+    for message in st.session_state.session_history_2:
+
+        # Verify if the message is the same as the current one
+        if message['input'] == user_input:
+            continue
+
+        st.markdown(f"""
+                        <div class="paragraph-section">
+                            <b><i>User:</i></b>
+                            {message['input']}
+                        </div>
+                        """, unsafe_allow_html=True)
+
+        if message['img'] is not None:
+            st.markdown(f"""
+                                        <div class="paragraph-section">
+                                            <b><i>Stockbot:</i></b>
+                                        </div>
+                                        """, unsafe_allow_html=True)
+            st.image(message['img'], caption='Stockbot Plot', use_column_width=True)
+
+        if message['content'] is not None:
+            text_content = message['content']
+            st.markdown(f"""
+                            <div class="paragraph-section">
+                                <b><i>Stockbot:</i></b>
+                                {text_content}
+                            </div>
+                            """, unsafe_allow_html=True)
 
 
 elif selected == 'Prediction':
