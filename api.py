@@ -1,171 +1,119 @@
-from chatgpt import *
-import numpy as np
-from PIL import Image
-import matplotlib.pyplot as plt
+import streamlit as st
+import pandas as pd
+import yfinance as yf
+import time
 
-# Streamlit Web Application
+# Streamlit app title
+st.title("Stock Price Alert System")
 
-# Creación del título
-st.set_page_config(page_title="MDSynergy")
-# TODO Colocación de logo (¿Parte Superior izquierda?) Q?
+# Sidebar input for user-defined alerts
+stock_symbol = st.sidebar.text_input("Enter Stock Symbol (e.g., AAPL):")
+target_price = st.sidebar.number_input("Set Target Price:")
+refresh_rate = st.sidebar.number_input("Refresh Rate (seconds):")
 
-# Create a menu bar in the sidebar
-st.sidebar.title("Menu")
 
-# Define menu options
-menu_options = ["MD Synergy", "MD Stockbot", "Prediction", "Tests"]
+# Function to check stock price
+def check_stock_price(symbol, target):
+    stock = yf.Ticker(symbol)
+    stock_info = stock.history(period="1d")
+    current_price = stock_info['Close'].iloc[-1]
+    return current_price, current_price >= target
 
-# Create button-like options in the sidebar
-selected_option = st.sidebar.radio("Select an option", menu_options)
 
-list_messages = []
+# Create an empty dataframe to store alerts
+alerts_df = pd.DataFrame(columns=["Symbol", "Target Price", "Current Price", "Status"])
 
-if selected_option == "MD Synergy":
-    # Display the content for MD Synergy
-    st.title("MD Synergy")
-    st.write("Welcome to the MD Synergy page.")
-elif selected_option == "MD Stockbot":
-    # Display the content for MD Stockbot
-    st.markdown("""
-        <div style='display: flex; justify-content: center; align-items: center; height: 8vh;'>
-            <h1>MD Stockbot</h1>
-        </div>
-        """, unsafe_allow_html=True)
-    st.markdown("""
-        <div style='display: flex; justify-content: center; align-items: center; height: 2vh;'>
-            <br>
-        </div>
-        """, unsafe_allow_html=True)
-    st.markdown("""
-        <div style='display: flex; justify-content: center; align-items: center; height: 5vh;'>
-            <h3>by MDSynergy</h3>
-        </div>
-        """, unsafe_allow_html=True)
 
-    if 'messages' not in st.session_state:
-        st.session_state['messages'] = []
+# Function to add an alert to the dataframe
+def add_alert(symbol, target_price):
+    current_price, status = check_stock_price(symbol, target_price)
+    alerts_df.loc[len(alerts_df)] = [symbol, target_price, current_price, status]
 
-    user_input = st.text_input('Your input:')
 
-    current_message = {'input': user_input, 'content': None, 'img': None}
+# Streamlit loop
+while True:
+    st.write("Active Alerts:")
+    st.write(alerts_df)
 
-    if user_input:
-        try:
-            st.session_state['messages'].append({'role': 'user', 'content': f'{user_input}'})
+    if stock_symbol and target_price:
+        add_alert(stock_symbol, target_price)
 
-            response = openai.ChatCompletion.create(model='gpt-3.5-turbo-0613', messages=st.session_state['messages'],
-                                                    functions=functions, function_call='auto')
+    time.sleep(refresh_rate)
 
-            response_message = response['choices'][0]['message']
+## 2
 
-            if response_message.get('function_call'):
-                function_name = response_message['function_call']['name']
-                function_args = json.loads(response_message['function_call']['arguments'])
-                if function_name in ['get_stock_price', 'calculate_RSI', 'calculate_MACD', 'plot_stock_price']:
-                    args_dict = {'ticker': function_args.get('ticker')}
-                elif function_name in ['calculate_SMA', 'calculate_EMA']:
-                    args_dict = {'ticker': function_args.get('ticker'), 'window': function_args.get('window')}
+elif selected == 'Financial Calculators':
+    st.title("Financial Calculators")
+    calculator_option = st.selectbox("Select a Calculator", ["Compound Interest Calculator", "ROI Calculator"])
 
-                function_to_call = available_functions[function_name]
-                function_response = function_to_call(**args_dict)
+    if calculator_option == "Compound Interest Calculator":
+        st.subheader("Compound Interest Calculator")
 
-                if function_name == 'plot_stock_price':
-                    plt.savefig('stock.png')  # Save the image as 'stock.png'
-                    image = Image.open('stock.png')  # Replace 'your_image.png' with your image file path
-                    image_array = np.array(image)
-                    st.image('stock.png')
-                    current_message['content'] = image_array
-                else:
-                    st.session_state['messages'].append(response_message)
-                    st.session_state['messages'].append(
-                        {'role': 'function', 'name': function_name, 'content': function_response})
-                    second_response = openai.ChatCompletion.create(model='gpt-3.5-turbo-0613',
-                                                                   messages=st.session_state['messages'])
-                    message = second_response['choices'][0]['message']['content']
-                    st.markdown("""
-                        <style>
-                        .paragraph-section {
-                            padding: 20px;
-                            border-radius: 5px;
-                        }
-                        </style>
-                        """, unsafe_allow_html=True, )
-                    st.markdown(f"""
-                            <div class="paragraph-section">
-                                {message}
-                            </div>
-                            """, unsafe_allow_html=True, )
-                    current_message['content'] = message
-                    st.session_state['messages'].append({'role': 'assistant', 'content': message})
-            else:
-                message = response_message['content']
-                st.markdown("""
-                                        <style>
-                                        .paragraph-section {
-                                            padding: 20px;
-                                            border-radius: 5px;
-                                        }
-                                        </style>
-                                        """, unsafe_allow_html=True, )
-                st.markdown(f"""
-                                            <div class="paragraph-section">
-                                                {message}
-                                            </div>
-                                            """, unsafe_allow_html=True, )
-                current_message['content'] = message
-                st.session_state['messages'].append({'role': 'assistant', 'content': message})
-            list_messages.append(current_message)
-        except Exception as e:
-            raise e
+        # Input fields for principal amount, interest rate, compounding frequency, and time period
+        principal = st.number_input("Principal Amount", value=1000.0, step=1.0)
+        interest_rate = st.number_input("Annual Interest Rate (%)", value=5.0, step=0.1)
+        compounding_frequency = st.number_input("Compounding Frequency (per year)", value=1, step=1)
+        time_period = st.number_input("Time Period (years)", value=5, step=1)
 
-elif selected_option == "Prediction":
-    # Display the content for the Prediction option
-    st.title("Prediction")
-    st.write("Contact us here.")
+        # Calculate compound interest
+        if st.button("Calculate"):
+            compounded_amount = principal * (1 + (interest_rate / 100) / compounding_frequency) ** (compounding_frequency * time_period)
+            st.write(f"Future Value: ${compounded_amount:.2f}")
 
-elif selected_option == "Tests":
-    # Display the content for the Prediction option
-    st.title("Prediction")
-    st.write("Contact us here.")
+    elif calculator_option == "ROI Calculator":
+        st.subheader("ROI Calculator")
 
-    # Custom CSS for the paragraph section
-    st.markdown("""
-        <style>
-        .paragraph-section {
-            padding: 20px;
-            border-radius: 5px;
-        }
-        </style>
-        """, unsafe_allow_html=True, )
+        # Input fields for initial investment, final value, and time period
+        initial_investment = st.number_input("Initial Investment", value=10000.0, step=1.0)
+        final_value = st.number_input("Final Value", value=15000.0, step=1.0)
+        time_period = st.number_input("Time Period (years)", value=3, step=1)
 
-    # Define the text content using a variable
-    text_content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, \
-     dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, \
-     varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non \
-     fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit."
+        # Calculate ROI
+        if st.button("Calculate"):
+            roi = ((final_value - initial_investment) / initial_investment) * 100
+            st.write(f"ROI: {roi:.2f}%")
+# 2 .2
 
-    # Create a section with flexible height but a fixed width
-    st.markdown(f"""
-        <div class="paragraph-section">
-            {text_content}
-        </div>
-        """, unsafe_allow_html=True, )
+import streamlit as st
+import yfinance as yf
 
-    st.title("Conversation History")
-    # if 'messages' in st.session_state:
-    #     for message in st.session_state['messages']:
-    #         if message['role'] == 'user':
-    #             st.markdown(f"**Input:** {message['content']}")
-    #         elif message['role'] == 'assistant':
-    #             st.markdown(f"**Assistant:** {message['content']}")
-    #         elif message['role'] == 'img':
-    #             st.image(message['content'], caption='Loaded Image', use_column_width=True)
+# ... (your existing code)
 
-    for m in list_messages:
-        st.markdown(f"**User:** {m['input']}")
-        if m['content'] != None:
-            st.markdown(f"**Stockbot:** {m['content']}")
-        if m['img'] != None:
-            # Display the image in Streamlit
-            st.image(m['img'], caption='Stockbot Plot', use_column_width=True)
+elif selected == 'Financial Calculators':
+    st.title("Financial Calculators")
+    calculator_option = st.selectbox("Select a Calculator", ["Compound Interest Calculator", "ROI Calculator"])
+
+    if calculator_option == "Compound Interest Calculator":
+        st.subheader("Compound Interest Calculator")
+
+        # Input fields for principal amount, interest rate, compounding frequency, and time period
+        principal = st.number_input("Principal Amount", value=1000.0, step=1.0)
+        interest_rate = st.number_input("Annual Interest Rate (%)", value=5.0, step=0.1)
+        compounding_frequency = st.number_input("Compounding Frequency (per year)", value=1, step=1)
+        time_period = st.number_input("Time Period (years)", value=5, step=1)
+
+        # Select a stock for returns
+        stock_symbol = st.text_input("Stock Symbol (e.g., AAPL for Apple Inc.)", value="AAPL")
+
+        # Fetch stock data
+        stock = yf.Ticker(stock_symbol)
+        stock_data = stock.history(period=f"{time_period}y")
+
+        if not stock_data.empty:
+            # Calculate compound interest based on stock returns
+            compounded_amount = principal
+            for _, row in stock_data.iterrows():
+                compounded_amount *= (1 + row['Close'] / row['Open'] - 1)
+
+            # Display stock data
+            st.write(f"Stock: {stock_symbol}")
+            st.write(f"Initial Price: ${stock_data['Open'].iloc[0]:.2f}")
+            st.write(f"Final Price: ${stock_data['Close'].iloc[-1]:.2f}")
+
+            # Calculate compound interest
+            compounded_amount = round(compounded_amount, 2)
+            st.write(f"Future Value (with stock returns): ${compounded_amount:.2f}")
+
+        else:
+            st.warning("Stock data not found. Please enter a valid stock symbol.")
 
