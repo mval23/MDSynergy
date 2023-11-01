@@ -9,6 +9,10 @@ selected = "Home"
 # Creación del título
 st.set_page_config(page_title="MDSynergy")
 
+# Inicialización de stocks en la sesión si no existe
+if 'stocks' not in st.session_state:
+    st.session_state.stocks = []
+
 # if 'messages' not in st.session_state:
 #     history = st.session_state['messages']
 
@@ -18,9 +22,9 @@ with st.sidebar:
     custom_style = {"container": {"background-color": "transparent"},
                     "nav-link-selected": {"background-color": "transparent"}, }
 
-    selected = option_menu("Menu", ["Home", 'MD Stockbot', "Prediction", "Historic", "Tests"],
-                           icons=['house', 'chat-left-dots-fill', 'bar-chart-line', 'clock', 'bug'], menu_icon="-dots",
-                           default_index=1, styles=custom_style)
+    selected = option_menu("Menu", ["Home", 'MD Stockbot', "Prediction", "Historic", "Alert System", "Tests"],
+                           icons=['house', 'chat-left-dots-fill', 'bar-chart-line', 'clock', 'exclamation-triangle-fill', 'bug'],
+                           menu_icon="-dots", default_index=1, styles=custom_style)
 
 if selected == 'Home':
     # Display the content for MD Synergy
@@ -261,6 +265,54 @@ elif selected == 'Historic':
                     </div>
                     """, unsafe_allow_html=True)
 
+elif selected == 'Alert System':
+    st.title("Stock Price Alert System")
+    st.write("Welcome to the Stock Alerts page.")
+    # Formulario para agregar un nuevo stock
+    with st.form('Nuevo Stock'):
+        st.header('Ingrese los detalles del stock:')
+        company_name = st.text_input('Nombre de la compañía')
+        symbol = st.text_input('Símbolo del stock (ejemplo: AAPL para Apple)')
+
+        reference_value = st.number_input('Ingrese el valor de referencia', value=0.0)
+
+        submitted = st.form_submit_button('Añadir')
+
+        if submitted:
+            current_stock = get_current_stock_price(symbol)
+            if reference_value > current_stock:
+                up_down = True
+            else:
+                up_down = False
+            new_stock = {
+                'company_name': company_name,
+                'symbol': symbol,
+                'reference_value': reference_value,
+                'up_down': up_down,
+                'added': True,
+                'last_alert': time.time()
+            }
+            st.session_state.stocks.append(new_stock)
+
+    # Mostrar datos de seguimiento de stocks
+    if st.session_state.stocks:
+        st.header('Seguimiento de stocks:')
+        for stock in st.session_state.stocks:
+            if stock.get('added'):
+                symbol = stock['symbol']
+                company_name = stock['company_name']
+                reference_value = stock['reference_value']
+                up_down = stock['up_down']
+                current_price = get_current_stock_price(symbol)
+                alert = check_price_alert(symbol, reference_value, current_price, up_down)
+
+                st.write(f"**{company_name}** ({symbol}): Precio actual: {current_price}")
+                if alert:
+                    st.warning(alert)
+
+                time.sleep(5)  # Actualizar cada 5 segundos
+
+
 elif selected == 'Tests':
     st.markdown("""
         <div style='display: flex; justify-content: center; align-items: center; height: 8vh;'>
@@ -288,3 +340,5 @@ elif selected == 'Tests':
     }
     </style>
     """, unsafe_allow_html=True)
+
+

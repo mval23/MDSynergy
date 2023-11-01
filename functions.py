@@ -1,4 +1,6 @@
 import json
+import threading
+import time
 from datetime import datetime
 
 import openai
@@ -121,3 +123,31 @@ def plot_multiple_stock_prices(tickers):
     plt.grid(True)
     plt.savefig('stock.png')
     plt.close()
+
+# Stock Alert Functions
+def get_current_stock_price(symbol):
+    """
+    Obtains the actual price of a Stock
+    :param symbol: Stock symbol in the Stock Exchange
+    """
+    stock = yf.Ticker(symbol)
+    return stock.history(period="1d")["Close"].iloc[-1]
+
+def check_price_alert(symbol, target_price, current_price, up_down):
+    """
+    Verifies if the price beats the defined limits
+    :param symbol: Stock symbol in the Stock Exchange
+    :param target_price: Target price to compare with
+    :param current_price: Current price to be comparable
+    :param up_down: Checkings
+    """
+    if up_down:
+        if current_price > target_price:
+            return f"¡Alerta! El precio de {symbol} ha superado {target_price}"
+        else:
+            return None
+    else:
+        if current_price < target_price:
+            return f"¡Alerta! El precio de {symbol} ha caído por debajo de {target_price}"
+        else:
+            return None
