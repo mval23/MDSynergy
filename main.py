@@ -295,22 +295,27 @@ elif selected == 'Alert System':
             st.session_state.stocks.append(new_stock)
 
     # Mostrar datos de seguimiento de stocks
-    if st.session_state.stocks:
-        st.header('Seguimiento de stocks:')
-        for stock in st.session_state.stocks:
-            if stock.get('added'):
-                symbol = stock['symbol']
-                company_name = stock['company_name']
-                reference_value = stock['reference_value']
-                up_down = stock['up_down']
-                current_price = get_current_stock_price(symbol)
-                alert = check_price_alert(symbol, reference_value, current_price, up_down)
+    st.header('Seguimiento de stocks:')
+    text_placeholder = st.empty()
+    text_placeholder.text("")
 
-                st.write(f"**{company_name}** ({symbol}): Precio actual: {current_price}")
-                if alert:
-                    st.warning(alert)
 
-                time.sleep(5)  # Actualizar cada 5 segundos
+    while True:
+        if st.session_state.stocks:
+            for stock in st.session_state.stocks:
+                if stock.get('added'):
+                    symbol = stock['symbol']
+                    company_name = stock['company_name']
+                    reference_value = stock['reference_value']
+                    up_down = stock['up_down']
+                    current_price = get_current_stock_price(symbol)
+                    alert = check_price_alert(symbol, reference_value, current_price, up_down)
+                    text = '**{}** ({}): Precio actual: {}'.format(company_name, symbol, current_price)
+                    text_placeholder.markdown(text)
+                    # text_placeholder.text('**{}** ({}): Precio actual: {}'.format(company_name, symbol, current_price))
+                    if alert:
+                        st.warning(alert)
+                    time.sleep(2)  # Actualizar cada 5 segundos
 
 
 elif selected == 'Tests':
