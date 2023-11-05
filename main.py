@@ -1,6 +1,9 @@
 import numpy as np
 from PIL import Image
 from streamlit_option_menu import option_menu
+import plotly.express as px
+from plotly.graph_objs import Figure
+
 
 from chatgpt import *
 
@@ -347,3 +350,88 @@ elif selected == 'Tests':
     """, unsafe_allow_html=True)
 
 
+    st.markdown("""
+            <div style='display: flex; justify-content: center; align-items: center; height: 8vh;'>
+                <h1>Try 1</h1>
+            </div>
+            """, unsafe_allow_html=True)
+
+    import streamlit as st
+    import yfinance as yf
+    import pandas as pd
+    import plotly.express as px
+    import time
+
+    # Custom CSS to add rounded borders
+    css = """
+    <style>
+    .row-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space between;
+        align-items: center;
+        padding: 10px;
+        background-color: #f1f1f1;
+        margin: 10px 0;
+        border-radius: 10px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .column-text {
+        width: 48%;
+    }
+    .column-chart {
+        width: 48%;
+    }
+    </style>
+    """
+
+    st.markdown(css, unsafe_allow_html=True)
+
+
+    def create_live_stock_chart(ticker):
+        fig = px.line(title=f"{ticker} Live Stock Chart")
+        return fig
+
+
+    def fetch_stock_data(ticker):
+        stock = yf.Ticker(ticker)
+        stock_data = stock.history(period="1d", interval="5m")
+        return stock_data
+
+
+    def update_live_stock_chart(ticker, stock_data, fig):
+        if not stock_data.empty:
+            fig.update_xaxes(title_text="Time")
+            fig.update_yaxes(title_text="Stock Price")
+            fig.update_traces(x=stock_data.index, y=stock_data["Close"], name=ticker)
+            st.plotly_chart(fig, use_container_width=True)
+
+
+    def display_stock_highlights(ticker, stock_data):
+        st.subheader(f"Stock Highlights for {ticker}")
+
+        if not stock_data.empty:
+            last_trading_day = stock_data.index[-1].date()
+            latest_price = f"${stock_data['Close'].iloc[-1]:.2f}"
+            high_price = f"${stock_data['High'].max():.2f}"
+            low_price = f"${stock_data['Low'].min():.2f}"
+
+            st.write(f"Stock Symbol: {ticker}")
+            st.write(f"Last Trading Day: {last_trading_day}")
+            st.write(f"Latest Price: {latest_price}")
+            st.write(f"High Price: {high_price}")
+            st.write(f"Low Price: {low_price}")
+
+
+    # Example usage
+    ticker_list = ["AAPL", "GOOGL", "MSFT"]
+
+    # Initialize Plotly figures for each ticker
+    plotly_figures = {ticker: create_live_stock_chart(ticker) for ticker in ticker_list}
+
+    # Refresh data every 10 seconds (this code block will rerun indefinitely)
+    while True:
+        time.sleep(10)
+        for ticker in ticker_list:
+            stock_data = fetch_stock_data(ticker)
+            update_live_stock_chart(ticker, stock_data, plotly_figures[ticker])
