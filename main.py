@@ -303,6 +303,35 @@ elif selected == 'Alert System':
     text_placeholder.text("")
 
 
+    # while True:
+    #     if st.session_state.stocks:
+    #         for stock in st.session_state.stocks:
+    #             if stock.get('added'):
+    #                 symbol = stock['symbol']
+    #                 company_name = stock['company_name']
+    #                 reference_value = stock['reference_value']
+    #                 up_down = stock['up_down']
+    #                 current_price = get_current_stock_price(symbol)
+    #                 alert = check_price_alert(symbol, reference_value, current_price, up_down)
+    #                 text = '**{}** ({}): Precio actual: {}'.format(company_name, symbol, current_price)
+    #                 text_placeholder.markdown(text)
+    #                 # text_placeholder.text('**{}** ({}): Precio actual: {}'.format(company_name, symbol, current_price))
+    #                 if alert:
+    #                     st.warning(alert)
+    #                 time.sleep(2)  # Actualizar cada 5 segundos
+
+    # Initialize a dictionary to store placeholders for each stock
+    stock_placeholders = {}
+
+    # Initial setup to create placeholders for each stock
+    if st.session_state.stocks:
+        for stock in st.session_state.stocks:
+            if stock.get('added'):
+                symbol = stock['symbol']
+                company_name = stock['company_name']
+                stock_placeholders[symbol] = st.empty()
+
+    # Continuously update the stock information within their respective placeholders
     while True:
         if st.session_state.stocks:
             for stock in st.session_state.stocks:
@@ -313,12 +342,20 @@ elif selected == 'Alert System':
                     up_down = stock['up_down']
                     current_price = get_current_stock_price(symbol)
                     alert = check_price_alert(symbol, reference_value, current_price, up_down)
-                    text = '**{}** ({}): Precio actual: {}'.format(company_name, symbol, current_price)
-                    text_placeholder.markdown(text)
-                    # text_placeholder.text('**{}** ({}): Precio actual: {}'.format(company_name, symbol, current_price))
+
+                    # Update the information in the corresponding placeholder for each stock
+                    stock_placeholder = stock_placeholders[symbol]
+                    text = f'**{company_name}** ({symbol}): Current Price: {current_price}'
+                    stock_placeholder.markdown(text)
+
+                    # Display alerts if triggered and update the alert content
                     if alert:
-                        st.warning(alert)
-                    time.sleep(2)  # Actualizar cada 5 segundos
+                        if 'alert' in stock:
+                            stock['alert'].empty()  # Clear the previous alert
+                        stock['alert'] = st.empty()  # Create a new alert placeholder
+                        stock['alert'].warning(alert)
+
+                    time.sleep(2)  # Update every 2 seconds
 
 
 elif selected == 'Tests':
