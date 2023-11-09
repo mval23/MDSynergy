@@ -5,6 +5,7 @@ import plotly.express as px
 from plotly.graph_objs import Figure
 
 
+
 from chatgpt import *
 
 selected = "Home"
@@ -25,8 +26,8 @@ with st.sidebar:
     custom_style = {"container": {"background-color": "transparent"},
                     "nav-link-selected": {"background-color": "transparent"}, }
 
-    selected = option_menu("Menu", ["Home", 'MD Stockbot', "Prediction", "Historic", "Alert System", "Tests"],
-                           icons=['house', 'chat-left-dots-fill', 'bar-chart-line', 'clock', 'exclamation-triangle-fill', 'bug'],
+    selected = option_menu("Menu", ["Home", 'MD Stockbot', "Historic", "Alert System", "Tests"],
+                           icons=['house', 'chat-left-dots-fill', 'clock', 'exclamation-triangle-fill', 'bug'],
                            menu_icon="-dots", default_index=1, styles=custom_style)
 
 if selected == 'Home':
@@ -208,11 +209,6 @@ elif selected == 'MD Stockbot':
                             """, unsafe_allow_html=True)
 
 
-elif selected == 'Prediction':
-    # Display the content for the Prediction option
-    st.title("Prediction")
-    st.write("Welcome to the Prediction page.")
-
 elif selected == 'Historic':
     # Option 1 Historic session researches
     st.markdown("""
@@ -329,7 +325,12 @@ elif selected == 'Alert System':
             if stock.get('added'):
                 symbol = stock['symbol']
                 company_name = stock['company_name']
-                stock_placeholders[symbol] = st.empty()
+                target_price = stock['reference_value']
+                stock_placeholders[symbol] = {
+                    'info_placeholder': st.empty(),
+                    'fig': create_live_stock_chart(symbol, target_price),
+                    'data_fetched': False
+                }
 
     # Continuously update the stock information within their respective placeholders
     while True:
@@ -345,8 +346,16 @@ elif selected == 'Alert System':
 
                     # Update the information in the corresponding placeholder for each stock
                     stock_placeholder = stock_placeholders[symbol]
-                    text = f'**{company_name}** ({symbol}): Current Price: {current_price}'
-                    stock_placeholder.markdown(text)
+                    stock_placeholder['info_placeholder'].markdown(f'**{company_name}** ({symbol}): Current Price: {current_price}')
+
+                    # Fetch stock data only once
+                    if not stock_placeholder['data_fetched']:
+                        stock_data = fetch_stock_data(symbol)
+                        stock_placeholder['data_fetched'] = True
+
+                    if stock_data is not None and stock_placeholder['fig'] is not None:
+                        stock_placeholder['fig'] = update_live_stock_chart(symbol, stock_data, stock_placeholder['fig'])
+                        st.plotly_chart(stock_placeholder['fig'], use_container_width=True)  # Update the existing chart
 
                     # Display alerts if triggered and update the alert content
                     if alert:
@@ -423,42 +432,6 @@ elif selected == 'Tests':
     """
 
     st.markdown(css, unsafe_allow_html=True)
-
-
-    def create_live_stock_chart(ticker):
-        fig = px.line(title=f"{ticker} Live Stock Chart")
-        return fig
-
-
-    def fetch_stock_data(ticker):
-        stock = yf.Ticker(ticker)
-        stock_data = stock.history(period="1d", interval="5m")
-        return stock_data
-
-
-    def update_live_stock_chart(ticker, stock_data, fig):
-        if not stock_data.empty:
-            fig.update_xaxes(title_text="Time")
-            fig.update_yaxes(title_text="Stock Price")
-            fig.update_traces(x=stock_data.index, y=stock_data["Close"], name=ticker)
-            st.plotly_chart(fig, use_container_width=True)
-
-
-    def display_stock_highlights(ticker, stock_data):
-        st.subheader(f"Stock Highlights for {ticker}")
-
-        if not stock_data.empty:
-            last_trading_day = stock_data.index[-1].date()
-            latest_price = f"${stock_data['Close'].iloc[-1]:.2f}"
-            high_price = f"${stock_data['High'].max():.2f}"
-            low_price = f"${stock_data['Low'].min():.2f}"
-
-            st.write(f"Stock Symbol: {ticker}")
-            st.write(f"Last Trading Day: {last_trading_day}")
-            st.write(f"Latest Price: {latest_price}")
-            st.write(f"High Price: {high_price}")
-            st.write(f"Low Price: {low_price}")
-
 
     # Example usage
     ticker_list = ["AAPL", "GOOGL", "MSFT"]

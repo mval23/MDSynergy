@@ -8,6 +8,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
 import yfinance as yf
+import plotly.express as px
+import plotly.graph_objs as go
 
 
 # Functions
@@ -151,3 +153,65 @@ def check_price_alert(symbol, target_price, current_price, up_down):
             return f"¡Alerta! El precio de {symbol} ha caído por debajo de {target_price}"
         else:
             return None
+
+# Graphics Functions of Stock Alerts
+# def create_live_stock_chart(ticker):
+#     fig = px.line(title=f"{ticker} Live Stock Chart")
+#     return fig
+
+
+
+
+
+# Function to create a live stock chart with a horizontal line at the target price
+def create_live_stock_chart(ticker, target_price):
+    fig = go.Figure()
+
+    fig.update_layout(title=f"{ticker} Live Stock Chart")
+
+    # Fetch initial stock data
+    stock = yf.Ticker(ticker)
+    stock_data = stock.history(period="1d", interval="5m")
+
+    # Add a scatter plot for stock data
+    fig.add_trace(go.Scatter(x=stock_data.index, y=stock_data['Close'], mode='lines', name='Stock Price'))
+
+    # Add a horizontal line for the target price
+    fig.add_shape(type="line", x0=stock_data.index[0], x1=stock_data.index[-1], y0=target_price, y1=target_price,
+                  line=dict(color="red", width=2, dash="dash"))
+
+    return fig
+
+def fetch_stock_data(ticker):
+    stock = yf.Ticker(ticker)
+    stock_data = stock.history(period="1d", interval="5m")
+    return stock_data
+
+
+# Function to update the live stock chart with new data
+def update_live_stock_chart(ticker, stock_data, fig):
+    if not stock_data.empty:
+        # Actualizar el gráfico con los nuevos datos
+        fig.data[0].x = stock_data.index
+        fig.data[0].y = stock_data['Close']
+
+        # Restablecer la escala del eje Y para ajustarse a los nuevos datos
+        fig.update_yaxes(range=[stock_data['Close'].min(), stock_data['Close'].max()])
+
+    return fig
+
+
+def display_stock_highlights(ticker, stock_data):
+    st.subheader(f"Stock Highlights for {ticker}")
+
+    if not stock_data.empty:
+        last_trading_day = stock_data.index[-1].date()
+        latest_price = f"${stock_data['Close'].iloc[-1]:.2f}"
+        high_price = f"${stock_data['High'].max():.2f}"
+        low_price = f"${stock_data['Low'].min():.2f}"
+
+        st.write(f"Stock Symbol: {ticker}")
+        st.write(f"Last Trading Day: {last_trading_day}")
+        st.write(f"Latest Price: {latest_price}")
+        st.write(f"High Price: {high_price}")
+        st.write(f"Low Price: {low_price}")
