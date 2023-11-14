@@ -10,6 +10,7 @@ import streamlit as st
 import yfinance as yf
 import plotly.express as px
 import plotly.graph_objs as go
+from PIL import Image, ImageDraw, ImageOps
 
 
 # Functions
@@ -90,6 +91,7 @@ def plot_stock_price(ticker):
     plt.savefig('stock.png')
     plt.close()
 
+
 # def calculate_Bollinger_Bands(ticker, window, num_std_dev):
 #     """
 #     Calculates the Bollinger Bands for a given stock.
@@ -126,6 +128,7 @@ def plot_multiple_stock_prices(tickers):
     plt.savefig('stock.png')
     plt.close()
 
+
 # Define la función para obtener el símbolo del stock utilizando ChatGPT
 def get_stock_symbol(company_name):
     prompt = f"Obtener símbolo del stock para {company_name}"
@@ -141,6 +144,7 @@ def get_stock_symbol(company_name):
     symbol = response['choices'][0]['message']['content'].strip()
     return symbol
 
+
 # Stock Alert Functions
 def get_current_stock_price(symbol):
     """
@@ -149,6 +153,7 @@ def get_current_stock_price(symbol):
     """
     stock = yf.Ticker(symbol)
     return stock.history(period="1d")["Close"].iloc[-1]
+
 
 def check_price_alert(symbol, target_price, current_price, up_down):
     """
@@ -169,14 +174,12 @@ def check_price_alert(symbol, target_price, current_price, up_down):
         else:
             return None
 
+
 # Graphics Functions of Stock Alerts
 # def create_live_stock_chart(ticker):
 #     fig = px.line(title=f"{ticker} Live Stock Chart")
 #     st.plotly_chart(fig, use_container_width=True)
 #     return fig
-
-
-
 
 
 # Function to create a live stock chart with a horizontal line at the target price
@@ -191,6 +194,7 @@ def create_live_stock_chart(ticker, stock_data):
     st.plotly_chart(fig, use_container_width=True)
 
     return fig
+
 
 def fetch_stock_data(ticker):
     stock = yf.Ticker(ticker)
@@ -216,6 +220,7 @@ def update_live_stock_chart(ticker, stock_data, fig):
         fig.update_yaxes(title_text="Stock Price")
         fig.update_traces(x=stock_data.index, y=stock_data["Close"], name=ticker)
 
+
 def display_stock_highlights(ticker, stock_data):
     st.subheader(f"Stock Highlights for {ticker}")
 
@@ -230,3 +235,21 @@ def display_stock_highlights(ticker, stock_data):
         st.write(f"Latest Price: {latest_price}")
         st.write(f"High Price: {high_price}")
         st.write(f"Low Price: {low_price}")
+
+
+# Additional Functions
+
+# Función para aplicar transparencia a los bordes de la imagen
+def apply_transparency(image_path, border_size):
+    original_image = Image.open(image_path).convert("RGBA")
+    transparent_image = Image.new("RGBA", original_image.size, (0, 0, 0, 0))
+
+    mask = Image.new("L", original_image.size, 0)
+    draw = ImageDraw.Draw(mask)
+
+    draw.rectangle([border_size, border_size, original_image.width - border_size, original_image.height - border_size],
+                   fill=255)
+
+    transparent_image.paste(original_image, (0, 0), mask)
+
+    return transparent_image

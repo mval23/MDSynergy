@@ -15,6 +15,16 @@ if 'stocks' not in st.session_state:
 # if 'messages' not in st.session_state:
 #     history = st.session_state['messages']
 
+# Logo de la empresa (reemplaza 'path/to/logo.png' con la ruta real de tu logo)
+logo_path = 'PreLogo MDSynergy.jpeg'  # 'path/to/logo
+logo_size = (100, 100)  # Ajusta el tamaño del logo según sea necesario
+
+# Aplicar transparencia a los bordes del logo
+logo_with_transparency = apply_transparency(logo_path, border_size=10)
+
+# Logo en la barra lateral
+st.sidebar.image(logo_with_transparency, use_column_width=True)
+
 # 1. as sidebar menu
 with st.sidebar:
     # Define a custom style for the option menu to make the background transparent
@@ -43,7 +53,129 @@ if selected == 'Home':
                 <h3>by MDSynergy</h3>
             </div>
             """, unsafe_allow_html=True)
-    st.write("Welcome to the MD Synergy page.")  # TODO: add content - David
+
+    st.markdown("""
+            <div style='display: flex; justify-content: center; align-items: center; height: 10vh;'>
+                <br>
+            </div>
+            """, unsafe_allow_html=True)
+
+
+    # Descripción de la empresa
+    st.markdown("""
+                                    <div style='display: flex; align-items: center; height: 5vh;'>
+                                        <h4>Welcome to MDSynergy!</h4>
+                                    </div>
+                                    """, unsafe_allow_html=True)
+    st.write(
+        "We are dedicated to providing innovative solutions in the field of data analysis and financial technology.")
+
+    # Sección de información de proyectos
+    st.write("## Projects")
+
+    # Proyecto 1: Stock Analysis Chatbot Assistant
+    st.write("### 1. Stock Analysis Chatbot Assistant")
+
+    # Descripción del proyecto
+    st.write(
+        "The Stock Analysis Chatbot Assistant is our latest project. It's a chatbot designed to help users analyze stock market data and perform financial analyses. The chatbot leverages OpenAI's GPT-3.5 Turbo model for an intuitive and efficient user experience.")
+
+    # Variable de sesión para rastrear el estado del botón
+    button_state = st.session_state.get("button_state", False)
+
+    # Botón para mostrar/ocultar información del proyecto
+    if st.button("Learn More"):
+        button_state = not button_state  # Invertir el estado del botón
+
+    # Sección de información del proyecto si el botón está activado
+    if button_state:
+        # Título de la sección de Características Clave
+        st.write("# Stock Analysis Chatbot Assistant")
+
+        st.write("Welcome to the Stock Analysis Chatbot Assistant project by Mariana and David! Our chatbot provides an easy-to-use interface for accessing real-time stock market data and performing financial analyses. Read on to learn more about our project, how to run the application, and its key features.")
+
+        st.write(
+            "The Stock Analysis Chatbot Assistant is your personal financial sidekick. It's designed to help you with stock market data, financial metrics, and visualizing stock price trends. We've harnessed the capabilities of OpenAI's GPT-3.5 Turbo model to make this experience intuitive and efficient.")
+
+        # Título de la sección de Características Clave
+        st.write("## Key Features")
+
+        # Lista de características clave con viñetas
+        st.write("- **Chat with Ease**: Interact with our chatbot using a simple and friendly chat-based interface.")
+        st.write(
+            "- **Up-to-the-Minute Data**: Get the latest stock prices by simply providing the company's name or stock symbol.")
+        st.write(
+            "- **Financial Insights**: Access common financial metrics, including Simple Moving Average (SMA), Exponential Moving Average (EMA), Moving Average Convergence Divergence (MACD), and Relative Strength Index (RSI).")
+        st.write(
+            "- **Visualize Data**: Love charts? Our chatbot can generate and display stock price charts at your request.")
+
+        # Posible sección con enlaces adicionales
+        st.write("## Additional Resources")
+        st.write(
+            "- [Documentation](https://docs.google.com/document/d/1yp1PhlK84x1-NgHQegXYdC8W2aNeRoKlFivmw2typ6c/edit)")
+        st.write("- [Project Repository](https://github.com/mval23/MDSynergy)")
+        st.write("- Contact us at [mdsynergy73@gmail.com]")
+
+        st.markdown("""
+                    <div style='display: flex; justify-content: center; align-items: center; height: 10vh;'>
+                        <br>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+        # Posible sección de pie de página
+        st.markdown("""
+                        <div style='display: flex; justify-content: center; align-items: center; height: 5vh;'>
+                            <h4>Enjoy analyzing stocks with </h4>
+                        </div>
+                        """, unsafe_allow_html=True)
+        st.markdown("""
+                                <div style='display: flex; justify-content: center; align-items: center; height: 5vh;'>
+                                    <h4>MDSynergy's Stock Analysis Chatbot Assistant!</h4>
+                                </div>
+                                """, unsafe_allow_html=True)
+        st.markdown("""
+                            <div style='display: flex; justify-content: center; align-items: center; height: 10vh;'>
+                                <br>
+                            </div>
+                            """, unsafe_allow_html=True)
+
+    # Guardar el estado del botón en la sesión
+    st.session_state.button_state = button_state
+
+    # Sección "About Us"
+    st.write("## About Us")
+
+    # Breve historia de MDSynergy
+    st.write(
+        "MDSynergy was founded by two passionate Computer Science students, Mariana and David. Their shared vision and commitment to excellence led them to create a company that reflects their combined expertise and aspirations.")
+
+    st.write(
+        "The name 'MDSynergy' is derived from the initials of our founders. It represents the synergy created by bringing together their unique skills and perspectives.")
+
+    st.write(
+        "Mariana and David started MDSynergy with the purpose of generating and applying the knowledge they gained throughout their studies. Their relentless dedication, recognition, and ambition propelled them forward, and they continued to develop innovative solutions in the field of data analysis and financial technology.")
+
+    # Llamada a la acción
+    st.markdown("""
+                                <div style='display: flex; justify-content: center; align-items: center; height: 10vh;'>
+                                    <br>
+                                </div>
+                                """, unsafe_allow_html=True)
+    st.markdown("""
+                            <div style='display: flex; justify-content: center; align-items: center; height: 5vh;'>
+                                <h4>Explore our projects to discover how MDSynergy is</h4>
+                            </div>
+                            """, unsafe_allow_html=True)
+    st.markdown("""
+                                    <div style='display: flex; justify-content: center; align-items: center; height: 5vh;'>
+                                        <h4>revolutionizing data analysis and technology.</h4>
+                                    </div>
+                                    """, unsafe_allow_html=True)
+    st.markdown("""
+                                <div style='display: flex; justify-content: center; align-items: center; height: 10vh;'>
+                                    <br>
+                                </div>
+                                """, unsafe_allow_html=True)
 
 elif selected == 'MD Stockbot':
     current_message = {'input': None, 'content': None, 'img': None}
