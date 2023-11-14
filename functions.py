@@ -126,6 +126,21 @@ def plot_multiple_stock_prices(tickers):
     plt.savefig('stock.png')
     plt.close()
 
+# Define la función para obtener el símbolo del stock utilizando ChatGPT
+def get_stock_symbol(company_name):
+    prompt = f"Obtener símbolo del stock para {company_name}"
+    response = openai.ChatCompletion.create(
+        model='gpt-3.5-turbo-0613',
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.7,
+        max_tokens=50
+    )
+    symbol = response['choices'][0]['message']['content'].strip()
+    return symbol
+
 # Stock Alert Functions
 def get_current_stock_price(symbol):
     """
@@ -157,6 +172,7 @@ def check_price_alert(symbol, target_price, current_price, up_down):
 # Graphics Functions of Stock Alerts
 # def create_live_stock_chart(ticker):
 #     fig = px.line(title=f"{ticker} Live Stock Chart")
+#     st.plotly_chart(fig, use_container_width=True)
 #     return fig
 
 
@@ -164,21 +180,15 @@ def check_price_alert(symbol, target_price, current_price, up_down):
 
 
 # Function to create a live stock chart with a horizontal line at the target price
-def create_live_stock_chart(ticker, target_price):
+def create_live_stock_chart(ticker, stock_data):
     fig = go.Figure()
 
     fig.update_layout(title=f"{ticker} Live Stock Chart")
 
-    # Fetch initial stock data
-    stock = yf.Ticker(ticker)
-    stock_data = stock.history(period="1d", interval="5m")
-
     # Add a scatter plot for stock data
     fig.add_trace(go.Scatter(x=stock_data.index, y=stock_data['Close'], mode='lines', name='Stock Price'))
 
-    # Add a horizontal line for the target price
-    fig.add_shape(type="line", x0=stock_data.index[0], x1=stock_data.index[-1], y0=target_price, y1=target_price,
-                  line=dict(color="red", width=2, dash="dash"))
+    st.plotly_chart(fig, use_container_width=True)
 
     return fig
 
@@ -189,17 +199,22 @@ def fetch_stock_data(ticker):
 
 
 # Function to update the live stock chart with new data
+# def update_live_stock_chart(ticker, stock_data, fig):
+#     if not stock_data.empty:
+#         # Actualizar el gráfico con los nuevos datos
+#         fig.data[0].x = stock_data.index
+#         fig.data[0].y = stock_data['Close']
+#
+#         # Restablecer la escala del eje Y para ajustarse a los nuevos datos
+#         fig.update_yaxes(range=[stock_data['Close'].min(), stock_data['Close'].max()])
+#
+#     return fig
+
 def update_live_stock_chart(ticker, stock_data, fig):
     if not stock_data.empty:
-        # Actualizar el gráfico con los nuevos datos
-        fig.data[0].x = stock_data.index
-        fig.data[0].y = stock_data['Close']
-
-        # Restablecer la escala del eje Y para ajustarse a los nuevos datos
-        fig.update_yaxes(range=[stock_data['Close'].min(), stock_data['Close'].max()])
-
-    return fig
-
+        fig.update_xaxes(title_text="Time")
+        fig.update_yaxes(title_text="Stock Price")
+        fig.update_traces(x=stock_data.index, y=stock_data["Close"], name=ticker)
 
 def display_stock_highlights(ticker, stock_data):
     st.subheader(f"Stock Highlights for {ticker}")

@@ -1,11 +1,6 @@
 import numpy as np
 from PIL import Image
 from streamlit_option_menu import option_menu
-import plotly.express as px
-from plotly.graph_objs import Figure
-
-
-
 from chatgpt import *
 
 selected = "Home"
@@ -104,7 +99,8 @@ elif selected == 'MD Stockbot':
                 elif function_name in ['plot_multiple_stock_prices']:
                     args_dict = {'tickers': function_args.get('tickers')}
                 elif function_name in ['calculate_Bollinger_Bands']:
-                    args_dict = {'ticker': function_args.get('ticker'), 'window': function_args.get('window'), 'num_std_dev': function_args.get('num_std_dev')}
+                    args_dict = {'ticker': function_args.get('ticker'), 'window': function_args.get('window'),
+                                 'num_std_dev': function_args.get('num_std_dev')}
 
                 function_to_call = available_functions[function_name]
                 function_response = function_to_call(**args_dict)
@@ -159,8 +155,6 @@ elif selected == 'MD Stockbot':
                 st.session_state['messages'].append({'role': 'assistant', 'content': response_message['content']})
             st.session_state.session_history.append(current_message)
             st.session_state.session_history_2.insert(0, current_message)
-
-
 
         except Exception as e:
             raise e
@@ -298,7 +292,6 @@ elif selected == 'Alert System':
     text_placeholder = st.empty()
     text_placeholder.text("")
 
-
     # while True:
     #     if st.session_state.stocks:
     #         for stock in st.session_state.stocks:
@@ -325,10 +318,9 @@ elif selected == 'Alert System':
             if stock.get('added'):
                 symbol = stock['symbol']
                 company_name = stock['company_name']
-                target_price = stock['reference_value']
                 stock_placeholders[symbol] = {
                     'info_placeholder': st.empty(),
-                    'fig': create_live_stock_chart(symbol, target_price),
+                    'fig': None,
                     'data_fetched': False
                 }
 
@@ -346,16 +338,19 @@ elif selected == 'Alert System':
 
                     # Update the information in the corresponding placeholder for each stock
                     stock_placeholder = stock_placeholders[symbol]
-                    stock_placeholder['info_placeholder'].markdown(f'**{company_name}** ({symbol}): Current Price: {current_price}')
+                    stock_placeholder['info_placeholder'].markdown(
+                        f'**{company_name}** ({symbol}): Current Price: {current_price}')
 
                     # Fetch stock data only once
                     if not stock_placeholder['data_fetched']:
                         stock_data = fetch_stock_data(symbol)
+                        stock_placeholder['fig'] = create_live_stock_chart(symbol, stock_data)
                         stock_placeholder['data_fetched'] = True
 
-                    if stock_data is not None and stock_placeholder['fig'] is not None:
-                        stock_placeholder['fig'] = update_live_stock_chart(symbol, stock_data, stock_placeholder['fig'])
-                        st.plotly_chart(stock_placeholder['fig'], use_container_width=True)  # Update the existing chart
+                    if stock_placeholder['fig'] is not None:
+                        # Update the live stock chart with new data
+                        stock_data = fetch_stock_data(symbol)
+                        update_live_stock_chart(symbol, stock_data, stock_placeholder['fig'])
 
                     # Display alerts if triggered and update the alert content
                     if alert:
@@ -395,7 +390,6 @@ elif selected == 'Tests':
     </style>
     """, unsafe_allow_html=True)
 
-
     st.markdown("""
             <div style='display: flex; justify-content: center; align-items: center; height: 8vh;'>
                 <h1>Try 1</h1>
@@ -433,15 +427,133 @@ elif selected == 'Tests':
 
     st.markdown(css, unsafe_allow_html=True)
 
-    # Example usage
-    ticker_list = ["AAPL", "GOOGL", "MSFT"]
+    # Plot real time stock data try
+    # # Example usage
+    # ticker_list = ["AAPL", "GOOGL", "MSFT"]
+    #
+    # # Initialize Plotly figures for each ticker
+    # plotly_figures = {ticker: create_live_stock_chart(ticker, fetch_stock_data(ticker)) for ticker in ticker_list}
+    #
+    # # Refresh data every 10 seconds (this code block will rerun indefinitely)
+    # while True:
+    #     time.sleep(10)
+    #     for ticker in ticker_list:
+    #         stock_data = fetch_stock_data(ticker)
+    #         update_live_stock_chart(ticker, stock_data, plotly_figures[ticker])
 
-    # Initialize Plotly figures for each ticker
-    plotly_figures = {ticker: create_live_stock_chart(ticker) for ticker in ticker_list}
+    # Stock Alerts including ChatGPT try
 
-    # Refresh data every 10 seconds (this code block will rerun indefinitely)
+    # Formulario para agregar un nuevo stock
+    with st.form('Nuevo Stock'):
+        st.header('Ingrese los detalles del stock:')
+        company_name = st.text_input('Nombre de la compañía')
+        # symbol = st.text_input('Símbolo del stock (ejemplo: AAPL para Apple)')
+
+        reference_value = st.number_input('Ingrese el valor de referencia', value=0.0)
+
+        submitted = st.form_submit_button('Añadir')
+
+        if submitted:
+            # Llamado a ChatGPT
+            user_input = f"¿Cuál es el símbolo del stock para la compañía {company_name}?"
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo-0613",
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": user_input},
+                ],
+                temperature=0.7,
+                max_tokens=150
+            )
+
+            symbol = response['choices'][0]['message']['content'].strip()
+            print(symbol)
+
+            current_stock = get_current_stock_price(symbol)
+            if reference_value > current_stock:
+                up_down = True
+            else:
+                up_down = False
+            new_stock = {
+                'company_name': company_name,
+                'symbol': symbol,
+                'reference_value': reference_value,
+                'up_down': up_down,
+                'added': True,
+                'last_alert': time.time()
+            }
+            st.session_state.stocks.append(new_stock)
+
+    # Mostrar datos de seguimiento de stocks
+    st.header('Seguimiento de stocks:')
+    text_placeholder = st.empty()
+    text_placeholder.text("")
+
+    # while True:
+    #     if st.session_state.stocks:
+    #         for stock in st.session_state.stocks:
+    #             if stock.get('added'):
+    #                 symbol = stock['symbol']
+    #                 company_name = stock['company_name']
+    #                 reference_value = stock['reference_value']
+    #                 up_down = stock['up_down']
+    #                 current_price = get_current_stock_price(symbol)
+    #                 alert = check_price_alert(symbol, reference_value, current_price, up_down)
+    #                 text = '**{}** ({}): Precio actual: {}'.format(company_name, symbol, current_price)
+    #                 text_placeholder.markdown(text)
+    #                 # text_placeholder.text('**{}** ({}): Precio actual: {}'.format(company_name, symbol, current_price))
+    #                 if alert:
+    #                     st.warning(alert)
+    #                 time.sleep(2)  # Actualizar cada 5 segundos
+
+    # Initialize a dictionary to store placeholders for each stock
+    stock_placeholders = {}
+
+    # Initial setup to create placeholders for each stock
+    if st.session_state.stocks:
+        for stock in st.session_state.stocks:
+            if stock.get('added'):
+                symbol = stock['symbol']
+                company_name = stock['company_name']
+                stock_placeholders[symbol] = {
+                    'info_placeholder': st.empty(),
+                    'fig': None,
+                    'data_fetched': False
+                }
+
+    # Continuously update the stock information within their respective placeholders
     while True:
-        time.sleep(10)
-        for ticker in ticker_list:
-            stock_data = fetch_stock_data(ticker)
-            update_live_stock_chart(ticker, stock_data, plotly_figures[ticker])
+        if st.session_state.stocks:
+            for stock in st.session_state.stocks:
+                if stock.get('added'):
+                    symbol = stock['symbol']
+                    company_name = stock['company_name']
+                    reference_value = stock['reference_value']
+                    up_down = stock['up_down']
+                    current_price = get_current_stock_price(symbol)
+                    alert = check_price_alert(symbol, reference_value, current_price, up_down)
+
+                    # Update the information in the corresponding placeholder for each stock
+                    stock_placeholder = stock_placeholders[symbol]
+                    stock_placeholder['info_placeholder'].markdown(
+                        f'**{company_name}** ({symbol}): Current Price: {current_price}')
+
+                    # Fetch stock data only once
+                    if not stock_placeholder['data_fetched']:
+                        stock_data = fetch_stock_data(symbol)
+                        stock_placeholder['fig'] = create_live_stock_chart(symbol, stock_data)
+                        stock_placeholder['data_fetched'] = True
+
+                    if stock_placeholder['fig'] is not None:
+                        # Update the live stock chart with new data
+                        stock_data = fetch_stock_data(symbol)
+                        update_live_stock_chart(symbol, stock_data, stock_placeholder['fig'])
+
+                    # Display alerts if triggered and update the alert content
+                    if alert:
+                        if 'alert' in stock:
+                            stock['alert'].empty()  # Clear the previous alert
+                        stock['alert'] = st.empty()  # Create a new alert placeholder
+                        stock['alert'].warning(alert)
+
+                    time.sleep(2)  # Update every 2 seconds
