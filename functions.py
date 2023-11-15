@@ -129,23 +129,16 @@ def plot_multiple_stock_prices(tickers):
     plt.close()
 
 
-# Define la función para obtener el símbolo del stock utilizando ChatGPT
-def get_stock_symbol(company_name):
-    prompt = f"Obtener símbolo del stock para {company_name}"
-    response = openai.ChatCompletion.create(
-        model='gpt-3.5-turbo-0613',
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": prompt}
-        ],
-        temperature=0.7,
-        max_tokens=50
-    )
-    symbol = response['choices'][0]['message']['content'].strip()
-    return symbol
-
-
 # Stock Alert Functions
+# def get_stock_symbol_using_chatgpt(company_name):
+#     prompt = f"Find the stock symbol for the company {company_name}."
+#     response = openai.Completion.create(
+#       engine="text-davinci-003",
+#       prompt=prompt,
+#       max_tokens=100
+#     )
+#     return response['choices'][0]['text'].strip()
+
 def get_current_stock_price(symbol):
     """
     Obtains the actual price of a Stock

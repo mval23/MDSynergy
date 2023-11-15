@@ -574,53 +574,71 @@ elif selected == 'Tests':
     #         update_live_stock_chart(ticker, stock_data, plotly_figures[ticker])
 
     # Stock Alerts including ChatGPT try
-
-    # Formulario para agregar un nuevo stock
-    with st.form('Nuevo Stock'):
-        st.header('Ingrese los detalles del stock:')
-        company_name = st.text_input('Nombre de la compañía')
-        # symbol = st.text_input('Símbolo del stock (ejemplo: AAPL para Apple)')
-
-        reference_value = st.number_input('Ingrese el valor de referencia', value=0.0)
-
-        submitted = st.form_submit_button('Añadir')
-
-        if submitted:
-            # Llamado a ChatGPT
-            user_input = f"¿Cuál es el símbolo del stock para la compañía {company_name}?"
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo-0613",
-                messages=[
-                    {"role": "system", "content": "You are a helpful assistant."},
-                    {"role": "user", "content": user_input},
-                ],
-                temperature=0.7,
-                max_tokens=150
-            )
-
-            symbol = response['choices'][0]['message']['content'].strip()
-            print(symbol)
-
-            current_stock = get_current_stock_price(symbol)
-            if reference_value > current_stock:
-                up_down = True
-            else:
-                up_down = False
-            new_stock = {
-                'company_name': company_name,
-                'symbol': symbol,
-                'reference_value': reference_value,
-                'up_down': up_down,
-                'added': True,
-                'last_alert': time.time()
-            }
-            st.session_state.stocks.append(new_stock)
-
-    # Mostrar datos de seguimiento de stocks
-    st.header('Seguimiento de stocks:')
-    text_placeholder = st.empty()
-    text_placeholder.text("")
-
+    #
+    # # Formulario para agregar un nuevo stock
+    # with st.form('Nuevo Stock'):
+    #     st.header('Ingrese los detalles del stock:')
+    #     company_name = st.text_input('Nombre de la compañía')
+    #
+    #     reference_value = st.number_input('Ingrese el valor de referencia', value=0.0)
+    #
+    #     submitted = st.form_submit_button('Añadir')
+    #
+    #     if submitted:
+    #         symbol = get_stock_symbol_using_chatgpt(company_name)
+    #         current_stock = get_current_stock_price(symbol)
+    #         if reference_value > current_stock:
+    #             up_down = True
+    #         else:
+    #             up_down = False
+    #         new_stock = {
+    #             'company_name': company_name,
+    #             'symbol': symbol,
+    #             'reference_value': reference_value,
+    #             'up_down': up_down,
+    #             'added': True,
+    #             'last_alert': time.time()
+    #         }
+    #         st.session_state.stocks.append(new_stock)
+    #
+    # # Mostrar datos de seguimiento de stocks
+    # st.header('Seguimiento de stocks:')
+    # text_placeholder = st.empty()
+    # text_placeholder.text("")
+    #
+    # # while True:
+    # #     if st.session_state.stocks:
+    # #         for stock in st.session_state.stocks:
+    # #             if stock.get('added'):
+    # #                 symbol = stock['symbol']
+    # #                 company_name = stock['company_name']
+    # #                 reference_value = stock['reference_value']
+    # #                 up_down = stock['up_down']
+    # #                 current_price = get_current_stock_price(symbol)
+    # #                 alert = check_price_alert(symbol, reference_value, current_price, up_down)
+    # #                 text = '**{}** ({}): Precio actual: {}'.format(company_name, symbol, current_price)
+    # #                 text_placeholder.markdown(text)
+    # #                 # text_placeholder.text('**{}** ({}): Precio actual: {}'.format(company_name, symbol, current_price))
+    # #                 if alert:
+    # #                     st.warning(alert)
+    # #                 time.sleep(2)  # Actualizar cada 5 segundos
+    #
+    # # Initialize a dictionary to store placeholders for each stock
+    # stock_placeholders = {}
+    #
+    # # Initial setup to create placeholders for each stock
+    # if st.session_state.stocks:
+    #     for stock in st.session_state.stocks:
+    #         if stock.get('added'):
+    #             symbol = stock['symbol']
+    #             company_name = stock['company_name']
+    #             stock_placeholders[symbol] = {
+    #                 'info_placeholder': st.empty(),
+    #                 'fig': None,
+    #                 'data_fetched': False
+    #             }
+    #
+    # # Continuously update the stock information within their respective placeholders
     # while True:
     #     if st.session_state.stocks:
     #         for stock in st.session_state.stocks:
@@ -631,61 +649,28 @@ elif selected == 'Tests':
     #                 up_down = stock['up_down']
     #                 current_price = get_current_stock_price(symbol)
     #                 alert = check_price_alert(symbol, reference_value, current_price, up_down)
-    #                 text = '**{}** ({}): Precio actual: {}'.format(company_name, symbol, current_price)
-    #                 text_placeholder.markdown(text)
-    #                 # text_placeholder.text('**{}** ({}): Precio actual: {}'.format(company_name, symbol, current_price))
+    #
+    #                 # Update the information in the corresponding placeholder for each stock
+    #                 stock_placeholder = stock_placeholders[symbol]
+    #                 stock_placeholder['info_placeholder'].markdown(
+    #                     f'**{company_name}** ({symbol}): Current Price: {current_price}')
+    #
+    #                 # Fetch stock data only once
+    #                 if not stock_placeholder['data_fetched']:
+    #                     stock_data = fetch_stock_data(symbol)
+    #                     stock_placeholder['fig'] = create_live_stock_chart(symbol, stock_data)
+    #                     stock_placeholder['data_fetched'] = True
+    #
+    #                 if stock_placeholder['fig'] is not None:
+    #                     # Update the live stock chart with new data
+    #                     stock_data = fetch_stock_data(symbol)
+    #                     update_live_stock_chart(symbol, stock_data, stock_placeholder['fig'])
+    #
+    #                 # Display alerts if triggered and update the alert content
     #                 if alert:
-    #                     st.warning(alert)
-    #                 time.sleep(2)  # Actualizar cada 5 segundos
-
-    # Initialize a dictionary to store placeholders for each stock
-    stock_placeholders = {}
-
-    # Initial setup to create placeholders for each stock
-    if st.session_state.stocks:
-        for stock in st.session_state.stocks:
-            if stock.get('added'):
-                symbol = stock['symbol']
-                company_name = stock['company_name']
-                stock_placeholders[symbol] = {
-                    'info_placeholder': st.empty(),
-                    'fig': None,
-                    'data_fetched': False
-                }
-
-    # Continuously update the stock information within their respective placeholders
-    while True:
-        if st.session_state.stocks:
-            for stock in st.session_state.stocks:
-                if stock.get('added'):
-                    symbol = stock['symbol']
-                    company_name = stock['company_name']
-                    reference_value = stock['reference_value']
-                    up_down = stock['up_down']
-                    current_price = get_current_stock_price(symbol)
-                    alert = check_price_alert(symbol, reference_value, current_price, up_down)
-
-                    # Update the information in the corresponding placeholder for each stock
-                    stock_placeholder = stock_placeholders[symbol]
-                    stock_placeholder['info_placeholder'].markdown(
-                        f'**{company_name}** ({symbol}): Current Price: {current_price}')
-
-                    # Fetch stock data only once
-                    if not stock_placeholder['data_fetched']:
-                        stock_data = fetch_stock_data(symbol)
-                        stock_placeholder['fig'] = create_live_stock_chart(symbol, stock_data)
-                        stock_placeholder['data_fetched'] = True
-
-                    if stock_placeholder['fig'] is not None:
-                        # Update the live stock chart with new data
-                        stock_data = fetch_stock_data(symbol)
-                        update_live_stock_chart(symbol, stock_data, stock_placeholder['fig'])
-
-                    # Display alerts if triggered and update the alert content
-                    if alert:
-                        if 'alert' in stock:
-                            stock['alert'].empty()  # Clear the previous alert
-                        stock['alert'] = st.empty()  # Create a new alert placeholder
-                        stock['alert'].warning(alert)
-
-                    time.sleep(2)  # Update every 2 seconds
+    #                     if 'alert' in stock:
+    #                         stock['alert'].empty()  # Clear the previous alert
+    #                     stock['alert'] = st.empty()  # Create a new alert placeholder
+    #                     stock['alert'].warning(alert)
+    #
+    #                 time.sleep(2)  # Update every 2 seconds

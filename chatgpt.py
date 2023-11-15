@@ -64,6 +64,13 @@ functions = [
      #                 "required": ["ticker", "window", "num_std_dev"], }
      ]
 
+# function = [
+#     {
+#     "name": "get_stock_symbol", "description": "Gets the ticker symbol of a company given the name of that company.",
+#      "parameters": {'type': 'object', 'properties': {'ticker': {'type': 'string',
+#                                                                 'description': 'The stock ticker symbol for a company (for example: AAPL for Apple).'}},
+#                     'required': ['ticker']}}]
+
 # ChatGPT Function Calling
 available_functions = {'get_stock_price': get_stock_price, 'calculate_SMA': calculate_SMA,
                        'calculate_EMA': calculate_EMA, 'calculate_RSI': calculate_RSI, 'calculate_MACD': calculate_MACD,
