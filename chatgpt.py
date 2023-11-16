@@ -54,22 +54,9 @@ functions = [
             "required": ["tickers"]
         }
     }
-
-# {"name": "calculate_Bollinger_Bands",
-     #  "description": "Calculates Bollinger Bands for a given stock ticker, window, and standard deviation.",
-     #  "parameters": {"type": "object", "properties": {
-     #      "ticker": {"type": "string", "description": "The stock ticker symbol for a company (e.g., AAPL for Apple)"},
-     #      "window": {"type": "integer", "description": "The timeframe to consider when calculating the bands"},
-     #      "num_std_dev": {"type": "integer", "description": "Number of standard deviations for the bands"}},
-     #                 "required": ["ticker", "window", "num_std_dev"], }
      ]
 
-# function = [
-#     {
-#     "name": "get_stock_symbol", "description": "Gets the ticker symbol of a company given the name of that company.",
-#      "parameters": {'type': 'object', 'properties': {'ticker': {'type': 'string',
-#                                                                 'description': 'The stock ticker symbol for a company (for example: AAPL for Apple).'}},
-#                     'required': ['ticker']}}]
+
 
 # ChatGPT Function Calling
 available_functions = {'get_stock_price': get_stock_price, 'calculate_SMA': calculate_SMA,
@@ -77,3 +64,11 @@ available_functions = {'get_stock_price': get_stock_price, 'calculate_SMA': calc
                        'plot_stock_price': plot_stock_price, 'plot_multiple_stock_prices': plot_multiple_stock_prices,
                        #'calculate_Bollinger_Bands': calculate_Bollinger_Bands,
                        }
+
+functions2 = [
+    {"name": "name", "description": "none.",
+     "parameters": {'type': 'object', 'properties': {'none': {'type': 'none',
+                                                                'description': 'none'}},
+                    'required': ['none']}}
+]
+

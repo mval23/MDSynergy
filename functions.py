@@ -1,16 +1,8 @@
-import json
-import threading
-import time
-from datetime import datetime
-
-import openai
-import pandas as pd
 import matplotlib.pyplot as plt
+import plotly.graph_objs as go
 import streamlit as st
 import yfinance as yf
-import plotly.express as px
-import plotly.graph_objs as go
-from PIL import Image, ImageDraw, ImageOps
+from PIL import Image, ImageDraw
 
 
 # Functions
@@ -92,22 +84,6 @@ def plot_stock_price(ticker):
     plt.close()
 
 
-# def calculate_Bollinger_Bands(ticker, window, num_std_dev):
-#     """
-#     Calculates the Bollinger Bands for a given stock.
-#     :param ticker: str - ticker of the stock
-#     :param window: int - window for calculating the moving average
-#     :param num_std_dev: int - number of standard deviations for the bands
-#     :return: Tuple (upper_band, middle_band, lower_band)
-#     """
-#     data = yf.Ticker(ticker).history(period='1y').Close
-#     middle_band = data.rolling(window=window).mean()
-#     std_dev = data.rolling(window=window).std()
-#     upper_band = middle_band + num_std_dev * std_dev
-#     lower_band = middle_band - num_std_dev * std_dev
-#     return upper_band.iloc[-1], middle_band.iloc[-1], lower_band.iloc[-1]
-
-
 def plot_multiple_stock_prices(tickers):
     """
     Plots the stock prices of multiple tickers on the same graph.
@@ -128,16 +104,6 @@ def plot_multiple_stock_prices(tickers):
     plt.savefig('stock.png')
     plt.close()
 
-
-# Stock Alert Functions
-# def get_stock_symbol_using_chatgpt(company_name):
-#     prompt = f"Find the stock symbol for the company {company_name}."
-#     response = openai.Completion.create(
-#       engine="text-davinci-003",
-#       prompt=prompt,
-#       max_tokens=100
-#     )
-#     return response['choices'][0]['text'].strip()
 
 def get_current_stock_price(symbol):
     """
@@ -168,13 +134,6 @@ def check_price_alert(symbol, target_price, current_price, up_down):
             return None
 
 
-# Graphics Functions of Stock Alerts
-# def create_live_stock_chart(ticker):
-#     fig = px.line(title=f"{ticker} Live Stock Chart")
-#     st.plotly_chart(fig, use_container_width=True)
-#     return fig
-
-
 # Function to create a live stock chart with a horizontal line at the target price
 def create_live_stock_chart(ticker, stock_data):
     fig = go.Figure()
@@ -194,18 +153,6 @@ def fetch_stock_data(ticker):
     stock_data = stock.history(period="1d", interval="5m")
     return stock_data
 
-
-# Function to update the live stock chart with new data
-# def update_live_stock_chart(ticker, stock_data, fig):
-#     if not stock_data.empty:
-#         # Actualizar el gráfico con los nuevos datos
-#         fig.data[0].x = stock_data.index
-#         fig.data[0].y = stock_data['Close']
-#
-#         # Restablecer la escala del eje Y para ajustarse a los nuevos datos
-#         fig.update_yaxes(range=[stock_data['Close'].min(), stock_data['Close'].max()])
-#
-#     return fig
 
 def update_live_stock_chart(ticker, stock_data, fig):
     if not stock_data.empty:
