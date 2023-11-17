@@ -1,8 +1,11 @@
 import json
-from datetime import time
+import time
+
 import numpy as np
 import openai
 from streamlit_option_menu import option_menu
+import base64
+
 
 from chatgpt import *
 
@@ -135,7 +138,6 @@ if selected == 'Home':
                 <h4>MDSynergy's Stock Analysis Chatbot Assistant! 🤖💼</h4>
             </div>
             """, unsafe_allow_html=True)
-        st.image("MDD.png", caption=None, width=None, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
         st.markdown("""
             <div style='display: flex; justify-content: center; align-items: center; height: 10vh;'>
                 <br>
@@ -172,14 +174,20 @@ if selected == 'Home':
         """, unsafe_allow_html=True)
     st.markdown("""
             <div style='display: flex; justify-content: center; align-items: center; height: 5vh;'>
-                <h4>revolutionizing data analysis and technology. 🌐💻</h4>
+                <h4>revolutionizing data analysis and technology. 🌐💻\n</h4>
             </div>
             """, unsafe_allow_html=True)
     st.markdown("""
-        <div style='display: flex; justify-content: center; align-items: center; height: 10vh;'>
+        <div style='display: flex; justify-content: center; align-items: center; height: 5vh;'>
             <br>
         </div>
         """, unsafe_allow_html=True)
+    image_path = "MDD.png"
+    markdown_code = f'<p style="text-align:center;"><img src="data:image/png;base64,{base64.b64encode(open(image_path, "rb").read()).decode()}" alt="MDD" width="200"></p>'
+    st.markdown(markdown_code, unsafe_allow_html=True)
+    # st.image("MDD.png", caption=None, width=500, use_column_width=None, clamp=False, channels="RGB",
+    #          output_format="auto")
+
 
 
 elif selected == 'MD Stockbot':
@@ -358,6 +366,9 @@ elif selected == 'MD Stockbot':
                                 {text_content}
                             </div>
                             """, unsafe_allow_html=True)
+    image_path = "MDD.png"
+    markdown_code = f'<p style="text-align:center;"><img src="data:image/png;base64,{base64.b64encode(open(image_path, "rb").read()).decode()}" alt="MDD" width="100"></p>'
+    st.markdown(markdown_code, unsafe_allow_html=True)
 
 
 elif selected == 'History':
@@ -433,6 +444,10 @@ elif selected == 'History':
                         {text_content}
                     </div>
                     """, unsafe_allow_html=True)
+
+    image_path = "MDD.png"
+    markdown_code = f'<p style="text-align:center;"><img src="data:image/png;base64,{base64.b64encode(open(image_path, "rb").read()).decode()}" alt="MDD" width="100"></p>'
+    st.markdown(markdown_code, unsafe_allow_html=True)
 
 elif selected == 'Stock Alerts':
     st.markdown("""
@@ -546,3 +561,8 @@ elif selected == 'Stock Alerts':
                         stock['alert'].warning(alert)
 
                     time.sleep(2)  # Update every 2 seconds
+
+    image_path = "MDD.png"
+    markdown_code = f'<p style="text-align:center;"><img src="data:image/png;base64,{base64.b64encode(open(image_path, "rb").read()).decode()}" alt="MDD" width="100"></p>'
+    st.markdown(markdown_code, unsafe_allow_html=True)
+

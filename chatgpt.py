@@ -1,3 +1,5 @@
+import openai
+
 from functions import *
 
 # API call
