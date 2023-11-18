@@ -2,12 +2,11 @@ import json
 import time
 
 import numpy as np
-import openai
 from streamlit_option_menu import option_menu
 import base64
 
 
-from chatgpt import *
+from open_ai.chatgpt import *
 
 selected = "Home"
 
@@ -19,7 +18,7 @@ if 'stocks' not in st.session_state:
     st.session_state.stocks = []
 
 # Logo de la empresa (reemplaza 'path/to/logo.png' con la ruta real de tu logo)
-logo_path = 'MD.png'  # 'path/to/logo
+logo_path = 'img/MD.png'  # 'path/to/logo
 logo_size = (100, 100)  # Ajusta el tamaño del logo según sea necesario
 
 # Aplicar transparencia a los bordes del logo
@@ -182,7 +181,7 @@ if selected == 'Home':
             <br>
         </div>
         """, unsafe_allow_html=True)
-    image_path = "MDD.png"
+    image_path = "img/MDD.png"
     markdown_code = f'<p style="text-align:center;"><img src="data:image/png;base64,{base64.b64encode(open(image_path, "rb").read()).decode()}" alt="MDD" width="200"></p>'
     st.markdown(markdown_code, unsafe_allow_html=True)
     # st.image("MDD.png", caption=None, width=500, use_column_width=None, clamp=False, channels="RGB",
@@ -272,7 +271,7 @@ elif selected == 'MD Stockbot':
 
                 if function_name == 'plot_stock_price' or function_name == 'plot_multiple_stock_prices':
                     st.image('stock.png')
-                    image = Image.open('stock.png')  # Replace 'your_image.png' with your image file path
+                    image = Image.open('img/stock.png')  # Replace 'your_image.png' with your image file path
                     image_array = np.array(image)
                     current_message['img'] = image_array
 
@@ -366,7 +365,7 @@ elif selected == 'MD Stockbot':
                                 {text_content}
                             </div>
                             """, unsafe_allow_html=True)
-    image_path = "MDD.png"
+    image_path = "img/MDD.png"
     markdown_code = f'<p style="text-align:center;"><img src="data:image/png;base64,{base64.b64encode(open(image_path, "rb").read()).decode()}" alt="MDD" width="100"></p>'
     st.markdown(markdown_code, unsafe_allow_html=True)
 
@@ -445,7 +444,7 @@ elif selected == 'History':
                     </div>
                     """, unsafe_allow_html=True)
 
-    image_path = "MDD.png"
+    image_path = "img/MDD.png"
     markdown_code = f'<p style="text-align:center;"><img src="data:image/png;base64,{base64.b64encode(open(image_path, "rb").read()).decode()}" alt="MDD" width="100"></p>'
     st.markdown(markdown_code, unsafe_allow_html=True)
 
@@ -562,7 +561,7 @@ elif selected == 'Stock Alerts':
 
                     time.sleep(2)  # Update every 2 seconds
 
-    image_path = "MDD.png"
+    image_path = "img/MDD.png"
     markdown_code = f'<p style="text-align:center;"><img src="data:image/png;base64,{base64.b64encode(open(image_path, "rb").read()).decode()}" alt="MDD" width="100"></p>'
     st.markdown(markdown_code, unsafe_allow_html=True)
 

@@ -1,0 +1,15 @@
+Abrir el cmd y entrar a este environment
+
+finance\Scripts\activate
+
+----------------------------------------
+
+Si no funciona, verificar la instalacion de las siguientes librerias que son usadas en el programa
+
+pip install aiohttp aiosignal altair altgraph appdirs async-timeout attrs beautifulsoup4 blinker cachetools certifi charset-normalizer click colorama contourpy cycler fonttools frozendict frozenlist gitdb GitPython html5lib idna importlib-metadata Jinja2 jsonschema jsonschema-specifications kiwisolver lxml markdown-it-py MarkupSafe matplotlib mdurl multidict multitasking numpy openai packaging pandas peewee pefile Pillow pip plotly protobuf pyarrow pydeck Pygments pyinstaller pyinstaller-hooks-contrib pyparsing python-dateutil python-decouple pytz pywin32-ctypes referencing requests rich rpds-py setuptools six smmap soupsieve streamlit streamlit-aggrid streamlit-option-menu tenacity toml toolz tornado tqdm typing_extensions tzdata tzlocal urllib3 validators watchdog webencodings yarl yfinance zipp
+
+------------------------------------------
+
+Escribir este comando
+
+streamlit run main.py

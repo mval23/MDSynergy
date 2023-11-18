@@ -1,10 +1,10 @@
 import openai
 
-from functions import *
+from open_ai.functions import *
 
 # API call
 
-openai.api_key = open('API_KEY.txt', 'r').read()
+openai.api_key = open('open_ai/API_KEY.txt', 'r').read()
 
 functions = [
     {
